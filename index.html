@@ -24,17 +24,19 @@
       line-height: 1.5;
     }
     .wrapper { max-width: 1120px; margin: 0 auto; padding: 32px 20px; }
-    .hero { display: flex; align-items: center; justify-content: center; min-height: 92vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat; }
+    .hero { display: flex; align-items: center; justify-content: center; min-height: 92vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('300428437_558604036059400_4158709811589736927_n.jpg') center/cover no-repeat; }
     .hero-left { text-align: center; max-width: 600px; }
     .hero-left h1 { margin: 0 0 14px; font-size: clamp(2.4rem, 5vw, 4.2rem); font-family: 'Times New Roman', serif; letter-spacing: 0.08em; color: #f8f6f2; text-transform: uppercase; line-height: 1.08; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 600; }
     .hero-left p { margin: 0 0 1.8em; color: #dfdbd7; font-size: clamp(1.05rem, 2vw, 1.25rem); }
     .hero-left .cta { display: inline-block; text-decoration: none; padding: 13px 24px; border-radius: 8px; background: var(--gold); color: #1f1711; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: transform .25s ease, box-shadow .25s ease; }
     .hero-left .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+    .hero-right { display: grid; gap: 16px; }
+    .hero-right img { width: 100%; height: auto; border-radius: 18px; object-fit: cover; border: 1px solid rgba(255,255,255,.18); }
 
     .hero-left .subtitle { margin: 0 0 1.2em; color: #dfdbd7; font-size: 1.1rem; font-style: italic; letter-spacing: 0.05em; }
     .section { margin-top: 2.5rem; background: rgba(255,255,255,.90); color: var(--text); border-radius: 22px; padding: 32px 32px; box-shadow: 0 28px 40px rgba(7, 7, 7, 0.42); }
     .section + .section { margin-top: 2.5rem; }
-    .section h2 { margin-top: 0; font-family: var(--font); font-size: clamp(1.6rem, 3vw, 2.2rem); color: #2a231c; }
+    .section h2 { margin-top: 0 0 1rem; font-family: var(--font); font-size: clamp(1.3rem, 2.2vw, 1.6rem); color: #2a231c; font-weight: 500; letter-spacing: 0.03em; line-height: 1.3; }
     .section p { color: #473f3a; }
 
     .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-top: 1rem; }
@@ -58,386 +60,663 @@
     .booking-form fieldset { border: 1px solid rgba(58, 58, 58, 0.15); border-radius: 12px; padding: 14px 16px; margin-bottom: 1rem; background: rgba(255,255,255,0.92); }
     .booking-form legend { font-weight: 700; color: #2f251d; }
     .booking-form label { display: block; margin-bottom: 0.8rem; color: #4c4038; font-weight: 500; }
-    .player-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 1rem; }
-    .booking-form input, .booking-form select, .booking-form textarea { width: 100%; padding: 12px 14px; margin-top: 0.3rem; border: 1px solid #cec6be; border-radius: 10px; font-size: 1rem; background: #fff; color: #2a231c; }
-    .booking-form textarea { resize: vertical; min-height: 120px; }
-    .booking-form button.cta { width: 100%; margin-top: 1.2rem; padding: 16px 18px; background: linear-gradient(120deg, #b38a3f, #d1ae55); color: #1f1711; border: 0; border-radius: 12px; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: transform .2s ease, box-shadow .25s ease, filter .25s ease; box-shadow: 0 10px 18px rgba(23, 17, 12, 0.25); }
-    .booking-form button.cta:hover { transform: translateY(-2px); box-shadow: 0 14px 24px rgba(23, 17, 12, 0.35); filter: brightness(1.04); }
-    .booking-form button.cta:active { transform: translateY(0); box-shadow: 0 8px 12px rgba(23, 17, 12, 0.40); }
+    .booking-form input, .booking-form select, .booking-form textarea { width: 100%; padding: 10px 12px; margin-top: 0.3rem; border: 1px solid #cec6be; border-radius: 10px; font-size: 1rem; background: #fff; color: #2a231c; }
+    .booking-form textarea { resize: vertical; }
+    .booking-form button.cta { width: 100%; margin-top: 1rem; background: #b38a3f; color: #1f1711; border: 0; }
     .booking-form small { display: block; margin: 0.2rem 0 0.8rem; color: #6a5d51; }
-    @media (max-width: 900px) {
-      .player-grid { grid-template-columns: 1fr; }
+
+    /* Accordion Styles */
+    .accordion-header {
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .accordion-header:hover {
+      color: var(--gold);
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 1s ease-in-out, opacity 1s ease-in-out;
+    }
+    .accordion-content.open {
+      max-height: 1000px;
+      opacity: 1;
     }
   </style>
 </head>
 <body>
   <header class="languages">
-    <a href="#" onclick="setLanguage('en')">EN</a> | 
-    <a href="#" onclick="setLanguage('es')">ES</a> | 
-    <a href="#" onclick="setLanguage('de')">DE</a> | 
-    <a href="#" onclick="setLanguage('sv')">SV</a> | 
-    <a href="#" onclick="setLanguage('zh')">中文</a>
+    <a href="#" onclick="setLanguage('en'); return false;">EN</a> | 
+    <a href="#" onclick="setLanguage('es'); return false;">ES</a> | 
+    <a href="#" onclick="setLanguage('zh'); return false;">中文</a> | 
+    <a href="#" onclick="setLanguage('de'); return false;">DE</a> | 
+    <a href="#" onclick="setLanguage('sv'); return false;">SV</a>
   </header>
   <main class="wrapper">
     <section class="hero">
       <div class="hero-left">
-        <h1 id="title">Mallorcaddies</h1>
-        <p class="subtitle" id="subtitle">Luxury caddie service in Mallorca</p>
-        <p id="description">The island’s only dedicated caddie experience. A refined Mediterranean golf service designed for discerning international players, private groups, and luxury travel guests seeking a world-class round elevated by traditional caddie excellence.</p>
-        <a href="#contact" class="cta" id="cta">Inquire for Availability</a>
+        <h1 data-i18n="title">Mallorcaddies</h1>
+        <p class="subtitle" data-i18n="subtitle">Luxury caddie service in Mallorca</p>
+        <p data-i18n="description">The island's only dedicated caddie experience. A refined Mediterranean golf service designed for discerning international players, private groups, and luxury travel guests seeking a world-class round elevated by traditional caddie excellence.</p>
+        <a href="#contact" class="cta" data-i18n="cta">Inquire for Availability</a>
       </div>
     </section>
 
     <section class="section">
-      <h2 id="about-title">About the Company</h2>
-      <h3 id="about-subtitle">The Only Dedicated Caddie Service in Mallorca</h3>
-      <p id="about-text">Mallorcaddies was created to bring the timeless tradition of elite caddie service to Mallorca's most prestigious golfing experience. Exclusively serving Club de Golf Alcanada, we combine professional caddie expertise with the warmth, elegance, and ease of Mediterranean hospitality. Our clients include luxury golf travelers from the United States, China, Europe, and Asia, private high-net-worth groups, yacht and villa guests, and international corporate hospitality partners. Every round is delivered with discretion, precision, and personal attention.</p>
+      <h2 data-i18n="aboutTitle">About the Company</h2>
+      <h3 data-i18n="aboutSubtitle">The Only Dedicated Caddie Service in Mallorca</h3>
+      <p data-i18n="aboutText">Mallorcaddies was created to bring the timeless tradition of elite caddie service to Mallorca's most prestigious golfing experience. Exclusively serving Club de Golf Alcanada, we combine professional caddie expertise with the warmth, elegance, and ease of Mediterranean hospitality. Our clients include luxury golf travelers from the United States, China, Europe, and Asia, private high-net-worth groups, yacht and villa guests, and international corporate hospitality partners. Every round is delivered with discretion, precision, and personal attention.</p>
     </section>
 
     <section class="section">
-      <h2 id="services-title">Signature Services</h2>
+      <h2 data-i18n="servicesTitle">Signature Services</h2>
       <div class="features">
         <article class="feature-card">
-          <h3 id="forecaddie-title">Forecaddie Experience</h3>
-          <p id="forecaddie-price">From €55 per player<br>For groups of 3–4 players</p>
-          <ul id="forecaddie-list">
-            <li>expert green reading</li>
-            <li>strategic course guidance</li>
-            <li>local wind and terrain knowledge</li>
-            <li>pace and etiquette support</li>
-            <li>luxury on-course hosting</li>
-          </ul>
+          <h3 data-i18n="forecaddieTitle">Forecaddie Experience</h3>
+          <p data-i18n="forecaddiePrice">From €55 per player<br>For groups of 3–4 players</p>
+          <ul data-i18n="forecaddieList" class="tlist"></ul>
         </article>
         <article class="feature-card">
-          <h3 id="single-title">Single Bag Walking Caddie</h3>
-          <p id="single-price">From €140<br>For 1 player</p>
-          <ul id="single-list">
-            <li>bag carrying</li>
-            <li>club selection insight</li>
-            <li>club cleaning and presentation</li>
-            <li>green reading and line support</li>
-            <li>local course strategy</li>
-            <li>personalized attention throughout the round</li>
-          </ul>
+          <h3 data-i18n="singleTitle">Single Bag Walking Caddie</h3>
+          <p data-i18n="singlePrice">From €140<br>For 1 player</p>
+          <ul data-i18n="singleList" class="tlist"></ul>
         </article>
         <article class="feature-card">
-          <h3 id="double-title">Double Bag Walking Caddie</h3>
-          <p id="double-price">From €180<br>For 2 players</p>
-          <p id="double-desc">Designed for couples, private guests, or executive playing partners who want a seamless premium round with discreet and attentive support.</p>
+          <h3 data-i18n="doubleTitle">Double Bag Walking Caddie</h3>
+          <p data-i18n="doublePrice">From €180<br>For 2 players</p>
+          <p data-i18n="doubleDesc">Designed for couples, private guests, or executive playing partners who want a seamless premium round with discreet and attentive support.</p>
         </article>
       </div>
     </section>
 
     <section class="section half-width">
-      <h2 id="enhanced-title">Enhanced Round Experience (Add-On)</h2>
-      <p id="enhanced-price">Personal Yardage Book & Round Analysis<br>From €30 per book</p>
-      <p id="enhanced-desc">A bespoke performance keepsake including:</p>
-      <ul id="enhanced-list" class="two-columns enhanced-list">
-        <li>personalized yardage notes</li>
-        <li>shot tracking</li>
-        <li>strategic tendencies</li>
-        <li>post-round summary</li>
-        <li>memorable round record from Alcanada</li>
-      </ul>
-      <p>Perfect for serious golfers, returning guests, and private groups.</p>
-    </section>
-
-    <section class="section">
-      <h2 id="why-title">Why Choose Mallorcaddies</h2>
-      <p id="why-intro">Mediterranean Luxury Meets Traditional Caddie Excellence</p>
-      <p id="why-list">What sets the experience apart:</p>
-      <ul id="why-list-ul">
-        <li>exclusive access and expertise at Alcanada</li>
-        <li>unmatched local wind and coastal condition knowledge</li>
-        <li>advanced green reading</li>
-        <li>club recommendation and strategic shot planning</li>
-        <li>immaculate club care and towel service</li>
-        <li>discreet luxury hospitality</li>
-        <li>support with pace, etiquette, and smooth flow of play</li>
-        <li>elevated guest experience for private groups and VIP travelers</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2 id="who-title">Who We Serve</h2>
-      <p id="who-list">Perfect for:</p>
-      <ul id="who-list-ul">
-        <li>luxury golf travelers visiting Mallorca</li>
-        <li>yacht charters and private concierge itineraries</li>
-        <li>private family and friendship groups</li>
-        <li>executive corporate golf days</li>
-        <li>premium travel partners and cardholder programs</li>
-        <li>VIP guests arranged through international partners such as Amex travel teams</li>
-      </ul>
-    </section>
-
-    <section class="section" id="contact">
-      <h2 id="contact-title">Contact</h2>
-      <p id="contact-desc">Flexible scheduling tailored around your Mallorca itinerary.</p>
-      <div class="contact">
-        <div class="contact-item"><strong id="whatsapp-label">WhatsApp:</strong> +34 673 968 162</div>
-        <div class="contact-item"><strong id="email-label">Email:</strong> mallorcaddies@gmail.com</div>
-        <div class="contact-item"><strong id="form-label">Website inquiry form:</strong> Request your preferred day and playing details</div>
+      <div class="accordion">
+        <h2 class="accordion-header" data-i18n="enhancedTitle">Enhanced Round Experience (Add-On)</h2>
+        <div class="accordion-content">
+          <p data-i18n="enhancedPrice">Personal Yardage Book & Round Analysis<br>From €30 per book</p>
+          <p data-i18n="enhancedDesc">A bespoke performance keepsake including:</p>
+          <ul data-i18n="enhancedList" class="tlist"></ul>
+          <p>Perfect for serious golfers, returning guests, and private groups.</p>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="booking">
-      <h2>Mallorcaddies Caddie Booking Inquiry</h2>
-      <p>Thank you for choosing Mallorcaddies at Club de Golf Alcanada. Please fill in the details below. We will confirm availability and send a secure payment link for the €50 booking deposit. The remaining balance is payable at the club on the day of play.</p>
-      <form id="booking-form" action="mailto:mallorcaddies@gmail.com" method="post" enctype="text/plain" target="_blank" class="booking-form">
+    <section class="section">
+      <div class="accordion">
+        <h2 class="accordion-header" data-i18n="whyTitle">Why Choose Mallorcaddies</h2>
+        <div class="accordion-content">
+          <p data-i18n="whyIntro">Mediterranean Luxury Meets Traditional Caddie Excellence</p>
+          <p data-i18n="whyList">What sets the experience apart:</p>
+          <ul data-i18n="whyListUl" class="tlist"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="accordion">
+        <h2 class="accordion-header" data-i18n="whoTitle">Who We Serve</h2>
+        <div class="accordion-content">
+          <p data-i18n="whoList">Perfect for:</p>
+          <ul data-i18n="whoListUl" class="tlist"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 data-i18n="contactTitle">Contact</h2>
+      <p data-i18n="contactDesc">Please share your preferred playing date and tee time (if already arranged), and we will personally get back to you with availability and next steps.</p>
+      <form action="mailto:mallorcaddies@gmail.com" method="post" enctype="text/plain" target="_blank" class="booking-form">
         <fieldset>
-          <legend>Contact Details</legend>
-          <label>Full Name (Main Contact) <span>*</span><input type="text" name="fullName" required></label>
-          <label>Date of Birth <span>*</span><input type="date" name="dob" required></label>
-          <label>Email Address <span>*</span><input type="email" name="email" required></label>
-          <label>Phone / WhatsApp <span>*</span><input type="tel" name="phone" placeholder="+34 ..." required></label>
-          <label>Country of Origin <span>*</span>
-            <select name="country" required>
-              <option value="">Select your country</option>
-              <option>Spain</option>
-              <option>United States</option>
-              <option>United Kingdom</option>
-              <option>China</option>
-              <option>Germany</option>
-              <option>France</option>
-              <option>Other</option>
+          <legend data-i18n="inquiryLegend">Inquiry Form</legend>
+          <label><span data-i18n="clientNameLabel">Client Name</span> <span>*</span><br><input type="text" name="clientName" required></label>
+          <label><span data-i18n="serviceSelectionLabel">Service Selection</span> <span>*</span><br>
+            <select name="service" required>
+              <option value="" data-i18n="serviceSelect">Select Service</option>
+              <option value="forecaddie" data-i18n="forecaddieOption">Forecaddie</option>
+              <option value="single" data-i18n="singleOption">Single Bag Walking Caddie</option>
+              <option value="double" data-i18n="doubleOption">Double Bag Walking Caddie</option>
             </select>
           </label>
+          <label><span data-i18n="messageLabel">Message / Inquiry</span> <br><textarea name="message" rows="6" data-i18n-placeholder="messagePlaceholder" placeholder="Please include your preferred date, preferred tee time, whether the tee time is already confirmed, number of players, and any special requests."></textarea></label>
         </fieldset>
-
-        <fieldset>
-          <legend>Booking Details</legend>
-          <label>Preferred Date <span>*</span><input type="date" name="preferredDate" required></label>
-          <small>Bookings require at least 7 days’ notice.</small>
-          <label>Time of Day <span>*</span>
-            <select name="timeOfDay" required>
-              <option value="">Select</option>
-              <option>Morning</option>
-              <option>Midday</option>
-              <option>Afternoon</option>
-            </select>
-          </label>
-        </fieldset>
-
-        <fieldset>
-          <legend>Caddie Service</legend>
-          <label>Service Type <span>*</span>
-            <select name="serviceType" id="serviceType" onchange="toggleForecaddieNote()" required>
-              <option value="">Select</option>
-              <option value="single">Single Bag (1 Player)</option>
-              <option value="double">Double Bag (2 Players)</option>
-              <option value="forecaddie">Forecaddie (3–4 Players)</option>
-            </select>
-          </label>
-          <p id="forecaddie-note" style="display:none;">Forecaddie includes course guidance only; no bag carrying included.</p>
-        </fieldset>
-
-        <fieldset>
-          <legend>Player Information</legend>
-          <div class="player-grid">
-            <div class="player-input">
-              <label>Player 1 (Main Contact) Name <span>*</span><input type="text" name="player1Name" required></label>
-            </div>
-            <div class="player-input">
-              <label>Player 1 Handicap (HCP) <span>*</span><input type="text" name="player1Hcp" required></label>
-            </div>
-            <div class="player-input">
-              <label>Player 2 Name (Optional)<input type="text" name="player2Name"></label>
-            </div>
-            <div class="player-input">
-              <label>Player 2 Handicap (Optional)<input type="text" name="player2Hcp"></label>
-            </div>
-            <div class="player-input">
-              <label>Player 3 Name (Optional)<input type="text" name="player3Name"></label>
-            </div>
-            <div class="player-input">
-              <label>Player 3 Handicap (Optional)<input type="text" name="player3Hcp"></label>
-            </div>
-            <div class="player-input">
-              <label>Player 4 Name (Optional)<input type="text" name="player4Name"></label>
-            </div>
-            <div class="player-input">
-              <label>Player 4 Handicap (Optional)<input type="text" name="player4Hcp"></label>
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Mobility Preference (arranged with the club)</legend>
-          <label><input type="radio" name="mobility" value="walking" checked> Walking</label>
-          <label><input type="radio" name="mobility" value="buggy"> Buggy</label>
-          <label><input type="radio" name="mobility" value="trolley"> Trolley</label>
-        </fieldset>
-
-        <fieldset>
-          <legend>Additional Notes / Requests</legend>
-          <textarea name="notes" rows="4" placeholder="Special instructions or preferences"></textarea>
-        </fieldset>
-
-        <fieldset>
-          <legend>Booking Terms</legend>
-          <p>This is a free inquiry. A secure payment link for the €50 deposit will be sent once we receive your details. Your booking becomes binding upon deposit payment. The remaining balance is payable at the club on the day of play.</p>
-          <label><input type="checkbox" name="confirm" required> I confirm that all information is correct and understand that my booking becomes binding upon payment of the €50 deposit.</label>
-        </fieldset>
-
-        <button type="submit" class="cta">Submit Booking Inquiry</button>
+        <button type="submit" class="cta" data-i18n="submitBtn" style="padding: 15px 30px; font-size: 1.1rem;">Send Inquiry</button>
       </form>
     </section>
   </main>
+  <img src="WhatsApp Image 2025-09-25 at 16.33.04.jpeg" alt="Elegant Bottom Image" style="display: block; margin: 40px auto; max-width: 80%; border-radius: 22px; box-shadow: 0 28px 40px rgba(7, 7, 7, 0.42);">
+  <footer style="background: white; border-top: 1px solid #e0e0e0; padding: 40px 20px; text-align: center; color: #666; font-family: var(--font);">
+    <div style="max-width: 600px; margin: 0 auto;">
+      <h3 style="font-family: var(--font); color: #333; margin-bottom: 10px;">Mallorcaddies</h3>
+      <p>The island's exclusive caddie service</p>
+      <p>Based at Alcanada</p>
+      <p>WhatsApp / Call: +34 673 968 162</p>
+      <p>Email: mallorcaddies@gmail.com</p>
+      <div style="margin-top: 20px; font-size: 0.8rem; color: #999; text-align: center;">
+        <p>Owner: David López Bartel | Business type: Autónomo | Trade name: Mallorcaddies | Address: Calle Asalto 125, 07420 Sa Pobla, Mallorca, Spain | NIF: 20549188E | Email: mallorcaddies@gmail.com | Phone: +34 673 968 162</p>
+        <p>This website is operated in accordance with Spanish self-employed business regulations and applicable information society laws.</p>
+      </div>
+      <div style="margin-top: 10px;">
+        <a href="#contact" style="color: #666; text-decoration: none; margin: 0 10px;">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Accordion functionality
+    const accordions = document.querySelectorAll('.accordion');
+    let currentOpen = null;
+    let closeTimer = null;
+
+    function closeAll() {
+      if (currentOpen) {
+        currentOpen.classList.remove('open');
+        currentOpen = null;
+      }
+    }
+
+    accordions.forEach(acc => {
+      const header = acc.querySelector('.accordion-header');
+      const content = acc.querySelector('.accordion-content');
+
+      function openAccordion() {
+        if (currentOpen && currentOpen !== content) {
+          closeAll();
+        }
+        content.classList.add('open');
+        currentOpen = content;
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      }
+
+      function scheduleClose() {
+        closeTimer = setTimeout(() => {
+          closeAll();
+        }, 300);
+      }
+
+      acc.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) {
+          openAccordion();
+        }
+      });
+
+      acc.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 768) {
+          scheduleClose();
+        }
+      });
+
+      header.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          if (content.classList.contains('open')) {
+            content.classList.remove('open');
+            currentOpen = null;
+          } else {
+            closeAll();
+            content.classList.add('open');
+            currentOpen = content;
+          }
+        }
+      });
+    });
+  </script>
   <script>
     const translations = {
       en: {
-        pageTitle: "Mallorcaddies | Luxury Caddie Service in Mallorca",
         title: "Mallorcaddies",
         subtitle: "Luxury caddie service in Mallorca",
         description: "The island's only dedicated caddie experience. A refined Mediterranean golf service designed for discerning international players, private groups, and luxury travel guests seeking a world-class round elevated by traditional caddie excellence.",
         cta: "Inquire for Availability",
-        servicesTitle: "Signature Services",
-        forecaddieTitle: "Forecaddie Experience",
-        forecaddiePrice: "From €55 per player<br>For groups of 3–4 players",
-        forecaddieList: "<li>expert green reading</li><li>strategic course guidance</li><li>local wind and terrain knowledge</li><li>pace and etiquette support</li><li>luxury on-course hosting</li>",
-        singleTitle: "Single Bag Walking Caddie",
-        singlePrice: "From €140<br>For 1 player",
-        singleList: "<li>bag carrying</li><li>club selection insight</li><li>club cleaning and presentation</li><li>green reading and line support</li><li>local course strategy</li><li>personalized attention throughout the round</li>",
-        doubleTitle: "Double Bag Walking Caddie",
-        doublePrice: "From €180<br>For 2 players",
-        doubleDesc: "Designed for couples, private guests, or executive playing partners who want a seamless premium round with discreet and attentive support.",
         aboutTitle: "About the Company",
         aboutSubtitle: "The Only Dedicated Caddie Service in Mallorca",
         aboutText: "Mallorcaddies was created to bring the timeless tradition of elite caddie service to Mallorca's most prestigious golfing experience. Exclusively serving Club de Golf Alcanada, we combine professional caddie expertise with the warmth, elegance, and ease of Mediterranean hospitality. Our clients include luxury golf travelers from the United States, China, Europe, and Asia, private high-net-worth groups, yacht and villa guests, and international corporate hospitality partners. Every round is delivered with discretion, precision, and personal attention.",
+        servicesTitle: "Signature Services",
+        forecaddieTitle: "Forecaddie Experience",
+        forecaddiePrice: "From €55 per player<br>For groups of 3–4 players",
+        forecaddieList: ["expert green reading","strategic course guidance","local wind and terrain knowledge","pace and etiquette support","luxury on-course hosting"],
+        singleTitle: "Single Bag Walking Caddie",
+        singlePrice: "From €140<br>For 1 player",
+        singleList: ["bag carrying","club selection insight","club cleaning and presentation","green reading and line support","local course strategy","personalized attention throughout the round"],
+        doubleTitle: "Double Bag Walking Caddie",
+        doublePrice: "From €180<br>For 2 players",
+        doubleDesc: "Designed for couples, private guests, or executive playing partners who want a seamless premium round with discreet and attentive support.",
         enhancedTitle: "Enhanced Round Experience (Add-On)",
         enhancedPrice: "Personal Yardage Book & Round Analysis<br>From €30 per book",
         enhancedDesc: "A bespoke performance keepsake including:",
-        enhancedList: "<li>personalized yardage notes</li><li>shot tracking</li><li>strategic tendencies</li><li>post-round summary</li><li>memorable round record from Alcanada</li>",
+        enhancedList: ["personalized yardage notes","shot tracking","strategic tendencies","post-round summary","memorable round record from Alcanada"],
         whyTitle: "Why Choose Mallorcaddies",
         whyIntro: "Mediterranean Luxury Meets Traditional Caddie Excellence",
         whyList: "What sets the experience apart:",
-        whyListUl: "<li>exclusive access and expertise at Alcanada</li><li>unmatched local wind and coastal condition knowledge</li><li>advanced green reading</li><li>club recommendation and strategic shot planning</li><li>immaculate club care and towel service</li><li>discreet luxury hospitality</li><li>support with pace, etiquette, and smooth flow of play</li><li>elevated guest experience for private groups and VIP travelers</li>",
+        whyListUl: ["exclusive access and expertise at Alcanada","unmatched local wind and coastal condition knowledge","advanced green reading","club recommendation and strategic shot planning","immaculate club care and towel service","discreet luxury hospitality","support with pace, etiquette, and smooth flow of play","elevated guest experience for private groups and VIP travelers"],
         whoTitle: "Who We Serve",
         whoList: "Perfect for:",
-        whoListUl: "<li>luxury golf travelers visiting Mallorca</li><li>yacht charters and private concierge itineraries</li><li>private family and friendship groups</li><li>executive corporate golf days</li><li>premium travel partners and cardholder programs</li><li>VIP guests arranged through international partners such as Amex travel teams</li>",
+        whoListUl: ["luxury golf travelers visiting Mallorca","yacht charters and private concierge itineraries","private family and friendship groups","executive corporate golf days","premium travel partners and cardholder programs","VIP guests arranged through international partners such as Amex travel teams"],
         contactTitle: "Contact",
-        contactDesc: "Flexible scheduling tailored around your Mallorca itinerary.",
+        contactDesc: "Please share your preferred playing date and tee time (if already arranged), and we will personally get back to you with availability and next steps.",
         whatsappLabel: "WhatsApp:",
         emailLabel: "Email:",
-        formLabel: "Website inquiry form:"
+        formLabel: "Website inquiry form:",
+        bookingTitle: "Booking Inquiry",
+        bookingIntro: "Thank you for choosing Mallorcaddies at Club de Golf Alcanada. Please fill in the details below. We will confirm availability and send a secure payment link for the €50 booking deposit. The remaining balance is payable at the club on the day of play.",
+        contactLegend: "Contact Details",
+        fullnameLabel: "Full Name (Main Contact)",
+        dobLabel: "Date of Birth",
+        emailLabelForm: "Email Address",
+        phoneLabel: "Phone / WhatsApp",
+        countryLabel: "Country of Origin",
+        countrySelect: "Select your country",
+        bookingLegend: "Booking Details",
+        dateLabel: "Preferred Date",
+        notice: "Bookings require at least 7 days' notice.",
+        timeLabel: "Time of Day",
+        timeSelect: "Select",
+        serviceLegend: "Caddie Service",
+        serviceLabel: "Service Type",
+        serviceSelect: "Select",
+        forecaddieNote: "Forecaddie includes course guidance only; no bag carrying included.",
+        playerLegend: "Player Information",
+        player1Label: "Player 1 (Main Contact) – Name / Handicap (HCP)",
+        player2Label: "Player 2 – Name / Handicap (Optional)",
+        player3Label: "Player 3 – Name / Handicap (Optional)",
+        player4Label: "Player 4 – Name / Handicap (Optional)",
+        mobilityLegend: "Mobility Preference (arranged with the club)",
+        walkingText: "Walking",
+        buggyText: "Buggy",
+        trolleyText: "Trolley",
+        notesLegend: "Additional Notes / Requests",
+        notesPlaceholder: "Special instructions or preferences",
+        termsLegend: "Booking Terms",
+        termsText: "This is a free inquiry. A secure payment link for the €50 deposit will be sent once we receive your details. Your booking becomes binding upon deposit payment. The remaining balance is payable at the club on the day of play.",
+        confirmText: "I confirm that all information is correct and understand that my booking becomes binding upon payment of the €50 deposit.",
+        submitBtn: "Send Inquiry",
+        inquiryLegend: "Inquiry Form",
+        nameLabel: "Name",
+        preferredDateLabel: "Preferred Date",
+        serviceTypeLabel: "Service Type",
+        singleOption: "Single Bag",
+        doubleOption: "Double Bag",
+        forecaddieOption: "Forecaddie",
+        otherOption: "Other Inquiry",
+        messageLabel: "Message",
+        messagePlaceholder: "Please include your preferred date, preferred tee time, whether the tee time is already confirmed, number of players, and any special requests.",
+        termsText: "I agree to the terms",
+        mailingListText: "Join our mailing list",
+        clientNameLabel: "Client Name",
+        serviceSelectionLabel: "Service Selection",
+        serviceSelect: "Select Service"
       },
       es: {
-        pageTitle: "Mallorcaddies | Servicio de Caddie de Lujo en Mallorca",
         title: "Mallorcaddies",
         subtitle: "Servicio de caddie de lujo en Mallorca",
         description: "La única experiencia de caddie dedicada de la isla. Un servicio de golf mediterráneo refinado diseñado para jugadores internacionales exigentes, grupos privados e invitados de viajes de lujo que buscan una ronda de clase mundial elevada por la excelencia tradicional del caddie.",
         cta: "Consultar disponibilidad",
-        servicesTitle: "Servicios emblemáticos",
-        forecaddieTitle: "Experiencia de Forecaddie",
-        forecaddiePrice: "Desde €55 por jugador<br>Para grupos de 3–4 jugadores",
-        forecaddieList: "<li>lectura experta de greens</li><li>guía estratégica del campo</li><li>conocimiento local del viento y el terreno</li><li>apoyo con ritmo y etiqueta</li><li>hospitalidad de lujo en el campo</li>",
-        singleTitle: "Caddie Caminante de Bolsa Única",
-        singlePrice: "Desde €140<br>Para 1 jugador",
-        singleList: "<li>transporte de bolsa</li><li>perspectiva de selección de palos</li><li>limpieza y presentación de palos</li><li>lectura de greens y apoyo de línea</li><li>estrategia local del campo</li><li>atención personalizada durante toda la ronda</li>",
-        doubleTitle: "Caddie Caminante de Bolsa Doble",
-        doublePrice: "Desde €180<br>Para 2 jugadores",
-        doubleDesc: "Diseñado para parejas, invitados privados o socios ejecutivos de juego que desean una ronda premium fluida con apoyo discreto y atento.",
         aboutTitle: "Acerca de la empresa",
         aboutSubtitle: "El único servicio de caddie dedicado en Mallorca",
         aboutText: "Mallorcaddies fue creado para traer la tradición atemporal del servicio de caddie de élite a la experiencia de golf más prestigiosa de Mallorca. Sirviendo exclusivamente al Club de Golf Alcanada, combinamos experiencia profesional de caddie con la calidez, elegancia y facilidad de la hospitalidad mediterránea. Nuestros clientes incluyen viajeros de golf de lujo de Estados Unidos, China, Europa y Asia, grupos privados de alto patrimonio neto, invitados de yates y villas, y socios de hospitalidad corporativa internacional. Cada ronda se entrega con discreción, precisión y atención personal.",
+        servicesTitle: "Servicios emblemáticos",
+        forecaddieTitle: "Experiencia de Forecaddie",
+        forecaddiePrice: "Desde €55 por jugador<br>Para grupos de 3–4 jugadores",
+        forecaddieList: ["lectura experta de greens","guía estratégica del campo","conocimiento local del viento y el terreno","apoyo con ritmo y etiqueta","hospitalidad de lujo en el campo"],
+        singleTitle: "Caddie Caminante de Bolsa Única",
+        singlePrice: "Desde €140<br>Para 1 jugador",
+        singleList: ["transporte de bolsa","perspectiva de selección de palos","limpieza y presentación de palos","lectura de greens y apoyo de línea","estrategia local del campo","atención personalizada durante toda la ronda"],
+        doubleTitle: "Caddie Caminante de Bolsa Doble",
+        doublePrice: "Desde €180<br>Para 2 jugadores",
+        doubleDesc: "Diseñado para parejas, invitados privados o socios ejecutivos de juego que desean una ronda premium fluida con apoyo discreto y atento.",
         enhancedTitle: "Experiencia de ronda mejorada (Complemento)",
         enhancedPrice: "Libro de yardaje personal y análisis de ronda<br>Desde €30 por libro",
         enhancedDesc: "Un recuerdo de rendimiento a medida que incluye:",
-        enhancedList: "<li>notas de yardaje personalizadas</li><li>rastreo de tiros</li><li>tendencias estratégicas</li><li>resumen posterior a la ronda</li><li>registro memorable de la ronda de Alcanada</li>",
+        enhancedList: ["notas de yardaje personalizadas","rastreo de tiros","tendencias estratégicas","resumen posterior a la ronda","registro memorable de la ronda de Alcanada"],
         whyTitle: "Por qué elegir Mallorcaddies",
         whyIntro: "Lujo mediterráneo se encuentra con la excelencia tradicional del caddie",
         whyList: "Lo que distingue la experiencia:",
-        whyListUl: "<li>acceso exclusivo y experiencia en Alcanada</li><li>conocimiento incomparable de las condiciones locales de viento y costa</li><li>lectura avanzada de greens</li><li>recomendación de palos y planificación estratégica de tiros</li><li>cuidado impecable de palos y servicio de toallas</li><li>hospitalidad discreta de lujo</li><li>apoyo con ritmo, etiqueta y flujo suave de juego</li><li>experiencia de invitado elevada para grupos privados y viajeros VIP</li>",
+        whyListUl: ["acceso exclusivo y experiencia en Alcanada","conocimiento incomparable de las condiciones locales de viento y costa","lectura avanzada de greens","recomendación de palos y planificación estratégica de tiros","cuidado impecable de palos y servicio de toallas","hospitalidad discreta de lujo","apoyo con ritmo, etiqueta y flujo suave de juego","experiencia de invitado elevada para grupos privados y viajeros VIP"],
         whoTitle: "A quién servimos",
         whoList: "Perfecto para:",
-        whoListUl: "<li>viajeros de golf de lujo visitando Mallorca</li><li>cartas de yate e itinerarios de conserje privado</li><li>grupos privados de familia y amistad</li><li>días de golf corporativo ejecutivo</li><li>socios de viajes premium y programas de titulares de tarjetas</li><li>invitados VIP organizados a través de socios internacionales como equipos de viajes Amex</li>",
+        whoListUl: ["viajeros de golf de lujo visitando Mallorca","cartas de yate e itinerarios de conserje privado","grupos privados de familia y amistad","días de golf corporativo ejecutivo","socios de viajes premium y programas de titulares de tarjetas","invitados VIP organizados a través de socios internacionales como equipos de viajes Amex"],
         contactTitle: "Contacto",
-        contactDesc: "Programación flexible adaptada a su itinerario en Mallorca.",
+        contactDesc: "Por favor, comparte tu fecha de juego preferida y hora de salida (si ya está arreglada), y nos pondremos en contacto personalmente contigo con disponibilidad y próximos pasos.",
         whatsappLabel: "WhatsApp:",
         emailLabel: "Correo electrónico:",
-        formLabel: "Formulario de consulta del sitio web:"
+        formLabel: "Formulario de consulta del sitio web:",
+        bookingTitle: "Consulta de Reserva",
+        bookingIntro: "Gracias por elegir Mallorcaddies en el Club de Golf Alcanada. Complete los detalles a continuación. Confirmaremos la disponibilidad y enviaremos un enlace de pago seguro para el depósito de reserva de €50. El saldo restante se paga en el club el día del juego.",
+        contactLegend: "Detalles de contacto",
+        fullnameLabel: "Nombre completo (contacto principal)",
+        dobLabel: "Fecha de nacimiento",
+        emailLabelForm: "Dirección de correo electrónico",
+        phoneLabel: "Teléfono / WhatsApp",
+        countryLabel: "País de origen",
+        countrySelect: "Seleccione su país",
+        bookingLegend: "Detalles de reserva",
+        dateLabel: "Fecha preferida",
+        notice: "Las reservas requieren al menos 7 días de antelación.",
+        timeLabel: "Hora del día",
+        timeSelect: "Seleccionar",
+        serviceLegend: "Servicio de caddie",
+        serviceLabel: "Tipo de servicio",
+        serviceSelect: "Seleccionar",
+        forecaddieNote: "Forecaddie incluye solo guía del campo; no se incluye el transporte de bolsa.",
+        playerLegend: "Información del jugador",
+        player1Label: "Jugador 1 (contacto principal) – Nombre / Handicap (HCP)",
+        player2Label: "Jugador 2 – Nombre / Handicap (opcional)",
+        player3Label: "Jugador 3 – Nombre / Handicap (opcional)",
+        player4Label: "Jugador 4 – Nombre / Handicap (opcional)",
+        mobilityLegend: "Preferencia de movilidad (arreglada con el club)",
+        walkingText: "Caminando",
+        buggyText: "Buggy",
+        trolleyText: "Carrito",
+        notesLegend: "Notas adicionales / Solicitudes",
+        notesPlaceholder: "Instrucciones especiales o preferencias",
+        termsLegend: "Términos de reserva",
+        termsText: "Esta es una consulta gratuita. Se enviará un enlace de pago seguro para el depósito de €50 una vez que recibamos sus detalles. Su reserva se vuelve vinculante al pagar el depósito. El saldo restante se paga en el club el día del juego.",
+        confirmText: "Confirmo que toda la información es correcta y entiendo que mi reserva se vuelve vinculante al pagar el depósito de €50.",
+        submitBtn: "Enviar Consulta",
+        inquiryLegend: "Formulario de Consulta",
+        nameLabel: "Nombre",
+        preferredDateLabel: "Fecha Preferida",
+        serviceTypeLabel: "Tipo de Servicio",
+        singleOption: "Bolsa Única",
+        doubleOption: "Bolsa Doble",
+        forecaddieOption: "Forecaddie",
+        otherOption: "Otra Consulta",
+        messageLabel: "Mensaje",
+        messagePlaceholder: "Por favor incluye tu fecha preferida, hora de salida preferida, si la hora de salida ya está confirmada, número de jugadores, y cualquier solicitud especial.",
+        termsText: "Acepto los términos",
+        mailingListText: "Únete a nuestra lista de correo",
+        clientNameLabel: "Nombre del Cliente",
+        serviceSelectionLabel: "Selección de Servicio",
+        serviceSelect: "Seleccionar Servicio"
       },
       zh: {
-        pageTitle: "Mallorcaddies | 马略卡岛豪华球童服务",
         title: "Mallorcaddies",
         subtitle: "马略卡岛豪华球童服务",
         description: "岛上唯一的专用球童体验。精心设计的地中海高尔夫服务，专为 discerning 国际球员、私人团体和寻求由传统球童卓越提升的世界级回合的豪华旅行客人设计。",
         cta: "查询可用性",
+        aboutTitle: "关于公司",
+        aboutSubtitle: "马略卡岛唯一的专用球童服务",
+        aboutText: "Mallorcaddies 的创建是为了将精英球童服务的永恒传统带到马略卡岛最负盛名的 golf 体验。独家为 Club de Golf Alcanada 服务，我们将专业球童专业知识与地中海热情好客的温暖、优雅和轻松相结合。我们的客户包括来自美国、中国、欧洲和亚洲的豪华 golf 旅行者、私人高净值群体、游艇和别墅客人以及国际企业 hospitality 合作伙伴。每轮比赛都以谨慎、精确和个人关注交付。",
         servicesTitle: "标志性服务",
         forecaddieTitle: "Forecaddie 体验",
         forecaddiePrice: "每位玩家 €55 起<br>适用于 3–4 人小组",
-        forecaddieList: "<li>专家果岭阅读</li><li>战略球场指导</li><li>当地风和地形知识</li><li>节奏和礼仪支持</li><li>球场上豪华款待</li>",
+        forecaddieList: ["专家果岭阅读","战略球场指导","当地风和地形知识","节奏和礼仪支持","球场上豪华款待"],
         singleTitle: "单袋步行球童",
         singlePrice: "€140 起<br>适用于 1 位玩家",
-        singleList: "<li>提袋</li><li>球杆选择洞察</li><li>球杆清洁和展示</li><li>果岭阅读和线路支持</li><li>当地球场策略</li><li>整轮个性化关注</li>",
+        singleList: ["提袋","球杆选择洞察","球杆清洁和展示","果岭阅读和线路支持","当地球场策略","整轮个性化关注"],
         doubleTitle: "双袋步行球童",
         doublePrice: "€180 起<br>适用于 2 位玩家",
         doubleDesc: "专为夫妻、私人客人或执行游戏伙伴设计，他们希望无缝的高级回合与谨慎和专注的支持。",
-        aboutTitle: "关于公司",
-        aboutSubtitle: "马略卡岛唯一的专用球童服务",
-        aboutText: "Mallorcaddies 的创建是为了将精英球童服务的永恒传统带到马略卡岛最负盛名的 golf 体验。独家为 Club de Golf Alcanada 服务，我们将专业球童专业知识与地中海热情好客的温暖、优雅和轻松相结合。我们的客户包括来自美国、中国、欧洲和亚洲的豪华 golf 旅行者、私人高净值群体、游艇和别墅客人以及国际企业 hospitality 合作伙伴。每轮比赛都以谨慎、精确和个人关注交付。","}]}
         enhancedTitle: "增强回合体验（附加）",
         enhancedPrice: "个人码距书和回合分析<br>每本书 €30 起",
         enhancedDesc: "定制性能纪念品包括：",
-        enhancedList: "<li>个性化码距笔记</li><li>击球跟踪</li><li>战略倾向</li><li>回合后总结</li><li>来自 Alcanada 的难忘回合记录</li>",
+        enhancedList: ["个性化码距笔记","击球跟踪","战略倾向","回合后总结","来自 Alcanada 的难忘回合记录"],
         whyTitle: "为什么选择 Mallorcaddies",
         whyIntro: "地中海豪华与传统球童卓越相遇",
         whyList: "是什么让体验脱颖而出：",
-        whyListUl: "<li>Alcanada 的独家访问和专业知识</li><li>无与伦比的当地风和沿海条件知识</li><li>先进的果岭阅读</li><li>球杆推荐和战略击球规划</li><li>无瑕的球杆护理和毛巾服务</li><li>谨慎的豪华款待</li><li>节奏、礼仪和流畅游戏的支持</li><li>私人团体和 VIP 旅行者的提升客人体验</li>",
+        whyListUl: ["Alcanada 的独家访问和专业知识","无与伦比的当地风和沿海条件知识","先进的果岭阅读","球杆推荐和战略击球规划","无瑕的球杆护理和毛巾服务","谨慎的豪华款待","节奏、礼仪和流畅游戏的支持","私人团体和 VIP 旅行者的提升客人体验"],
         whoTitle: "我们服务谁",
         whoList: "完美适合：",
-        whoListUl: "<li>访问马略卡岛的豪华高尔夫旅行者</li><li>游艇租赁和私人礼宾行程</li><li>私人家庭和友谊团体</li><li>执行企业高尔夫日</li><li>高级旅行伙伴和持卡人计划</li><li>通过国际伙伴如 Amex 旅行团队安排的 VIP 客人</li>",
+        whoListUl: ["访问马略卡岛的豪华高尔夫旅行者","游艇租赁和私人礼宾行程","私人家庭和友谊团体","执行企业高尔夫日","高级旅行伙伴和持卡人计划","通过国际伙伴如 Amex 旅行团队安排的 VIP 客人"],
         contactTitle: "联系",
-        contactDesc: "围绕您的马略卡岛行程灵活安排。",
+        contactDesc: "请分享您的首选比赛日期和开球时间（如果已安排），我们将亲自与您联系，提供可用性和下一步。",
         whatsappLabel: "WhatsApp：",
         emailLabel: "电子邮件：",
-        formLabel: "网站查询表单："
+        formLabel: "网站查询表单：",
+        bookingTitle: "预订查询",
+        bookingIntro: "感谢您选择 Club de Golf Alcanada 的 Mallorcaddies。请填写以下详细信息。我们将确认可用性并发送 €50 预订押金的安全付款链接。剩余余额在比赛当天在俱乐部支付。",
+        contactLegend: "联系详情",
+        fullnameLabel: "全名（主要联系人）",
+        dobLabel: "出生日期",
+        emailLabelForm: "电子邮件地址",
+        phoneLabel: "电话 / WhatsApp",
+        countryLabel: "原籍国",
+        countrySelect: "选择您的国家",
+        bookingLegend: "预订详情",
+        dateLabel: "首选日期",
+        notice: "预订需要至少 7 天的通知。",
+        timeLabel: "一天中的时间",
+        timeSelect: "选择",
+        serviceLegend: "球童服务",
+        serviceLabel: "服务类型",
+        serviceSelect: "选择",
+        forecaddieNote: "Forecaddie 仅包括球场指导；不包括提袋。",
+        playerLegend: "玩家信息",
+        player1Label: "玩家 1（主要联系人）– 姓名 / 差点（HCP）",
+        player2Label: "玩家 2 – 姓名 / 差点（可选）",
+        player3Label: "玩家 3 – 姓名 / 差点（可选）",
+        player4Label: "玩家 4 – 姓名 / 差点（可选）",
+        mobilityLegend: "移动偏好（与俱乐部安排）",
+        walkingText: "步行",
+        buggyText: "球车",
+        trolleyText: "手推车",
+        notesLegend: "附加备注 / 请求",
+        notesPlaceholder: "特殊指示或偏好",
+        termsLegend: "预订条款",
+        termsText: "这是一个免费查询。一旦我们收到您的详细信息，将发送 €50 押金的安全付款链接。您的预订在支付押金后具有约束力。剩余余额在比赛当天在俱乐部支付。",
+        confirmText: "我确认所有信息正确，并理解我的预订在支付 €50 押金后具有约束力。",
+        submitBtn: "发送查询",
+        inquiryLegend: "查询表单",
+        nameLabel: "姓名",
+        preferredDateLabel: "首选日期",
+        serviceTypeLabel: "服务类型",
+        singleOption: "单袋",
+        doubleOption: "双袋",
+        forecaddieOption: "Forecaddie",
+        otherOption: "其他查询",
+        messageLabel: "消息",
+        messagePlaceholder: "请包括您的首选日期、首选开球时间、开球时间是否已确认、玩家数量以及任何特殊请求。",
+        termsText: "我同意条款",
+        mailingListText: "加入我们的邮件列表",
+        clientNameLabel: "客户姓名",
+        serviceSelectionLabel: "服务选择",
+        serviceSelect: "选择服务"
+      },
+      de: {
+        title: "Mallorcaddies",
+        subtitle: "Luxus-Caddie-Service auf Mallorca",
+        description: "Das exlusive Caddie-Erlebnis der Insel. Ein raffinierter mediterraner Golfservice, der für anspruchsvolle internationale Spieler, private Gruppen und Luxusreisende konzipiert ist, die eine Weltklasse-Runde suchen, die durch traditionelle Caddie-Exzellenz erhöht wird.",
+        cta: "Verfügbarkeit anfragen",
+        aboutTitle: "Über das Unternehmen",
+        aboutSubtitle: "Der einzige dedizierte Caddie-Service auf Mallorca",
+        aboutText: "Mallorcaddies wurde gegründet, um die zeitlose Tradition des Elite-Caddie-Services in Mallorcas prestigeträchtigstem Golferlebnis zu bringen. Exklusiv für den Club de Golf Alcanada tätig, kombinieren wir professionelle Caddie-Expertise mit der Wärme, Eleganz und Leichtigkeit mediterraner Gastfreundschaft. Unsere Kunden sind Luxus-Golfreisende aus den USA, China, Europa und Asien, private High-Net-Worth-Gruppen, Yacht- und Villagäste sowie internationale Corporate Hospitality-Partner. Jede Runde wird mit Diskretion, Präzision und persönlicher Aufmerksamkeit geliefert.",
+        servicesTitle: "Signaturdienste",
+        forecaddieTitle: "Forecaddie-Erlebnis",
+        forecaddiePrice: "Ab €55 pro Spieler<br>Für Gruppen von 3–4 Spielern",
+        forecaddieList: ["Experten-Grün-Lesung","Strategische Kursführung","Lokale Wind- und Geländekenntnisse","Unterstützung bei Tempo und Etikette","Luxus-Betreuung auf dem Platz"],
+        singleTitle: "Einzelbeutel-Gehcaddie",
+        singlePrice: "Ab €140<br>Für 1 Spieler",
+        singleList: ["Beuteltragen","Schlägereinsicht","Schlägerreinigung und Präsentation","Grün-Lesung und Liniensupport","Lokale Kursstrategie","Personalisierte Aufmerksamkeit während der gesamten Runde"],
+        doubleTitle: "Doppelbeutel-Gehcaddie",
+        doublePrice: "Ab €180<br>Für 2 Spieler",
+        doubleDesc: "Entwickelt für Paare, private Gäste oder Executive-Spielpartner, die eine nahtlose Premium-Runde mit diskreter und aufmerksamer Unterstützung wünschen.",
+        enhancedTitle: "Erweiterte Rundenerfahrung (Zusatz)",
+        enhancedPrice: "Persönliches Yardage-Buch & Rundenanalyse<br>Ab €30 pro Buch",
+        enhancedDesc: "Ein maßgeschneidertes Leistungsandenken, das beinhaltet:",
+        enhancedList: ["Personalisierte Yardage-Notizen","Schlagverfolgung","Strategische Tendenzen","Nachrunden-Zusammenfassung","Denkwürdige Rundenaufzeichnung von Alcanada"],
+        whyTitle: "Warum Mallorcaddies wählen",
+        whyIntro: "Mediterraner Luxus trifft traditionelle Caddie-Exzellenz",
+        whyList: "Was die Erfahrung auszeichnet:",
+        whyListUl: ["Exklusiver Zugang und Expertise bei Alcanada","Unübertroffene lokale Wind- und Küstenbedingungen","Erweiterte Grün-Lesung","Schlägerempfehlung und strategische Schlagplanung","Immaculate Club-Pflege und Handtuchservice","Diskrete Luxus-Gastfreundschaft","Unterstützung bei Tempo, Etikette und reibungslosem Spielablauf","Erhöhte Gasterfahrung für private Gruppen und VIP-Reisende"],
+        whoTitle: "Wen wir bedienen",
+        whoList: "Perfekt für:",
+        whoListUl: ["Luxus-Golfreisende, die Mallorca besuchen","Yacht-Charter und private Concierge-Reisen","Private Familien- und Freundesgruppen","Executive-Unternehmens-Golftage","Premium-Reisepartner und Karteninhaber-Programme","VIP-Gäste, die durch internationale Partner wie Amex-Reiseteams arrangiert werden"],
+        contactTitle: "Kontakt",
+        contactDesc: "Bitte teilen Sie uns Ihr bevorzugtes Spieldatum und Ihre Abschlagzeit mit (falls bereits arrangiert), und wir werden uns persönlich mit Ihnen in Verbindung setzen, um Verfügbarkeit und nächste Schritte zu besprechen.",
+        whatsappLabel: "WhatsApp:",
+        emailLabel: "E-Mail:",
+        formLabel: "Website-Anfrageformular:",
+        bookingTitle: "Buchungsanfrage",
+        bookingIntro: "Vielen Dank, dass Sie Mallorcaddies beim Club de Golf Alcanada gewählt haben. Bitte füllen Sie die Details unten aus. Wir werden die Verfügbarkeit bestätigen und einen sicheren Zahlungslink für die €50 Buchungsanzahlung senden. Der Restbetrag ist am Tag des Spiels im Club zahlbar.",
+        contactLegend: "Kontaktdetails",
+        fullnameLabel: "Vollständiger Name (Hauptkontakt)",
+        dobLabel: "Geburtsdatum",
+        emailLabelForm: "E-Mail-Adresse",
+        phoneLabel: "Telefon / WhatsApp",
+        countryLabel: "Herkunftsland",
+        countrySelect: "Wählen Sie Ihr Land",
+        bookingLegend: "Buchungsdetails",
+        dateLabel: "Bevorzugtes Datum",
+        notice: "Buchungen erfordern mindestens 7 Tage Vorankündigung.",
+        timeLabel: "Tageszeit",
+        timeSelect: "Auswählen",
+        serviceLegend: "Caddie-Service",
+        serviceLabel: "Service-Typ",
+        serviceSelect: "Auswählen",
+        forecaddieNote: "Forecaddie beinhaltet nur Kursführung; kein Beuteltragen enthalten.",
+        playerLegend: "Spielerinformationen",
+        player1Label: "Spieler 1 (Hauptkontakt) – Name / Handicap (HCP)",
+        player2Label: "Spieler 2 – Name / Handicap (Optional)",
+        player3Label: "Spieler 3 – Name / Handicap (Optional)",
+        player4Label: "Spieler 4 – Name / Handicap (Optional)",
+        mobilityLegend: "Mobilitätspräferenz (mit dem Club arrangiert)",
+        walkingText: "Gehen",
+        buggyText: "Buggy",
+        trolleyText: "Trolley",
+        notesLegend: "Zusätzliche Notizen / Anfragen",
+        notesPlaceholder: "Spezielle Anweisungen oder Präferenzen",
+        termsLegend: "Buchungsbedingungen",
+        termsText: "Dies ist eine kostenlose Anfrage. Ein sicherer Zahlungslink für die €50 Anzahlung wird gesendet, sobald wir Ihre Details erhalten. Ihre Buchung wird verbindlich bei Zahlung der Anzahlung. Der Restbetrag ist am Tag des Spiels im Club zahlbar.",
+        confirmText: "Ich bestätige, dass alle Informationen korrekt sind und verstehe, dass meine Buchung bei Zahlung der €50 Anzahlung verbindlich wird.",
+        submitBtn: "Anfrage senden",
+        inquiryLegend: "Anfrageformular",
+        nameLabel: "Name",
+        preferredDateLabel: "Bevorzugtes Datum",
+        serviceTypeLabel: "Service-Typ",
+        singleOption: "Einzelbeutel",
+        doubleOption: "Doppelbeutel",
+        forecaddieOption: "Forecaddie",
+        otherOption: "Andere Anfrage",
+        messageLabel: "Nachricht",
+        messagePlaceholder: "Bitte geben Sie Ihr bevorzugtes Datum, Ihre bevorzugte Abschlagzeit, ob die Abschlagzeit bereits bestätigt ist, die Anzahl der Spieler und alle Sonderwünsche an.",
+        termsText: "Ich stimme den Bedingungen zu",
+        mailingListText: "Treten Sie unserer Mailingliste bei",
+        clientNameLabel: "Kundenname",
+        serviceSelectionLabel: "Serviceauswahl",
+        serviceSelect: "Service auswählen"
+      },
+      sv: {
+        title: "Mallorcaddies",
+        subtitle: "Lyx caddie-tjänst på Mallorca",
+        description: "Öns enda dedikerade caddie-upplevelse. En raffinerad medelhavsgolf-tjänst utformad för krävande internationella spelare, privata grupper och lyxrese-gäster som söker en världsklassrunda förhöjd av traditionell caddie-excellens.",
+        cta: "Fråga efter tillgänglighet",
+        aboutTitle: "Om företaget",
+        aboutSubtitle: "Den enda dedikerade caddie-tjänsten på Mallorca",
+        aboutText: "Mallorcaddies skapades för att föra den tidlösa traditionen av elit caddie-service till Mallorcas mest prestigefulla golfupplevelse. Exklusivt tjänar Club de Golf Alcanada, vi kombinerar professionell caddie-expertis med värmen, elegansen och lättheten i medelhavsgästfrihet. Våra kunder inkluderar lyx golfresenärer från USA, Kina, Europa och Asien, privata hög nettoförmögenhetsgrupper, yacht- och villagäster och internationella företags hospitality-partners. Varje runda levereras med diskretion, precision och personlig uppmärksamhet.",
+        servicesTitle: "Signaturtjänster",
+        forecaddieTitle: "Forecaddie-upplevelse",
+        forecaddiePrice: "Från €55 per spelare<br>För grupper om 3–4 spelare",
+        forecaddieList: ["expert grönläsning","strategisk kursvägledning","lokal vind- och terrängkunskap","tempo- och etikettstöd","lyx värdskap på banan"],
+        singleTitle: "Enkelt väska gående caddie",
+        singlePrice: "Från €140<br>För 1 spelare",
+        singleList: ["väskbärande","klubbutsikt","klubbrengöring och presentation","grönläsning och linjestöd","lokal kursstrategi","personlig uppmärksamhet under hela rundan"],
+        doubleTitle: "Dubbel väska gående caddie",
+        doublePrice: "Från €180<br>För 2 spelare",
+        doubleDesc: "Utvecklad för par, privata gäster eller executive spelpartners som vill ha en sömlös premiumrunda med diskret och uppmärksam support.",
+        enhancedTitle: "Förbättrad rundaupplevelse (tillägg)",
+        enhancedPrice: "Personlig yardage-bok & rundaanalys<br>Från €30 per bok",
+        enhancedDesc: "En skräddarsydd prestationsminne som inkluderar:",
+        enhancedList: ["personliga yardage-anteckningar","slagspårning","strategiska tendenser","efter-runda sammanfattning","minnesvärd runda-post från Alcanada"],
+        whyTitle: "Varför välja Mallorcaddies",
+        whyIntro: "Medelhavslyx möter traditionell caddie-excellens",
+        whyList: "Vad som skiljer upplevelsen åt:",
+        whyListUl: ["exklusiv tillgång och expertis på Alcanada","oslagbar lokal vind- och kustförhållandekunskap","avancerad grönläsning","klubbrekommendation och strategisk slagplanering","fläckfri klubbskötsel och handduksservice","diskret lyx hospitality","stöd med tempo, etikett och smidigt spel","förhöjd gästupplevelse för privata grupper och VIP-resenärer"],
+        whoTitle: "Vem vi tjänar",
+        whoList: "Perfekt för:",
+        whoListUl: ["lyx golfresenärer som besöker Mallorca","yacht-charter och privata concierge-resor","privata familj- och vänskapsgrupper","executive företags golfdagar","premium resepartners och kortinnehavarprogram","VIP-gäster arrangerade genom internationella partners som Amex rese-team"],
+        contactTitle: "Kontakt",
+        contactDesc: "Vänligen dela din föredragna spel dag och tee tid (om redan arrangerad), och vi kommer personligen att komma tillbaka till dig med tillgänglighet och nästa steg.",
+        whatsappLabel: "WhatsApp:",
+        emailLabel: "E-post:",
+        formLabel: "Webbplats förfrågningsformulär:",
+        bookingTitle: "Bokningsförfrågan",
+        bookingIntro: "Tack för att du väljer Mallorcaddies på Club de Golf Alcanada. Vänligen fyll i detaljerna nedan. Vi kommer att bekräfta tillgänglighet och skicka en säker betalningslänk för €50 bokningsdepositionen. Restbeloppet betalas på klubben på speldagen.",
+        contactLegend: "Kontaktdetaljer",
+        fullnameLabel: "Fullständigt namn (huvudkontakt)",
+        dobLabel: "Födelsedatum",
+        emailLabelForm: "E-postadress",
+        phoneLabel: "Telefon / WhatsApp",
+        countryLabel: "Ursprungsland",
+        countrySelect: "Välj ditt land",
+        bookingLegend: "Bokningsdetaljer",
+        dateLabel: "Föredraget datum",
+        notice: "Bokningar kräver minst 7 dagars varsel.",
+        timeLabel: "Dags tid",
+        timeSelect: "Välj",
+        serviceLegend: "Caddie-tjänst",
+        serviceLabel: "Tjänsttyp",
+        serviceSelect: "Välj",
+        forecaddieNote: "Forecaddie inkluderar endast kursvägledning; ingen väskbärning ingår.",
+        playerLegend: "Spelarinformation",
+        player1Label: "Spelare 1 (huvudkontakt) – Namn / Handicap (HCP)",
+        player2Label: "Spelare 2 – Namn / Handicap (valfritt)",
+        player3Label: "Spelare 3 – Namn / Handicap (valfritt)",
+        player4Label: "Spelare 4 – Namn / Handicap (valfritt)",
+        mobilityLegend: "Mobilitetspreferens (arrangerad med klubben)",
+        walkingText: "Gående",
+        buggyText: "Buggy",
+        trolleyText: "Trolley",
+        notesLegend: "Ytterligare anteckningar / Förfrågningar",
+        notesPlaceholder: "Speciella instruktioner eller preferenser",
+        termsLegend: "Bokningsvillkor",
+        termsText: "Detta är en gratis förfrågan. En säker betalningslänk för €50 depositionen kommer att skickas när vi får dina detaljer. Din bokning blir bindande vid depositionens betalning. Restbeloppet betalas på klubben på speldagen.",
+        confirmText: "Jag bekräftar att all information är korrekt och förstår att min bokning blir bindande vid betalning av €50 depositionen.",
+        submitBtn: "Skicka förfrågan",
+        inquiryLegend: "Förfrågningsformulär",
+        nameLabel: "Namn",
+        preferredDateLabel: "Föredraget datum",
+        serviceTypeLabel: "Tjänsttyp",
+        singleOption: "Enkelt väska",
+        doubleOption: "Dubbel väska",
+        forecaddieOption: "Forecaddie",
+        otherOption: "Annan förfrågan",
+        messageLabel: "Meddelande",
+        messagePlaceholder: "Vänligen inkludera ditt föredragna datum, föredragna tee tid, om tee tiden redan är bekräftad, antal spelare, och eventuella särskilda önskemål.",
+        termsText: "Jag godkänner villkoren",
+        mailingListText: "Gå med i vår e-postlista",
+        clientNameLabel: "Kundnamn",
+        serviceSelectionLabel: "Serviceval",
+        serviceSelect: "Välj tjänst"
       }
     };
 
     function setLanguage(lang) {
-      document.title = translations[lang].pageTitle;
-      document.getElementById('title').innerText = translations[lang].title;
-      document.getElementById('subtitle').innerText = translations[lang].subtitle;
-      document.getElementById('description').innerText = translations[lang].description;
-      document.getElementById('cta').innerText = translations[lang].cta;
-      document.getElementById('services-title').innerText = translations[lang].servicesTitle;
-      document.getElementById('forecaddie-title').innerText = translations[lang].forecaddieTitle;
-      document.getElementById('forecaddie-price').innerHTML = translations[lang].forecaddiePrice;
-      document.getElementById('forecaddie-list').innerHTML = translations[lang].forecaddieList;
-      document.getElementById('single-title').innerText = translations[lang].singleTitle;
-      document.getElementById('single-price').innerHTML = translations[lang].singlePrice;
-      document.getElementById('single-list').innerHTML = translations[lang].singleList;
-      document.getElementById('double-title').innerText = translations[lang].doubleTitle;
-      document.getElementById('double-price').innerHTML = translations[lang].doublePrice;
-      document.getElementById('double-desc').innerText = translations[lang].doubleDesc;
-      document.getElementById('about-title').innerText = translations[lang].aboutTitle;
-      document.getElementById('about-subtitle').innerText = translations[lang].aboutSubtitle;
-      document.getElementById('about-text').innerText = translations[lang].aboutText;
-      document.getElementById('enhanced-title').innerText = translations[lang].enhancedTitle;
-      document.getElementById('enhanced-price').innerHTML = translations[lang].enhancedPrice;
-      document.getElementById('enhanced-desc').innerText = translations[lang].enhancedDesc;
-      document.getElementById('enhanced-list').innerHTML = translations[lang].enhancedList;
-      document.getElementById('why-title').innerText = translations[lang].whyTitle;
-      document.getElementById('why-intro').innerText = translations[lang].whyIntro;
-      document.getElementById('why-list').innerText = translations[lang].whyList;
-      document.getElementById('why-list-ul').innerHTML = translations[lang].whyListUl;
-      document.getElementById('who-title').innerText = translations[lang].whoTitle;
-      document.getElementById('who-list').innerText = translations[lang].whoList;
-      document.getElementById('who-list-ul').innerHTML = translations[lang].whoListUl;
-      document.getElementById('contact-title').innerText = translations[lang].contactTitle;
-      document.getElementById('contact-desc').innerText = translations[lang].contactDesc;
-      document.getElementById('whatsapp-label').innerText = translations[lang].whatsappLabel;
-      document.getElementById('email-label').innerText = translations[lang].emailLabel;
-      document.getElementById('form-label').innerText = translations[lang].formLabel;
+      localStorage.setItem('appLanguage', lang);
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll('[data-i18n]');
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          if (Array.isArray(translations[lang][key])) {
+            element.innerHTML = translations[lang][key].map(item => `<li>${item}</li>`).join('');
+          } else {
+            element.innerHTML = translations[lang][key];
+          }
+        }
+      });
+      const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+      placeholders.forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key]) {
+          element.placeholder = translations[lang][key];
+        }
+      });
+      const options = document.querySelectorAll('[data-i18n]');
+      options.forEach(option => {
+        const key = option.getAttribute('data-i18n');
+        if (translations[lang][key] && option.tagName === 'OPTION') {
+          option.textContent = translations[lang][key];
+        }
+      });
     }
 
-    function toggleForecaddieNote() {
-      const note = document.getElementById('forecaddie-note');
-      const service = document.getElementById('serviceType').value;
-      note.style.display = service === 'forecaddie' ? 'block' : 'none';
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('appLanguage') || 'en';
+      setLanguage(savedLang);
+    });
+
+
   </script>
 </body>
 </html>
