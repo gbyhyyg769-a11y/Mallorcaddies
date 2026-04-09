@@ -28,8 +28,8 @@
     .hero-left { text-align: center; max-width: 600px; }
     .hero-left h1 { margin: 0 0 14px; font-size: clamp(2.4rem, 5vw, 4.2rem); font-family: 'Times New Roman', serif; letter-spacing: 0.08em; color: #f8f6f2; text-transform: uppercase; line-height: 1.08; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 600; }
     .hero-left p { margin: 0 0 1.8em; color: #dfdbd7; font-size: clamp(1.05rem, 2vw, 1.25rem); }
-    .hero-left .cta { display: inline-block; text-decoration: none; padding: 13px 24px; border-radius: 8px; background: var(--gold); color: #1f1711; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: transform .25s ease, box-shadow .25s ease; }
-    .hero-left .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+    .cta { display: inline-flex; justify-content: center; align-items: center; text-decoration: none; padding: 14px 28px; border-radius: 10px; background: var(--gold); color: #1f1711; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: transform .28s ease, box-shadow .28s ease, background .28s ease; border: 0; cursor: pointer; }
+    .cta:hover, .cta:focus { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28); background: #c69a4a; }
     .hero-right { display: grid; gap: 16px; }
     .hero-right img { width: 100%; height: auto; border-radius: 18px; object-fit: cover; border: 1px solid rgba(255,255,255,.18); }
 
@@ -62,8 +62,10 @@
     .booking-form label { display: block; margin-bottom: 0.8rem; color: #4c4038; font-weight: 500; }
     .booking-form input, .booking-form select, .booking-form textarea { width: 100%; padding: 10px 12px; margin-top: 0.3rem; border: 1px solid #cec6be; border-radius: 10px; font-size: 1rem; background: #fff; color: #2a231c; }
     .booking-form textarea { resize: vertical; }
-    .booking-form button.cta { width: 100%; margin-top: 1rem; background: #b38a3f; color: #1f1711; border: 0; }
+    .booking-form button.cta { width: auto; min-width: 220px; padding: 15px 32px; margin-top: 1.4rem; background: var(--gold); color: #1f1711; border: 0; }
     .booking-form small { display: block; margin: 0.2rem 0 0.8rem; color: #6a5d51; }
+    .booking-form .form-error { display: none; margin: 0.2rem 0 0.8rem; color: #8b1f1f; font-weight: 600; }
+    .booking-form .form-error.visible { display: block; }
 
     /* Accordion Styles */
     .accordion-header {
@@ -166,10 +168,14 @@
     <section class="section" id="contact">
       <h2 data-i18n="contactTitle">Contact</h2>
       <p data-i18n="contactDesc">Please share your preferred playing date and tee time (if already arranged), and we will personally get back to you with availability and next steps.</p>
-      <form action="mailto:mallorcaddies@gmail.com" method="post" enctype="text/plain" target="_blank" class="booking-form">
+      <form action="https://formspree.io/f/xaqllwrp" method="POST" class="booking-form">
         <fieldset>
           <legend data-i18n="inquiryLegend">Inquiry Form</legend>
           <label><span data-i18n="clientNameLabel">Client Name</span> <span>*</span><br><input type="text" name="clientName" required></label>
+          <label><span data-i18n="emailContactLabel">Email</span><br><input type="email" name="email" autocomplete="email"></label>
+          <label><span data-i18n="phoneContactLabel">Phone / WhatsApp (+ prefix)</span><br><input type="tel" name="phone" autocomplete="tel" inputmode="tel" data-i18n-placeholder="phonePlaceholder" placeholder="+34 600 123 456"></label>
+          <small data-i18n="contactRequirementHint">Please provide either your email or a phone number with country prefix.</small>
+          <p class="form-error" data-contact-error aria-live="polite"></p>
           <label><span data-i18n="serviceSelectionLabel">Service Selection</span> <span>*</span><br>
             <select name="service" required>
               <option value="" data-i18n="serviceSelect">Select Service</option>
@@ -180,7 +186,7 @@
           </label>
           <label><span data-i18n="messageLabel">Message / Inquiry</span> <br><textarea name="message" rows="6" data-i18n-placeholder="messagePlaceholder" placeholder="Please include your preferred date, preferred tee time, whether the tee time is already confirmed, number of players, and any special requests."></textarea></label>
         </fieldset>
-        <button type="submit" class="cta" data-i18n="submitBtn" style="padding: 15px 30px; font-size: 1.1rem;">Send Inquiry</button>
+        <button type="submit" class="cta" data-i18n="submitBtn">Send Inquiry</button>
       </form>
     </section>
   </main>
@@ -345,7 +351,13 @@
         mailingListText: "Join our mailing list",
         clientNameLabel: "Client Name",
         serviceSelectionLabel: "Service Selection",
-        serviceSelect: "Select Service"
+        serviceSelect: "Select Service",
+        emailContactLabel: "Email",
+        phoneContactLabel: "Phone / WhatsApp (+ prefix)",
+        phonePlaceholder: "+34 600 123 456",
+        contactRequirementHint: "Please provide either your email or a phone number with country prefix.",
+        contactRequiredError: "Please provide either an email address or a phone number with country prefix.",
+        phonePrefixError: "Please enter a valid phone number including country prefix (e.g. +34 600 123 456)."
       },
       es: {
         title: "Mallorcaddies",
@@ -428,7 +440,13 @@
         mailingListText: "Únete a nuestra lista de correo",
         clientNameLabel: "Nombre del Cliente",
         serviceSelectionLabel: "Selección de Servicio",
-        serviceSelect: "Seleccionar Servicio"
+        serviceSelect: "Seleccionar Servicio",
+        emailContactLabel: "Correo electrónico",
+        phoneContactLabel: "Teléfono / WhatsApp (+ prefijo)",
+        phonePlaceholder: "+34 600 123 456",
+        contactRequirementHint: "Por favor, proporciona tu correo electrónico o un número de teléfono con prefijo de país.",
+        contactRequiredError: "Por favor, proporciona un correo electrónico o un número de teléfono con prefijo de país.",
+        phonePrefixError: "Por favor, introduce un número de teléfono válido con prefijo de país (ej. +34 600 123 456)."
       },
       zh: {
         title: "Mallorcaddies",
@@ -511,7 +529,13 @@
         mailingListText: "加入我们的邮件列表",
         clientNameLabel: "客户姓名",
         serviceSelectionLabel: "服务选择",
-        serviceSelect: "选择服务"
+        serviceSelect: "选择服务",
+        emailContactLabel: "电子邮件",
+        phoneContactLabel: "电话 / WhatsApp（+ 区号）",
+        phonePlaceholder: "+34 600 123 456",
+        contactRequirementHint: "请填写电子邮件或带国家区号的电话号码（两者其一必填）。",
+        contactRequiredError: "请填写电子邮件或带国家区号的电话号码。",
+        phonePrefixError: "请输入带国家区号的有效电话号码（例如 +34 600 123 456）。"
       },
       de: {
         title: "Mallorcaddies",
@@ -594,7 +618,13 @@
         mailingListText: "Treten Sie unserer Mailingliste bei",
         clientNameLabel: "Kundenname",
         serviceSelectionLabel: "Serviceauswahl",
-        serviceSelect: "Service auswählen"
+        serviceSelect: "Service auswählen",
+        emailContactLabel: "E-Mail",
+        phoneContactLabel: "Telefon / WhatsApp (+ Vorwahl)",
+        phonePlaceholder: "+34 600 123 456",
+        contactRequirementHint: "Bitte geben Sie entweder Ihre E-Mail-Adresse oder eine Telefonnummer mit Landesvorwahl an.",
+        contactRequiredError: "Bitte geben Sie entweder eine E-Mail-Adresse oder eine Telefonnummer mit Landesvorwahl an.",
+        phonePrefixError: "Bitte geben Sie eine gültige Telefonnummer mit Landesvorwahl ein (z. B. +34 600 123 456)."
       },
       sv: {
         title: "Mallorcaddies",
@@ -677,7 +707,13 @@
         mailingListText: "Gå med i vår e-postlista",
         clientNameLabel: "Kundnamn",
         serviceSelectionLabel: "Serviceval",
-        serviceSelect: "Välj tjänst"
+        serviceSelect: "Välj tjänst",
+        emailContactLabel: "E-post",
+        phoneContactLabel: "Telefon / WhatsApp (+ landskod)",
+        phonePlaceholder: "+34 600 123 456",
+        contactRequirementHint: "Ange antingen din e-postadress eller ett telefonnummer med landskod.",
+        contactRequiredError: "Ange antingen en e-postadress eller ett telefonnummer med landskod.",
+        phonePrefixError: "Ange ett giltigt telefonnummer med landskod (t.ex. +34 600 123 456)."
       }
     };
 
@@ -714,6 +750,72 @@
     document.addEventListener('DOMContentLoaded', () => {
       const savedLang = localStorage.getItem('appLanguage') || 'en';
       setLanguage(savedLang);
+
+      const bookingForm = document.querySelector('.booking-form');
+      if (!bookingForm) return;
+
+      const emailInput = bookingForm.querySelector('input[name="email"]');
+      const phoneInput = bookingForm.querySelector('input[name="phone"]');
+      const errorElement = bookingForm.querySelector('[data-contact-error]');
+      const phoneWithPrefixPattern = /^\+\d{1,4}[\d\s\-()]{4,}$/;
+
+      const getText = (key, fallback) => {
+        const lang = localStorage.getItem('appLanguage') || 'en';
+        return (translations[lang] && translations[lang][key]) || fallback;
+      };
+
+      const showError = message => {
+        if (!errorElement) return;
+        errorElement.textContent = message;
+        errorElement.classList.add('visible');
+      };
+
+      const clearError = () => {
+        if (!errorElement) return;
+        errorElement.textContent = '';
+        errorElement.classList.remove('visible');
+      };
+
+      const validateContactFields = () => {
+        const emailValue = emailInput.value.trim();
+        const phoneValue = phoneInput.value.trim();
+
+        emailInput.value = emailValue;
+        phoneInput.value = phoneValue;
+
+        emailInput.setCustomValidity('');
+        phoneInput.setCustomValidity('');
+
+        if (!emailValue && !phoneValue) {
+          const message = getText('contactRequiredError', 'Please provide either an email address or a phone number with country prefix.');
+          emailInput.setCustomValidity(message);
+          showError(message);
+          return false;
+        }
+
+        if (phoneValue && !phoneWithPrefixPattern.test(phoneValue)) {
+          const message = getText('phonePrefixError', 'Please enter a valid phone number including country prefix (e.g. +34 600 123 456).');
+          phoneInput.setCustomValidity(message);
+          showError(message);
+          return false;
+        }
+
+        clearError();
+        return true;
+      };
+
+      [emailInput, phoneInput].forEach(input => {
+        input.addEventListener('input', validateContactFields);
+        input.addEventListener('blur', validateContactFields);
+      });
+
+      bookingForm.addEventListener('submit', event => {
+        const contactIsValid = validateContactFields();
+        if (!contactIsValid || !bookingForm.checkValidity()) {
+          event.preventDefault();
+          bookingForm.reportValidity();
+        }
+      });
     });
 
 
