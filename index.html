@@ -855,6 +855,18 @@
       text-align: center;
     }
 
+    .form-error {
+      display: none;
+      font-size: 0.82rem;
+      color: #8b1f1f;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .form-error.visible {
+      display: block;
+    }
+
     /* ============================================================
        FOOTER
     ============================================================ */
@@ -1745,9 +1757,8 @@
           <div class="contact-form-wrap reveal-target">
             <form
               id="inquiry-form"
-              action="mailto:mallorcaddies@gmail.com"
-              method="get"
-              enctype="text/plain"
+              action="https://formspree.io/f/xaqllwrp"
+              method="POST"
             >
 
               <div class="form-group">
@@ -1806,7 +1817,6 @@
                   id="field-email"
                   name="email"
                   placeholder="your@email.com"
-                  required
                   autocomplete="email"
                 />
               </div>
@@ -1822,6 +1832,8 @@
                   autocomplete="tel"
                 />
               </div>
+
+              <p class="form-error" data-contact-error aria-live="polite"></p>
 
               <button type="submit" class="btn-submit">Send Inquiry</button>
               <p class="form-note">We aim to respond within a few hours.</p>
@@ -1961,6 +1973,59 @@
       document.querySelectorAll('.card-reveal').forEach(function (el, i) {
         el.dataset.delay = String(i * 150);
         cardObserver.observe(el);
+      });
+    }());
+
+    // ── Contact form: Formspree + email-or-phone validation ──────
+    (function () {
+      var form = document.getElementById('inquiry-form');
+      var errorEl = form.querySelector('[data-contact-error]');
+      var submitBtn = form.querySelector('.btn-submit');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var email = form.querySelector('#field-email').value.trim();
+        var phone = form.querySelector('#field-phone').value.trim();
+        var hasEmail = email.length > 0;
+        var hasPhone = phone.length > 0 && phone.charAt(0) === '+';
+
+        if (!hasEmail && !hasPhone) {
+          errorEl.textContent = 'Please provide an email address or a phone number with country prefix (e.g. +34).';
+          errorEl.classList.add('visible');
+          return;
+        }
+
+        errorEl.classList.remove('visible');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        })
+          .then(function (res) {
+            if (res.ok) {
+              form.reset();
+              document.querySelectorAll('.round-option').forEach(function (o) { o.classList.remove('selected'); });
+              var opt9 = document.getElementById('opt-9');
+              if (opt9) opt9.classList.add('selected');
+              submitBtn.textContent = 'Inquiry sent!';
+              submitBtn.style.background = 'var(--green-mid)';
+            } else {
+              return res.json().then(function (data) {
+                var msg = (data.errors || []).map(function (err) { return err.message; }).join(', ');
+                throw new Error(msg || 'Submission failed');
+              });
+            }
+          })
+          .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Inquiry';
+            errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
+            errorEl.classList.add('visible');
+          });
       });
     }());
 
