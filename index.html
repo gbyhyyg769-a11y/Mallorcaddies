@@ -1393,6 +1393,257 @@
       .gallery-item { flex: 0 0 100%; }
     }
 
+    /* ============================================================
+       MOBILE SERVICE CARDS — LAYOUT + SCROLL LIGHTING
+    ============================================================ */
+    @media (max-width: 768px) {
+
+      /* 2-row grid: description spans full width in row 1,
+         9h and 18h pricing sit side by side in row 2 */
+      .service-card {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      /* Nine-half dissolves — its two children become direct grid items */
+      .card-half--nine {
+        display: contents;
+      }
+
+      /* Row 1: service name + players + description — full width */
+      .card-half--nine > div:first-child {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid rgba(216, 237, 225, 0.1);
+      }
+
+      /* Hide the 9 Holes HL from the description row;
+         it re-appears via ::before in the pricing row */
+      .card-half--nine > div:first-child .card-hl {
+        display: none;
+      }
+
+      /* Row 2, col 1: 9-hole pricing */
+      .card-half--nine > .card-half-bottom {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 0;
+      }
+
+      /* Synthetic 9 Holes label above the price */
+      .card-half--nine > .card-half-bottom::before {
+        content: '9 Holes';
+        font-family: system-ui, -apple-system, Arial, sans-serif;
+        font-size: 0.68rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(216, 237, 225, 0.5);
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      /* Row 2, col 2: vertical divider */
+      .card-center-divider {
+        grid-column: 2;
+        grid-row: 2;
+        width: 1px;
+        height: auto;
+        align-self: stretch;
+        background: rgba(216, 237, 225, 0.12);
+      }
+
+      /* Row 2, col 3: 18-hole pricing */
+      .card-half--eighteen {
+        grid-column: 3;
+        grid-row: 2;
+        padding: 16px 20px;
+        justify-content: flex-start;
+      }
+
+      /* Hide duplicate name/players from 18h pricing area */
+      .card-half--eighteen .card-name-trigger-18 {
+        display: none;
+      }
+
+      /* Tighten gap between 18 Holes HL and price */
+      .card-half--eighteen .card-half-bottom {
+        margin-top: 8px;
+      }
+
+      /* Suppress desktop :has() hover effects on touch screens */
+      .service-card:has(.card-half--eighteen:hover) .card-half--eighteen,
+      .service-card:has(.card-half--nine:hover) .card-half--eighteen,
+      .service-card:has(.card-half--eighteen:hover) .card-half--nine {
+        opacity: 0.75;
+        background: initial;
+        border-radius: 0;
+      }
+
+      /* Scroll lighting — neutral state */
+      .card-half--nine > div:first-child,
+      .card-half--nine > .card-half-bottom {
+        opacity: 0.75;
+        transition: opacity 300ms ease, background 300ms ease;
+      }
+
+      .card-half--eighteen {
+        opacity: 0.75;
+        transition: opacity 300ms ease, background 300ms ease;
+      }
+
+      /* Scroll lighting — active (card in viewport) */
+      .service-card.mobile-active .card-half--nine > div:first-child,
+      .service-card.mobile-active .card-half--nine > .card-half-bottom {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .service-card.mobile-active .card-half--eighteen {
+        opacity: 1;
+        background: rgba(216, 237, 225, 0.15);
+      }
+
+      .service-card.mobile-active .card-half--nine > .card-half-bottom .card-price {
+        color: #FFFFFF;
+      }
+
+      .service-card.mobile-active .card-half--nine > .card-half-bottom::before {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .service-card.mobile-active .card-half--eighteen .card-price {
+        color: var(--mint);
+      }
+
+      .service-card.mobile-active .card-half--eighteen .card-hl {
+        color: rgba(216, 237, 225, 0.7);
+      }
+
+    }
+
+    /* ============================================================
+       PARTNERS SECTION
+    ============================================================ */
+    #partners {
+      background: var(--white);
+      padding: 100px 0;
+      border-top: 1px solid rgba(26,92,68,0.08);
+      border-bottom: 1px solid rgba(26,92,68,0.08);
+    }
+
+    .partners-inner {
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .partners-label {
+      color: var(--green-mid);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .partners-heading {
+      font-family: Georgia, serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+      color: var(--green-dark);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 28px;
+    }
+
+    .partners-body {
+      font-size: 1rem;
+      color: rgba(15,26,21,0.7);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+
+    .partners-cta {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--green-dark);
+      border-bottom: 1.5px solid var(--green-mid);
+      padding-bottom: 3px;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 120ms ease, border-color 120ms ease;
+    }
+
+    .partners-cta:hover {
+      color: var(--green-mid);
+      border-color: var(--green-dark);
+    }
+
+    @media (max-width: 768px) {
+      #partners { padding: 72px 0; }
+      .partners-inner { text-align: left; }
+    }
+
+    /* ============================================================
+       ABOUT FOUNDERS
+    ============================================================ */
+    .about-founders {
+      margin-top: 28px;
+    }
+
+    .founders-names {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(26,92,68,0.12);
+    }
+
+    .founder-entry {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .founder-name {
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--green-dark);
+      font-weight: 400;
+    }
+
+    .founder-role {
+      font-size: 0.78rem;
+      color: rgba(15,26,21,0.45);
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    .founder-divider {
+      width: 1px;
+      background: rgba(26,92,68,0.12);
+      align-self: stretch;
+      margin: 0 28px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .founders-names {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .founder-divider {
+        width: 100%;
+        height: 1px;
+        margin: 0;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1457,7 +1708,7 @@
         <a href="#about" class="btn-secondary">Learn More</a>
       </div>
 
-      <p class="hero-note hero-animate" style="animation-delay:900ms">Personal response within a few hours</p>
+      <p class="hero-note hero-animate" style="animation-delay:900ms">Every inquiry answered the same day — usually within two to three hours.</p>
 
       <!-- Scroll indicator -->
       <div class="scroll-indicator hero-animate" aria-hidden="true" style="animation-delay:1100ms">
@@ -1475,9 +1726,13 @@
       <div class="trust-inner">
         <div class="trust-item">Only dedicated caddie service in Mallorca</div>
         <div class="trust-divider" aria-hidden="true"></div>
-        <div class="trust-item">Based at Club de Golf Alcanada</div>
+        <div class="trust-item">Official caddie partner · Club de Golf Alcanada</div>
         <div class="trust-divider" aria-hidden="true"></div>
         <div class="trust-item">International clients from USA &middot; Asia &middot; Europe</div>
+        <div class="trust-divider" aria-hidden="true"></div>
+        <div class="trust-item">
+          Available at Arabella Golf Mallorca
+        </div>
       </div>
     </section>
 
@@ -1496,10 +1751,32 @@
             </h2>
             <div class="about-body reveal-target">
               <p>Mallorcaddies was created to fill a gap. Mallorca has some of the finest golf courses in the Mediterranean, and until now no dedicated caddie service to match.</p>
-              <p>We are based at Club de Golf Alcanada, one of the island's signature courses, and we know it well. We are expanding to other courses on Mallorca aswell.</p>
+              <p>We are based at Club de Golf Alcanada, one of the island's signature courses, and we know it well. We are also available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.</p>
               <p>Every booking is handled personally. Our co-founder and chief caddie, David manages all on-course operations. I handle everything else. Between the two of us, nothing falls through.</p>
             </div>
-            <span class="about-signoff reveal-target">— Martin, co-founder</span>
+            <p style="margin-top:16px; font-size:1rem; color:rgba(15,26,21,0.75); line-height:1.8;">
+              David runs every round. I handle every booking.
+              You will always know exactly who you are dealing
+              with and how to reach us.
+            </p>
+            <div class="about-founders">
+              <span class="about-signoff">— Martin, co-founder</span>
+              <div class="founders-names reveal-target">
+                <div class="founder-entry">
+                  <span class="founder-name">Martin Castillo</span>
+                  <span class="founder-role">
+                    Administration, client relations, commercial
+                  </span>
+                </div>
+                <div class="founder-divider" aria-hidden="true"></div>
+                <div class="founder-entry">
+                  <span class="founder-name">David López</span>
+                  <span class="founder-role">
+                    On-course operations, caddie management
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Right: stat card -->
@@ -1723,6 +2000,40 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         SECTION 6: PARTNERS
+    ============================================================ -->
+    <section id="partners" aria-labelledby="partners-heading">
+      <div class="container">
+        <div class="partners-inner">
+          <span class="label partners-label">
+            For travel professionals
+          </span>
+          <h2 class="partners-heading reveal-target" id="partners-heading">
+            Working with concierge and travel partners.
+          </h2>
+          <p class="partners-body reveal-target">
+            We work directly with concierge companies, travel
+            agencies, and hotel guest experience teams arranging
+            golf in Mallorca. If you are building an itinerary
+            or managing a golf booking for a client on the
+            island, get in touch. We are used to working
+            discreetly, responding quickly, and handling the
+            details so you do not have to.
+          </p>
+          <p class="partners-body reveal-target">
+            We are the official caddie partner at Club de Golf
+            Alcanada and available for bookings at the Arabella
+            Golf courses — Son Muntaner, Son Vida, and
+            Son Quint.
+          </p>
+          <a href="#contact" class="partners-cta reveal-target">
+            Get in touch
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Ocean accent strip -->
     <div class="ocean-strip">
       <img src="Broll_ocean.png" alt="">
@@ -1750,7 +2061,7 @@
               <p class="contact-detail"><strong>Email:</strong> mallorcaddies@gmail.com</p>
             </div>
 
-            <span class="contact-signoff reveal-target">Warm regards, Martin Castillo</span>
+            <span class="contact-signoff reveal-target">Warm regards, Martin</span>
           </div>
 
           <!-- Right: form -->
@@ -1973,6 +2284,35 @@
       document.querySelectorAll('.card-reveal').forEach(function (el, i) {
         el.dataset.delay = String(i * 150);
         cardObserver.observe(el);
+      });
+    }());
+
+    // ── Mobile card scroll lighting ───────────────────────────────
+    (function () {
+      if (window.innerWidth > 768) return;
+      if (!('IntersectionObserver' in window)) return;
+
+      var cards = document.querySelectorAll('.service-card');
+      if (!cards.length) return;
+
+      var mobileCardObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('mobile-active');
+            } else {
+              entry.target.classList.remove('mobile-active');
+            }
+          });
+        },
+        {
+          threshold: 0.55,
+          rootMargin: '0px 0px -10% 0px'
+        }
+      );
+
+      cards.forEach(function (card) {
+        mobileCardObserver.observe(card);
       });
     }());
 
