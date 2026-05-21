@@ -1364,12 +1364,52 @@
     }
 
     @media (max-width: 768px) {
-      #gallery { height: 300px; }
+      #gallery {
+        height: 300px;
+        overflow: hidden;
+      }
 
-      .gallery-item:nth-child(2),
-      .gallery-item:nth-child(3) { display: none; }
+      .gallery-inner {
+        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+      }
 
-      .gallery-item { flex: 0 0 100%; }
+      .gallery-item {
+        flex: 0 0 100%;
+      }
+    }
+
+    .gallery-dots {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        position: absolute;
+        bottom: 14px;
+        left: 0;
+        right: 0;
+        z-index: 4;
+      }
+
+      .gallery-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(216, 237, 225, 0.35);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      .gallery-dot.is-active {
+        background: rgba(216, 237, 225, 0.9);
+        transform: scale(1.35);
+      }
     }
 
     /* ============================================================
@@ -2279,6 +2319,11 @@
         <div class="gallery-item">
           <img src="service_green_read.jpg" alt="">
         </div>
+      </div>
+      <div class="gallery-dots" aria-hidden="true">
+        <button class="gallery-dot is-active" data-index="0"></button>
+        <button class="gallery-dot" data-index="1"></button>
+        <button class="gallery-dot" data-index="2"></button>
       </div>
     </section>
 
@@ -3525,6 +3570,72 @@
           rafId = requestAnimationFrame(update);
         }
       });
+    }());
+
+    // ── Mobile gallery carousel ───────────────────────────────────
+    (function () {
+      if (window.innerWidth > 768) return;
+
+      var section = document.getElementById('gallery');
+      var track   = section && section.querySelector('.gallery-inner');
+      var items   = track  && track.querySelectorAll('.gallery-item');
+      var dots    = section && section.querySelectorAll('.gallery-dot');
+      if (!track || !items || items.length < 2) return;
+
+      var total    = items.length;
+      var current  = 0;
+      var autoId   = null;
+      var paused   = false;
+
+      function goTo(index) {
+        current = (index + total) % total;
+        var itemWidth = items[0].offsetWidth;
+        track.style.transform = 'translateX(-' + (current * itemWidth) + 'px)';
+        dots.forEach(function (d, i) {
+          d.classList.toggle('is-active', i === current);
+        });
+      }
+
+      function startAuto() {
+        clearInterval(autoId);
+        autoId = setInterval(function () {
+          if (!paused) goTo(current + 1);
+        }, 4000);
+      }
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          goTo(parseInt(dot.getAttribute('data-index'), 10));
+          startAuto();
+        });
+      });
+
+      // touch swipe
+      var touchStartX = 0;
+      track.addEventListener('touchstart', function (e) {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      track.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) {
+          goTo(dx < 0 ? current + 1 : current - 1);
+          startAuto();
+        }
+      }, { passive: true });
+
+      // pause when scrolled out of view
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          paused = !entries[0].isIntersecting;
+        }, { threshold: 0.3 }).observe(section);
+      }
+
+      // recalc on orientation change
+      window.addEventListener('orientationchange', function () {
+        setTimeout(function () { goTo(current); }, 300);
+      });
+
+      startAuto();
     }());
   </script>
 
