@@ -1252,55 +1252,34 @@
     }
 
     /* ============================================================
-       SERVICE CARD TOOLTIP
+       SERVICE CARD OUTER + DESCRIPTION
     ============================================================ */
     .service-card-outer {
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
-    .card-tooltip {
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      background: rgba(10, 22, 16, 0.94);
-      color: rgba(216, 237, 225, 0.92);
-      font-size: 0.82rem;
-      line-height: 1.6;
-      padding: 10px 18px;
-      border-radius: 24px;
-      max-width: 280px;
+    .card-desc {
+      font-size: 0.88rem;
+      color: rgba(216, 237, 225, 0.6);
+      line-height: 1.7;
       text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 120ms ease, transform 120ms ease;
-      z-index: 20;
-      white-space: normal;
-      border: 1px solid rgba(216, 237, 225, 0.1);
-    }
-
-    .service-card-outer:hover .card-tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .card-name-trigger,
-    .card-name-trigger-18 {
-      cursor: default;
+      padding: 16px 12px 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, Arial, sans-serif;
     }
 
     @media (max-width: 768px) {
-      .card-tooltip { display: none; }
+      .card-desc {
+        text-align: left;
+        padding: 12px 4px 0;
+      }
 
-      .card-name-trigger::after {
-        content: attr(data-desc);
-        display: block;
-        font-size: 0.82rem;
-        color: rgba(216, 237, 225, 0.65);
-        line-height: 1.6;
-        margin-top: 10px;
-        font-family: system-ui, -apple-system, Arial, sans-serif;
-        font-weight: 400;
+      /* hide duplicate name/players in 18-hole pricing column */
+      .card-half--eighteen > div > .card-name,
+      .card-half--eighteen > div > .card-players {
+        display: none;
       }
     }
 
@@ -1435,9 +1414,9 @@
         margin-top: 0;
       }
 
-      /* Synthetic 9 Holes label above the price */
+      /* Synthetic 9 Holes label above the price — value set via JS CSS var for i18n */
       .card-half--nine > .card-half-bottom::before {
-        content: '9 Holes';
+        content: var(--mobile-nine-hl, '9 Holes');
         font-family: system-ui, -apple-system, Arial, sans-serif;
         font-size: 0.68rem;
         letter-spacing: 0.18em;
@@ -1463,11 +1442,6 @@
         grid-row: 2;
         padding: 16px 20px;
         justify-content: flex-start;
-      }
-
-      /* Hide duplicate name/players from 18h pricing area */
-      .card-half--eighteen .card-name-trigger-18 {
-        display: none;
       }
 
       /* Tighten gap between 18 Holes HL and price */
@@ -1644,6 +1618,327 @@
       }
     }
 
+    /* ============================================================
+       LANGUAGE SWITCHER
+    ============================================================ */
+    .lang-switcher {
+      position: relative;
+    }
+
+    .lang-current {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(216,237,225,0.3);
+      border-radius: 50px;
+      color: rgba(216,237,225,0.8);
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: border-color 120ms ease, color 120ms ease;
+      white-space: nowrap;
+    }
+
+    .lang-current:hover {
+      border-color: rgba(216,237,225,0.7);
+      color: rgba(216,237,225,1);
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #0F1A15;
+      border: 1px solid rgba(216,237,225,0.15);
+      border-radius: 12px;
+      padding: 6px;
+      min-width: 160px;
+      z-index: 2000;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .lang-dropdown.open {
+      display: flex;
+    }
+
+    .lang-option {
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: rgba(216,237,225,0.65);
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-size: 0.82rem;
+      padding: 9px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease;
+      white-space: nowrap;
+    }
+
+    .lang-option:hover {
+      background: rgba(216,237,225,0.08);
+      color: rgba(216,237,225,1);
+    }
+
+    .lang-option.lang-active {
+      color: var(--mint);
+      font-weight: 600;
+    }
+
+    .lang-mobile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px 0 8px;
+    }
+
+    .lang-mobile-opt {
+      background: transparent;
+      border: 1px solid rgba(216,237,225,0.2);
+      border-radius: 50px;
+      color: rgba(216,237,225,0.6);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 120ms ease;
+    }
+
+    .lang-mobile-opt.lang-active {
+      background: rgba(216,237,225,0.12);
+      border-color: rgba(216,237,225,0.5);
+      color: var(--mint);
+    }
+
+    @media (max-width: 768px) {
+      .lang-switcher { display: none; }
+    }
+
+
+    /* ============================================================
+       MOTION ENHANCEMENTS — EFFECTS 1–9
+    ============================================================ */
+
+    /* EFFECT 1 — HERO IMAGE SLOW DRIFT
+       CSS custom property set by parallax JS so both combine cleanly */
+    .hero-img {
+      animation: heroDrift 25s ease-in-out infinite alternate;
+      transform: translateY(var(--parallax-y, 0px)) scale(1.06);
+      will-change: transform;
+    }
+
+    @keyframes heroDrift {
+      0%   { transform: translateY(var(--parallax-y, 0px)) scale(1.06); }
+      100% { transform: translateY(calc(var(--parallax-y, 0px) - 18px)) scale(1.08); }
+    }
+
+    /* EFFECT 2 — HERO TEXT STAGGER ON LOAD */
+    .hero-entrance {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroEntrance 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes heroEntrance {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-eyebrow     { animation-delay: 300ms; }
+    .hero-heading     { animation-delay: 550ms; }
+    .hero-sub         { animation-delay: 780ms; }
+    .hero-buttons     { animation-delay: 980ms; }
+    .hero-note        { animation-delay: 1150ms; }
+    .scroll-indicator { animation-delay: 1400ms; }
+
+    /* scroll-indicator: entrance then resume bounce — needs combined animation
+       translateX(-50%) must be preserved across both phases */
+    .scroll-indicator.hero-entrance {
+      animation:
+        scrollIndicatorIn 900ms cubic-bezier(0.22, 1, 0.36, 1) 1400ms forwards,
+        bounce 2.2s ease-in-out 2300ms infinite;
+    }
+
+    @keyframes scrollIndicatorIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* EFFECT 4 — SERVICE CARD ENTRY TILT */
+    .card-reveal {
+      opacity: 0;
+      transform: translateY(40px) rotateX(4deg);
+      transform-origin: top center;
+      transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .card-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0) rotateX(0deg);
+    }
+
+    #services .services-cards {
+      perspective: 1000px;
+    }
+
+    /* EFFECT 6 — NAV LOGO ENTRANCE */
+    .nav-logo {
+      animation: logoEntrance 1000ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+    }
+
+    @keyframes logoEntrance {
+      from {
+        opacity: 0;
+        transform: scale(0.88);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* EFFECT 7 — TRUST STRIP HORIZONTAL MARQUEE */
+    .trust-inner {
+      overflow: hidden;
+      width: 100%;
+      padding: 0;
+      max-width: none;
+      margin: 0;
+      justify-content: flex-start;
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+      );
+    }
+
+    .trust-track {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .trust-track-inner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      white-space: nowrap;
+      animation: marquee 40s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-33.333%); }
+    }
+
+    .trust-item {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--green-dark);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .trust-sep {
+      color: var(--green-mid);
+      opacity: 0.4;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+    }
+
+    #trust {
+      padding: 24px 0;
+      overflow: hidden;
+    }
+
+    .trust-track-inner:hover {
+      animation-play-state: paused;
+    }
+
+    /* EFFECT 8 — STAT CARD GENTLE FLOAT */
+    .stat-block:nth-child(1) {
+      animation: statFloat 6s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .stat-block:nth-child(2) {
+      animation: statFloat 6s ease-in-out 2s infinite;
+      will-change: transform;
+    }
+
+    .stat-block:nth-child(3) {
+      animation: statFloat 6s ease-in-out 4s infinite;
+      will-change: transform;
+    }
+
+    @keyframes statFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-4px); }
+    }
+
+    /* EFFECT 9 — HERO CURSOR RADIAL GLOW */
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(46, 125, 82, 0.13) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+      will-change: transform;
+      transition: none;
+    }
+
+    /* REDUCED MOTION — all continuous animations off */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-img,
+      .trust-track-inner,
+      .stat-block,
+      .hero-entrance,
+      .card-reveal,
+      .nav-logo {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* preserve horizontal centering for scroll indicator */
+      .scroll-indicator.hero-entrance {
+        transform: translateX(-50%) !important;
+      }
+
+      .hero-glow { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -1660,10 +1955,30 @@
         </a>
 
         <ul class="nav-links" role="list">
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#contact" class="nav-cta">Check Availability</a></li>
+          <li><a href="#about" data-i18n="nav_about">About</a></li>
+          <li><a href="#services" data-i18n="nav_services">Services</a></li>
+          <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+          <li>
+            <div class="lang-switcher" role="navigation" aria-label="Language selection">
+              <button class="lang-current" id="lang-btn" aria-expanded="false" aria-haspopup="true">
+                <span class="lang-current-code">EN</span>
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="lang-dropdown" id="lang-dropdown" role="menu" aria-label="Select language">
+                <button class="lang-option lang-active" data-lang="en" role="menuitem">EN — English</button>
+                <button class="lang-option" data-lang="es" role="menuitem">ES — Español</button>
+                <button class="lang-option" data-lang="de" role="menuitem">DE — Deutsch</button>
+                <button class="lang-option" data-lang="fr" role="menuitem">FR — Français</button>
+                <button class="lang-option" data-lang="sv" role="menuitem">SV — Svenska</button>
+                <button class="lang-option" data-lang="zh" role="menuitem">中文 — Chinese</button>
+                <button class="lang-option" data-lang="nl" role="menuitem">NL — Nederlands</button>
+                <button class="lang-option" data-lang="ru" role="menuitem">RU — Русский</button>
+              </div>
+            </div>
+          </li>
+          <li><a href="#contact" class="nav-cta" data-i18n="nav_cta">Check Availability</a></li>
         </ul>
 
         <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -1674,10 +1989,20 @@
       </div>
 
       <div class="nav-mobile-menu" id="mobile-menu" role="menu">
-        <a href="#about" role="menuitem">About</a>
-        <a href="#services" role="menuitem">Services</a>
-        <a href="#contact" role="menuitem">Contact</a>
-        <a href="#contact" class="nav-cta" role="menuitem">Check Availability</a>
+        <a href="#about" role="menuitem" data-i18n="nav_about">About</a>
+        <a href="#services" role="menuitem" data-i18n="nav_services">Services</a>
+        <a href="#contact" role="menuitem" data-i18n="nav_contact">Contact</a>
+        <div class="lang-mobile">
+          <button class="lang-mobile-opt lang-active" data-lang="en">EN</button>
+          <button class="lang-mobile-opt" data-lang="es">ES</button>
+          <button class="lang-mobile-opt" data-lang="de">DE</button>
+          <button class="lang-mobile-opt" data-lang="fr">FR</button>
+          <button class="lang-mobile-opt" data-lang="sv">SV</button>
+          <button class="lang-mobile-opt" data-lang="zh">中文</button>
+          <button class="lang-mobile-opt" data-lang="nl">NL</button>
+          <button class="lang-mobile-opt" data-lang="ru">RU</button>
+        </div>
+        <a href="#contact" class="nav-cta" role="menuitem" data-i18n="nav_cta">Check Availability</a>
       </div>
     </nav>
   </header>
@@ -1689,29 +2014,31 @@
     ============================================================ -->
     <section id="hero" aria-labelledby="hero-heading">
 
+      <div class="hero-glow" aria-hidden="true"></div>
+
       <img class="hero-img" src="mallorcaddies_website_hero.png" alt="" aria-hidden="true">
       <div class="hero-overlay-gradient" aria-hidden="true"></div>
       <div class="hero-overlay-tint" aria-hidden="true"></div>
 
-      <p class="hero-eyebrow hero-animate" style="animation-delay:200ms">Mallorca &middot; Alcanada &middot; Est. 2026</p>
+      <p class="hero-eyebrow hero-animate hero-entrance" data-i18n="hero_eyebrow">Mallorca &middot; Alcanada &middot; Est. 2026</p>
 
-      <h1 class="hero-heading hero-animate" id="hero-heading" style="animation-delay:400ms">
+      <h1 class="hero-heading hero-animate hero-entrance" id="hero-heading" data-i18n="hero_heading">
         The caddie service<br>Mallorca didn't have.
       </h1>
 
-      <p class="hero-sub hero-animate" style="animation-delay:600ms">
+      <p class="hero-sub hero-animate hero-entrance" data-i18n="hero_sub">
         Built for international players who want to get the most out of a round at Alcanada and beyond.
       </p>
 
-      <div class="hero-buttons hero-animate" style="animation-delay:750ms">
-        <a href="#contact" class="btn-primary">Check Availability</a>
-        <a href="#about" class="btn-secondary">Learn More</a>
+      <div class="hero-buttons hero-animate hero-entrance">
+        <a href="#contact" class="btn-primary" data-i18n="hero_btn_primary">Check Availability</a>
+        <a href="#about" class="btn-secondary" data-i18n="hero_btn_secondary">Learn More</a>
       </div>
 
-      <p class="hero-note hero-animate" style="animation-delay:900ms">Every inquiry answered the same day — usually within two to three hours.</p>
+      <p class="hero-note hero-animate hero-entrance" data-i18n="hero_note">Every inquiry answered the same day — usually within two to three hours.</p>
 
       <!-- Scroll indicator -->
-      <div class="scroll-indicator hero-animate" aria-hidden="true" style="animation-delay:1100ms">
+      <div class="scroll-indicator hero-animate hero-entrance" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 9l6 6 6-6" stroke="#D8EDE1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
         </svg>
@@ -1724,14 +2051,33 @@
     ============================================================ -->
     <section id="trust" aria-label="Trust indicators">
       <div class="trust-inner">
-        <div class="trust-item">Only dedicated caddie service in Mallorca</div>
-        <div class="trust-divider" aria-hidden="true"></div>
-        <div class="trust-item">Official caddie partner · Club de Golf Alcanada</div>
-        <div class="trust-divider" aria-hidden="true"></div>
-        <div class="trust-item">International clients from USA &middot; Asia &middot; Europe</div>
-        <div class="trust-divider" aria-hidden="true"></div>
-        <div class="trust-item">
-          Available at Arabella Golf Mallorca
+        <div class="trust-track">
+          <div class="trust-track-inner">
+            <span class="trust-item" data-i18n="trust_1">Only dedicated caddie service in Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" data-i18n="trust_2">Official caddie partner · Club de Golf Alcanada</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" data-i18n="trust_3">International clients from USA · Asia · Europe</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" data-i18n="trust_4">Available at Arabella Golf Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Only dedicated caddie service in Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Official caddie partner · Club de Golf Alcanada</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">International clients from USA · Asia · Europe</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Available at Arabella Golf Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Only dedicated caddie service in Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Official caddie partner · Club de Golf Alcanada</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">International clients from USA · Asia · Europe</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+            <span class="trust-item" aria-hidden="true">Available at Arabella Golf Mallorca</span>
+            <span class="trust-sep" aria-hidden="true">·</span>
+          </div>
         </div>
       </div>
     </section>
@@ -1745,22 +2091,20 @@
 
           <!-- Left: text -->
           <div>
-            <span class="label about-label">About</span>
-            <h2 class="about-heading reveal-target" id="about-heading">
+            <span class="label about-label" data-i18n="about_label">About</span>
+            <h2 class="about-heading reveal-target" id="about-heading" data-i18n="about_heading">
               Built around the courses. Built around the guest.
             </h2>
             <div class="about-body reveal-target">
-              <p>Mallorcaddies was created to fill a gap. Mallorca has some of the finest golf courses in the Mediterranean, and until now no dedicated caddie service to match.</p>
-              <p>We are based at Club de Golf Alcanada, one of the island's signature courses, and we know it well. We are also available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.</p>
-              <p>Every booking is handled personally. Our co-founder and chief caddie, David manages all on-course operations. I handle everything else. Between the two of us, nothing falls through.</p>
+              <p data-i18n="about_p1">Mallorcaddies was created to fill a gap. Mallorca has some of the finest golf courses in the Mediterranean, and until now no dedicated caddie service to match.</p>
+              <p data-i18n="about_p2">We are the official caddie partner at Club de Golf Alcanada and available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.</p>
+              <p data-i18n="about_p3">Every booking is handled personally. David manages all on-course operations. I handle everything else. Between the two of us, nothing falls through.</p>
             </div>
-            <p style="margin-top:16px; font-size:1rem; color:rgba(15,26,21,0.75); line-height:1.8;">
-              David runs every round. I handle every booking.
-              You will always know exactly who you are dealing
-              with and how to reach us.
+            <p style="margin-top:16px; font-size:1rem; color:rgba(15,26,21,0.75); line-height:1.8;" data-i18n="about_p4">
+              David runs every round. I handle every booking. You will always know exactly who you are dealing with and how to reach us.
             </p>
             <div class="about-founders">
-              <span class="about-signoff">— Martin, co-founder</span>
+              <span class="about-signoff" data-i18n="about_signoff">— Martin, co-founder</span>
               <div class="founders-names reveal-target">
                 <div class="founder-entry">
                   <span class="founder-name">Martin Castillo</span>
@@ -1783,16 +2127,16 @@
           <div class="about-right-col">
             <div class="about-stats-card reveal-target">
               <div class="stat-block">
-                <span class="stat-number">3 to 10+</span>
-                <span class="stat-label">Caddies and growing</span>
+                <span class="stat-number" data-i18n="stat_1_num">3 to 10+</span>
+                <span class="stat-label" data-i18n="stat_1_label">Caddies and growing</span>
               </div>
               <div class="stat-block">
-                <span class="stat-number">9 or 18</span>
-                <span class="stat-label">Holes. Your call.</span>
+                <span class="stat-number" data-i18n="stat_2_num">9 or 18</span>
+                <span class="stat-label" data-i18n="stat_2_label">Holes. Your call.</span>
               </div>
               <div class="stat-block">
-                <span class="stat-number">A few hours</span>
-                <span class="stat-label">Personal response time</span>
+                <span class="stat-number" data-i18n="stat_3_num">Same day</span>
+                <span class="stat-label" data-i18n="stat_3_label">Personal response time</span>
               </div>
             </div>
           </div>
@@ -1811,120 +2155,108 @@
       <div class="container">
 
         <div class="services-header">
-          <span class="label services-label">Services</span>
-          <h2 class="services-heading reveal-target" id="services-heading">
+          <span class="label services-label" data-i18n="services_label">Services</span>
+          <h2 class="services-heading reveal-target" id="services-heading" data-i18n="services_heading">
             Three ways to play. One standard of care.
           </h2>
-          <p class="services-sub reveal-target">Available for 9 or 18 holes. Get in touch to check availability.</p>
+          <p class="services-sub reveal-target" data-i18n="services_sub">Available for 9 or 18 holes. Get in touch to check availability.</p>
         </div>
 
         <div class="services-cards">
 
           <!-- Card 1: Single Bag -->
           <div class="service-card-outer">
-            <div class="card-tooltip" role="tooltip">Full attention on one player. Club selection, green reading, and club care throughout.</div>
             <article class="service-card card-reveal" aria-labelledby="card-single">
               <div class="card-half card-half--nine">
                 <div>
-                  <span class="card-hl">9 Holes</span>
-                  <div class="card-name-trigger" data-desc="Full attention on one player. Club selection, green reading, and club care throughout.">
-                    <h3 class="card-name" id="card-single">Single Bag</h3>
-                    <span class="card-players">1 player</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card1_nine_hl">9 Holes</span>
+                  <h3 class="card-name" id="card-single" data-i18n="card1_name">Single Bag</h3>
+                  <span class="card-players" data-i18n="card1_players">1 player</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;130</span>
-                  <span class="card-price-note">per caddie</span>
+                  <span class="card-price" data-i18n="card1_nine_price">From &euro;130</span>
+                  <span class="card-price-note" data-i18n="card1_nine_note">per caddie</span>
                 </div>
               </div>
               <div class="card-center-divider" aria-hidden="true"></div>
               <div class="card-half card-half--eighteen">
                 <div>
-                  <span class="card-hl">18 Holes</span>
-                  <div class="card-name-trigger-18">
-                    <span class="card-name">Single Bag</span>
-                    <span class="card-players">1 player</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card1_18_hl">18 Holes</span>
+                  <span class="card-name" data-i18n="card1_name">Single Bag</span>
+                  <span class="card-players" data-i18n="card1_players">1 player</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;185</span>
-                  <span class="card-price-note">per caddie</span>
+                  <span class="card-price" data-i18n="card1_18_price">From &euro;185</span>
+                  <span class="card-price-note" data-i18n="card1_18_note">per caddie</span>
                 </div>
               </div>
             </article>
+            <p class="card-desc reveal-target" data-i18n="card1_desc">Full attention on one player. Club selection, green reading, and club care throughout.</p>
           </div>
 
           <!-- Card 2: Double Bag -->
           <div class="service-card-outer">
-            <div class="card-tooltip" role="tooltip">One caddie, two players. Equal attention to both throughout the round.</div>
             <article class="service-card card-reveal" aria-labelledby="card-double">
               <div class="card-half card-half--nine">
                 <div>
-                  <span class="card-hl">9 Holes</span>
-                  <div class="card-name-trigger" data-desc="One caddie, two players. Equal attention to both throughout the round.">
-                    <h3 class="card-name" id="card-double">Double Bag</h3>
-                    <span class="card-players">2 players</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card2_nine_hl">9 Holes</span>
+                  <h3 class="card-name" id="card-double" data-i18n="card2_name">Double Bag</h3>
+                  <span class="card-players" data-i18n="card2_players">2 players</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;90</span>
-                  <span class="card-price-note">per player</span>
+                  <span class="card-price" data-i18n="card2_nine_price">From &euro;90</span>
+                  <span class="card-price-note" data-i18n="card2_nine_note">per player</span>
                 </div>
               </div>
               <div class="card-center-divider" aria-hidden="true"></div>
               <div class="card-half card-half--eighteen">
                 <div>
-                  <span class="card-hl">18 Holes</span>
-                  <div class="card-name-trigger-18">
-                    <span class="card-name">Double Bag</span>
-                    <span class="card-players">2 players</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card2_18_hl">18 Holes</span>
+                  <span class="card-name" data-i18n="card2_name">Double Bag</span>
+                  <span class="card-players" data-i18n="card2_players">2 players</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;125</span>
-                  <span class="card-price-note">per player</span>
+                  <span class="card-price" data-i18n="card2_18_price">From &euro;125</span>
+                  <span class="card-price-note" data-i18n="card2_18_note">per player</span>
                 </div>
               </div>
             </article>
+            <p class="card-desc reveal-target" data-i18n="card2_desc">One caddie, two players. Equal attention to both throughout the round.</p>
           </div>
 
           <!-- Card 3: Forecaddie -->
           <div class="service-card-outer">
-            <div class="card-tooltip" role="tooltip">Reads the course ahead of your group. Line, yardage, and green conditions for every player.</div>
             <article class="service-card card-reveal" aria-labelledby="card-forecaddie">
               <div class="card-half card-half--nine">
                 <div>
-                  <span class="card-hl">9 Holes</span>
-                  <div class="card-name-trigger" data-desc="Reads the course ahead of your group. Line, yardage, and green conditions for every player.">
-                    <h3 class="card-name" id="card-forecaddie">Forecaddie</h3>
-                    <span class="card-players">3 to 4 players</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card3_nine_hl">9 Holes</span>
+                  <h3 class="card-name" id="card-forecaddie" data-i18n="card3_name">Forecaddie</h3>
+                  <span class="card-players" data-i18n="card3_players">3 to 4 players</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;65</span>
-                  <span class="card-price-note">per player</span>
+                  <span class="card-price" data-i18n="card3_nine_price">From &euro;65</span>
+                  <span class="card-price-note" data-i18n="card3_nine_note">per player</span>
                 </div>
               </div>
               <div class="card-center-divider" aria-hidden="true"></div>
               <div class="card-half card-half--eighteen">
                 <div>
-                  <span class="card-hl">18 Holes</span>
-                  <div class="card-name-trigger-18">
-                    <span class="card-name">Forecaddie</span>
-                    <span class="card-players">3 to 4 players</span>
-                  </div>
+                  <span class="card-hl" data-i18n="card3_18_hl">18 Holes</span>
+                  <span class="card-name" data-i18n="card3_name">Forecaddie</span>
+                  <span class="card-players" data-i18n="card3_players">3 to 4 players</span>
                 </div>
                 <div class="card-half-bottom">
-                  <span class="card-price">From &euro;80</span>
-                  <span class="card-price-note">per player</span>
+                  <span class="card-price" data-i18n="card3_18_price">From &euro;80</span>
+                  <span class="card-price-note" data-i18n="card3_18_note">per player</span>
                 </div>
               </div>
             </article>
+            <p class="card-desc reveal-target" data-i18n="card3_desc">Reads the course ahead of your group. Line, yardage, and green conditions for every player.</p>
           </div>
 
         </div>
 
-        <p class="services-deposit">
+        <p class="services-deposit" data-i18n="services_deposit">
           A deposit of &euro;50 per caddie confirms your booking. The balance is payable on the day by cash, card, or prior arrangement.
         </p>
 
@@ -1957,8 +2289,8 @@
       <div class="container">
 
         <div class="why-header">
-          <span class="label why-label">Why Mallorcaddies</span>
-          <h2 class="why-heading reveal-target" id="why-heading">
+          <span class="label why-label" data-i18n="why_label">Why Mallorcaddies</span>
+          <h2 class="why-heading reveal-target" id="why-heading" data-i18n="why_heading">
             What your caddie brings to a round at Alcanada.
           </h2>
         </div>
@@ -1966,33 +2298,33 @@
         <div class="why-grid">
 
           <div class="reveal-target">
-            <span class="why-item-title">Local knowledge</span>
-            <p class="why-item-body">On-course insight built from daily experience at Alcanada, one of Mallorca's most exposed and technically demanding courses.</p>
+            <span class="why-item-title" data-i18n="why1_title">Local knowledge</span>
+            <p class="why-item-body" data-i18n="why1_body">On-course insight built from daily experience at Alcanada, one of Mallorca's most exposed and technically demanding courses.</p>
           </div>
 
           <div class="reveal-target">
-            <span class="why-item-title">Wind and coastal conditions</span>
-            <p class="why-item-body">Practical guidance for the sea breeze that changes hole to hole. This course rewards anyone who understands it.</p>
+            <span class="why-item-title" data-i18n="why2_title">Wind and coastal conditions</span>
+            <p class="why-item-body" data-i18n="why2_body">Practical guidance for the sea breeze that changes hole to hole. This course rewards anyone who understands it.</p>
           </div>
 
           <div class="reveal-target">
-            <span class="why-item-title">Green reading</span>
-            <p class="why-item-body">Clear, confident reads on pace, line, and break. Given calmly, without overloading your decision.</p>
+            <span class="why-item-title" data-i18n="why3_title">Green reading</span>
+            <p class="why-item-body" data-i18n="why3_body">Clear, confident reads on pace, line, and break. Given calmly, without overloading your decision.</p>
           </div>
 
           <div class="reveal-target">
-            <span class="why-item-title">Club selection</span>
-            <p class="why-item-body">Measured recommendations based on conditions and your natural game. Nothing prescriptive.</p>
+            <span class="why-item-title" data-i18n="why4_title">Club selection</span>
+            <p class="why-item-body" data-i18n="why4_body">Measured recommendations based on conditions and your natural game. Nothing prescriptive.</p>
           </div>
 
           <div class="reveal-target">
-            <span class="why-item-title">Smooth pace and etiquette</span>
-            <p class="why-item-body">We keep things moving without creating pressure. The round stays relaxed.</p>
+            <span class="why-item-title" data-i18n="why5_title">Smooth pace and etiquette</span>
+            <p class="why-item-body" data-i18n="why5_body">We keep things moving without creating pressure. The round stays relaxed.</p>
           </div>
 
           <div class="reveal-target">
-            <span class="why-item-title">Concierge and group coordination</span>
-            <p class="why-item-body">Direct communication with whoever arranged your visit. Nothing falls between the gaps.</p>
+            <span class="why-item-title" data-i18n="why6_title">Concierge and group coordination</span>
+            <p class="why-item-body" data-i18n="why6_body">Direct communication with whoever arranged your visit. Nothing falls between the gaps.</p>
           </div>
 
         </div>
@@ -2006,30 +2338,17 @@
     <section id="partners" aria-labelledby="partners-heading">
       <div class="container">
         <div class="partners-inner">
-          <span class="label partners-label">
-            For travel professionals
-          </span>
-          <h2 class="partners-heading reveal-target" id="partners-heading">
+          <span class="label partners-label" data-i18n="partners_label">For travel professionals</span>
+          <h2 class="partners-heading reveal-target" id="partners-heading" data-i18n="partners_heading">
             Working with concierge and travel partners.
           </h2>
-          <p class="partners-body reveal-target">
-            We work directly with concierge companies, travel
-            agencies, and hotel guest experience teams arranging
-            golf in Mallorca. If you are building an itinerary
-            or managing a golf booking for a client on the
-            island, get in touch. We are used to working
-            discreetly, responding quickly, and handling the
-            details so you do not have to.
+          <p class="partners-body reveal-target" data-i18n="partners_p1">
+            We work directly with concierge companies, travel agencies, and hotel guest experience teams arranging golf in Mallorca. If you are building an itinerary or managing a golf booking for a client on the island, get in touch. We are used to working discreetly, responding quickly, and handling the details so you do not have to.
           </p>
-          <p class="partners-body reveal-target">
-            We are the official caddie partner at Club de Golf
-            Alcanada and available for bookings at the Arabella
-            Golf courses — Son Muntaner, Son Vida, and
-            Son Quint.
+          <p class="partners-body reveal-target" data-i18n="partners_p2">
+            We are the official caddie partner at Club de Golf Alcanada and available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.
           </p>
-          <a href="#contact" class="partners-cta reveal-target">
-            Get in touch
-          </a>
+          <a href="#contact" class="partners-cta reveal-target" data-i18n="partners_cta">Get in touch</a>
         </div>
       </div>
     </section>
@@ -2048,11 +2367,11 @@
 
           <!-- Left: info -->
           <div>
-            <span class="label contact-label">Get in touch</span>
-            <h2 class="contact-heading reveal-target" id="contact-heading">
+            <span class="label contact-label" data-i18n="contact_label">Get in touch</span>
+            <h2 class="contact-heading reveal-target" id="contact-heading" data-i18n="contact_heading">
               Tell us about your round.
             </h2>
-            <p class="contact-body reveal-target">
+            <p class="contact-body reveal-target" data-i18n="contact_body">
               We will guide you through the options and check availability personally. During peak travel periods, caddie slots fill quickly. The earlier you reach out the better.
             </p>
 
@@ -2061,7 +2380,7 @@
               <p class="contact-detail"><strong>Email:</strong> mallorcaddies@gmail.com</p>
             </div>
 
-            <span class="contact-signoff reveal-target">Warm regards, Martin</span>
+            <span class="contact-signoff reveal-target" data-i18n="contact_signoff">Warm regards, Martin</span>
           </div>
 
           <!-- Right: form -->
@@ -2073,81 +2392,87 @@
             >
 
               <div class="form-group">
-                <label class="form-label" for="field-name">Name</label>
+                <label class="form-label" for="field-name" data-i18n="form_name">Name</label>
                 <input
                   class="form-input"
                   type="text"
                   id="field-name"
                   name="name"
                   placeholder="Your name"
+                  data-i18n-placeholder="form_name_placeholder"
                   required
                   autocomplete="name"
                 />
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="field-service">Service</label>
+                <label class="form-label" for="field-service" data-i18n="form_service">Service</label>
                 <select class="form-select" id="field-service" name="service" required>
-                  <option value="" disabled selected>Select a service</option>
-                  <option value="Forecaddie">Forecaddie</option>
-                  <option value="Single Bag Walking Caddie">Single Bag Walking Caddie</option>
-                  <option value="Double Bag Walking Caddie">Double Bag Walking Caddie</option>
+                  <option value="" disabled selected data-i18n="form_service_default">Select a service</option>
+                  <option value="Forecaddie" data-i18n="form_forecaddie">Forecaddie</option>
+                  <option value="Single Bag Walking Caddie" data-i18n="form_single">Single Bag Walking Caddie</option>
+                  <option value="Double Bag Walking Caddie" data-i18n="form_double">Double Bag Walking Caddie</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <span class="form-label" id="round-label">Round type</span>
+                <span class="form-label" id="round-label" data-i18n="form_round">Round type</span>
                 <div class="round-toggle" role="group" aria-labelledby="round-label">
                   <label class="round-option selected" id="opt-9">
                     <input type="radio" name="round" value="9 Holes" checked />
-                    9 Holes
+                    <span data-i18n="form_9">9 Holes</span>
                   </label>
                   <label class="round-option" id="opt-18">
                     <input type="radio" name="round" value="18 Holes" />
-                    18 Holes
+                    <span data-i18n="form_18">18 Holes</span>
                   </label>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="field-message">Message / Inquiry</label>
+                <label class="form-label" for="field-message" data-i18n="form_message">Message / Inquiry</label>
                 <textarea
                   class="form-textarea"
                   id="field-message"
                   name="message"
                   rows="4"
                   placeholder="Tell us your preferred date, group size, and anything else that would help."
+                  data-i18n-placeholder="form_message_placeholder"
                 ></textarea>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="field-email">Email</label>
+                <label class="form-label" for="field-email" data-i18n="form_email">Email</label>
                 <input
                   class="form-input"
                   type="email"
                   id="field-email"
                   name="email"
                   placeholder="your@email.com"
+                  data-i18n-placeholder="form_email_placeholder"
                   autocomplete="email"
                 />
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="field-phone">Phone / WhatsApp</label>
+                <label class="form-label" for="field-phone" data-i18n="form_phone">Phone / WhatsApp</label>
                 <input
                   class="form-input"
                   type="tel"
                   id="field-phone"
                   name="phone"
                   placeholder="+34 or your country prefix"
+                  data-i18n-placeholder="form_phone_placeholder"
                   autocomplete="tel"
                 />
               </div>
 
+              <p class="form-note" style="text-align:left; margin-top:0; margin-bottom:12px;" data-i18n="form_hint">Please provide either your email or a phone number with country prefix. You do not need to fill both.</p>
+
               <p class="form-error" data-contact-error aria-live="polite"></p>
 
-              <button type="submit" class="btn-submit">Send Inquiry</button>
-              <p class="form-note">We aim to respond within a few hours.</p>
+              <button type="submit" class="btn-submit" data-i18n="form_submit">Send Inquiry</button>
+              <p class="form-note" data-i18n="form_note">We aim to respond within a few hours.</p>
 
             </form>
           </div>
@@ -2167,13 +2492,13 @@
 
         <div>
           <img src="logo_full.png" alt="Mallorcaddies" style="height:64px; width:auto; mix-blend-mode:screen; opacity:0.9; filter:brightness(2) saturate(0); display:block; margin-bottom:8px;">
-          <p class="footer-brand-tagline">Mallorca's dedicated caddie service</p>
+          <p class="footer-brand-tagline" data-i18n="footer_tagline">Mallorca's dedicated caddie service</p>
         </div>
 
         <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="#about">About</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
+          <a href="#about" data-i18n="footer_about">About</a>
+          <a href="#services" data-i18n="footer_services">Services</a>
+          <a href="#contact" data-i18n="footer_contact">Contact</a>
         </nav>
 
         <div class="footer-legal" role="note" aria-label="Legal information">
@@ -2188,7 +2513,7 @@
 
     <div class="footer-bottom">
       <div class="container">
-        <p class="footer-copyright">&copy; 2025 Mallorcaddies. All rights reserved.</p>
+        <p class="footer-copyright" data-i18n="footer_copyright">&copy; 2026 Mallorcaddies. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -2265,6 +2590,11 @@
 
       document.querySelectorAll('.reveal-target').forEach(function (el) {
         observer.observe(el);
+      });
+
+      // Stagger transition delays for #why grid items
+      document.querySelectorAll('#why .reveal-target').forEach(function (el, i) {
+        el.style.transitionDelay = (i * 80) + 'ms';
       });
 
       // Staggered card reveals
@@ -2375,7 +2705,7 @@
       if (!heroImg) return;
       var ticking = false;
       function updateParallax() {
-        heroImg.style.transform = 'translateY(' + (window.scrollY * 0.4) + 'px)';
+        heroImg.style.setProperty('--parallax-y', (window.scrollY * 0.4) + 'px');
         ticking = false;
       }
       window.addEventListener('scroll', function () {
@@ -2384,6 +2714,817 @@
           ticking = true;
         }
       }, { passive: true });
+    }());
+
+    // ── Translation system ────────────────────────────────────────
+    (function () {
+      var i18n = {
+        en: {
+          nav_about: 'About', nav_services: 'Services', nav_contact: 'Contact', nav_cta: 'Check Availability',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: "The caddie service Mallorca didn't have.",
+          hero_sub: 'Built for international players who want to get the most out of a round at Alcanada and beyond.',
+          hero_btn_primary: 'Check Availability', hero_btn_secondary: 'Learn More',
+          hero_note: 'Every inquiry answered the same day — usually within two to three hours.',
+          trust_1: 'Only dedicated caddie service in Mallorca',
+          trust_2: 'Official caddie partner · Club de Golf Alcanada',
+          trust_3: 'International clients from USA · Asia · Europe',
+          trust_4: 'Available at Arabella Golf Mallorca',
+          about_label: 'About',
+          about_heading: 'Built around the courses. Built around the guest.',
+          about_p1: 'Mallorcaddies was created to fill a gap. Mallorca has some of the finest golf courses in the Mediterranean, and until now no dedicated caddie service to match.',
+          about_p2: 'We are the official caddie partner at Club de Golf Alcanada and available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.',
+          about_p3: 'Every booking is handled personally. David manages all on-course operations. I handle everything else. Between the two of us, nothing falls through.',
+          about_p4: 'David runs every round. I handle every booking. You will always know exactly who you are dealing with and how to reach us.',
+          about_signoff: '— Martin, co-founder',
+          stat_1_num: '3 to 10+', stat_1_label: 'Caddies and growing',
+          stat_2_num: '9 or 18', stat_2_label: 'Holes. Your call.',
+          stat_3_num: 'Same day', stat_3_label: 'Personal response time',
+          services_label: 'Services',
+          services_heading: 'Three ways to play. One standard of care.',
+          services_sub: 'Available for 9 or 18 holes. Get in touch to check availability.',
+          card1_name: 'Single Bag', card1_players: '1 player',
+          card1_desc: 'Full attention on one player. Club selection, green reading, and club care throughout.',
+          card1_nine_hl: '9 Holes', card1_nine_price: 'From €130', card1_nine_note: 'per caddie',
+          card1_18_hl: '18 Holes', card1_18_price: 'From €185', card1_18_note: 'per caddie',
+          card2_name: 'Double Bag', card2_players: '2 players',
+          card2_desc: 'One caddie, two players. Equal attention to both throughout the round.',
+          card2_nine_hl: '9 Holes', card2_nine_price: 'From €90', card2_nine_note: 'per player',
+          card2_18_hl: '18 Holes', card2_18_price: 'From €125', card2_18_note: 'per player',
+          card3_name: 'Forecaddie', card3_players: '3 to 4 players',
+          card3_desc: 'Reads the course ahead of your group. Line, yardage, and green conditions for every player.',
+          card3_nine_hl: '9 Holes', card3_nine_price: 'From €65', card3_nine_note: 'per player',
+          card3_18_hl: '18 Holes', card3_18_price: 'From €80', card3_18_note: 'per player',
+          services_deposit: 'A deposit of €50 per caddie confirms your booking. The balance is payable on the day by cash, card, or prior arrangement.',
+          why_label: 'Why Mallorcaddies',
+          why_heading: 'What your caddie brings to a round at Alcanada.',
+          why1_title: 'Local knowledge', why1_body: "On-course insight built from daily experience at Alcanada, one of Mallorca's most exposed and technically demanding courses.",
+          why2_title: 'Wind and coastal conditions', why2_body: 'Practical guidance for the sea breeze that changes hole to hole. This course rewards anyone who understands it.',
+          why3_title: 'Green reading', why3_body: 'Clear, confident reads on pace, line, and break. Given calmly, without overloading your decision.',
+          why4_title: 'Club selection', why4_body: 'Measured recommendations based on conditions and your natural game. Nothing prescriptive.',
+          why5_title: 'Smooth pace and etiquette', why5_body: 'We keep things moving without creating pressure. The round stays relaxed.',
+          why6_title: 'Concierge and group coordination', why6_body: 'Direct communication with whoever arranged your visit. Nothing falls between the gaps.',
+          partners_label: 'For travel professionals',
+          partners_heading: 'Working with concierge and travel partners.',
+          partners_p1: 'We work directly with concierge companies, travel agencies, and hotel guest experience teams arranging golf in Mallorca. If you are building an itinerary or managing a golf booking for a client on the island, get in touch. We are used to working discreetly, responding quickly, and handling the details so you do not have to.',
+          partners_p2: 'We are the official caddie partner at Club de Golf Alcanada and available for bookings at the Arabella Golf courses — Son Muntaner, Son Vida, and Son Quint.',
+          partners_cta: 'Get in touch',
+          contact_label: 'Get in touch', contact_heading: 'Tell us about your round.',
+          contact_body: 'We will guide you through the options and check availability personally. During peak travel periods, caddie slots fill quickly. The earlier you reach out the better.',
+          contact_signoff: 'Warm regards, Martin',
+          form_name: 'Name', form_service: 'Service', form_service_default: 'Select a service',
+          form_forecaddie: 'Forecaddie', form_single: 'Single Bag Walking Caddie', form_double: 'Double Bag Walking Caddie',
+          form_round: 'Round type', form_9: '9 Holes', form_18: '18 Holes',
+          form_message: 'Message / Inquiry', form_email: 'Email', form_phone: 'Phone / WhatsApp',
+          form_hint: 'Please provide either your email or a phone number with country prefix. You do not need to fill both.',
+          form_submit: 'Send Inquiry', form_note: 'We aim to respond within a few hours.',
+          form_name_placeholder: "Your name",
+          form_message_placeholder: "Preferred dates, number of players, any questions...",
+          form_email_placeholder: "your@email.com",
+          form_phone_placeholder: "+34 or your country prefix",
+          footer_tagline: "Mallorca's dedicated caddie service",
+          footer_about: 'About', footer_services: 'Services', footer_contact: 'Contact',
+          footer_copyright: '© 2026 Mallorcaddies. All rights reserved.'
+        },
+        es: {
+          nav_about: 'Sobre nosotros', nav_services: 'Servicios', nav_contact: 'Contacto', nav_cta: 'Consultar disponibilidad',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: 'El servicio de caddie que Mallorca no tenía.',
+          hero_sub: 'Creado para jugadores internacionales que quieren aprovechar al máximo una ronda en Alcanada y más allá.',
+          hero_btn_primary: 'Consultar disponibilidad', hero_btn_secondary: 'Saber más',
+          hero_note: 'Respondemos a todas las consultas el mismo día, normalmente en dos o tres horas.',
+          trust_1: 'El único servicio de caddie dedicado en Mallorca',
+          trust_2: 'Socio oficial de caddies · Club de Golf Alcanada',
+          trust_3: 'Clientes internacionales de EE.UU. · Asia · Europa',
+          trust_4: 'Disponible en Arabella Golf Mallorca',
+          about_label: 'Sobre nosotros',
+          about_heading: 'Construido alrededor de los campos. Construido alrededor del jugador.',
+          about_p1: 'Mallorcaddies nació para cubrir un hueco. Mallorca tiene algunos de los mejores campos de golf del Mediterráneo, y hasta ahora ningún servicio de caddie dedicado a la altura.',
+          about_p2: 'Somos el socio oficial de caddies del Club de Golf Alcanada y estamos disponibles para reservas en los campos de Arabella Golf — Son Muntaner, Son Vida y Son Quint.',
+          about_p3: 'Cada reserva se gestiona personalmente. David lleva todas las operaciones en el campo. Yo me encargo de todo lo demás. Entre los dos, nada se escapa.',
+          about_p4: 'David dirige cada ronda. Yo gestiono cada reserva. Siempre sabrás exactamente con quién tratas y cómo contactarnos.',
+          about_signoff: '— Martin, cofundador',
+          stat_1_num: '3 a 10+', stat_1_label: 'Caddies y creciendo',
+          stat_2_num: '9 o 18', stat_2_label: 'Hoyos. Tú decides.',
+          stat_3_num: 'Mismo día', stat_3_label: 'Tiempo de respuesta personal',
+          services_label: 'Servicios',
+          services_heading: 'Tres formas de jugar. Un solo estándar de atención.',
+          services_sub: 'Disponible para 9 o 18 hoyos. Contáctanos para consultar disponibilidad.',
+          card1_name: 'Bolsa individual', card1_players: '1 jugador',
+          card1_desc: 'Atención completa a un solo jugador. Selección de palos, lectura de green y cuidado del equipo durante toda la ronda.',
+          card1_nine_hl: '9 hoyos', card1_nine_price: 'Desde €130', card1_nine_note: 'por caddie',
+          card1_18_hl: '18 hoyos', card1_18_price: 'Desde €185', card1_18_note: 'por caddie',
+          card2_name: 'Bolsa doble', card2_players: '2 jugadores',
+          card2_desc: 'Un caddie, dos jugadores. Atención igualitaria a ambos durante toda la ronda.',
+          card2_nine_hl: '9 hoyos', card2_nine_price: 'Desde €90', card2_nine_note: 'por jugador',
+          card2_18_hl: '18 hoyos', card2_18_price: 'Desde €125', card2_18_note: 'por jugador',
+          card3_name: 'Forecaddie', card3_players: '3 a 4 jugadores',
+          card3_desc: 'Lee el campo por delante del grupo. Línea, distancias y condiciones del green para cada jugador.',
+          card3_nine_hl: '9 hoyos', card3_nine_price: 'Desde €65', card3_nine_note: 'por jugador',
+          card3_18_hl: '18 hoyos', card3_18_price: 'Desde €80', card3_18_note: 'por jugador',
+          services_deposit: 'Un depósito de €50 por caddie confirma la reserva. El saldo se abona el mismo día en efectivo, con tarjeta o mediante acuerdo previo.',
+          why_label: 'Por qué Mallorcaddies',
+          why_heading: 'Lo que tu caddie aporta a una ronda en Alcanada.',
+          why1_title: 'Conocimiento local', why1_body: 'Experiencia diaria en Alcanada, uno de los campos más expuestos y técnicamente exigentes de Mallorca.',
+          why2_title: 'Viento y condiciones costeras', why2_body: 'Orientación práctica sobre la brisa marina que cambia de hoyo en hoyo. Este campo premia a quien lo comprende.',
+          why3_title: 'Lectura de greens', why3_body: 'Lecturas claras y precisas sobre ritmo, línea y rotura. Sin sobrecargar tu decisión.',
+          why4_title: 'Selección de palos', why4_body: 'Recomendaciones medidas según las condiciones y tu juego natural. Sin imposiciones.',
+          why5_title: 'Ritmo y etiqueta', why5_body: 'Mantenemos el ritmo sin generar presión. La ronda se mantiene relajada.',
+          why6_title: 'Coordinación de grupos y concierge', why6_body: 'Comunicación directa con quien haya organizado tu visita. Nada queda sin atender.',
+          partners_label: 'Para profesionales del sector',
+          partners_heading: 'Trabajamos con empresas de concierge y agencias de viaje.',
+          partners_p1: 'Colaboramos directamente con empresas de concierge, agencias de viaje y equipos de experiencia de huéspedes de hoteles que organizan golf en Mallorca. Si estás creando un itinerario o gestionando una reserva de golf para un cliente en la isla, contáctanos. Estamos acostumbrados a trabajar con discreción, a responder con rapidez y a gestionar los detalles para que tú no tengas que hacerlo.',
+          partners_p2: 'Somos el socio oficial de caddies del Club de Golf Alcanada y estamos disponibles para reservas en los campos de Arabella Golf — Son Muntaner, Son Vida y Son Quint.',
+          partners_cta: 'Contactar',
+          contact_label: 'Contacto', contact_heading: 'Cuéntanos tu ronda.',
+          contact_body: 'Te guiaremos personalmente por las opciones y comprobaremos disponibilidad. En temporada alta, los slots de caddie se llenan rápido. Cuanto antes nos contactes, mejor.',
+          contact_signoff: 'Un saludo, Martin',
+          form_name: 'Nombre', form_service: 'Servicio', form_service_default: 'Selecciona un servicio',
+          form_forecaddie: 'Forecaddie', form_single: 'Caddie caminante bolsa individual', form_double: 'Caddie caminante bolsa doble',
+          form_round: 'Tipo de ronda', form_9: '9 hoyos', form_18: '18 hoyos',
+          form_message: 'Mensaje / Consulta', form_email: 'Correo electrónico', form_phone: 'Teléfono / WhatsApp',
+          form_hint: 'Proporciona tu correo electrónico o un número de teléfono con prefijo de país. No es necesario rellenar los dos.',
+          form_submit: 'Enviar consulta', form_note: 'Respondemos en pocas horas.',
+          form_name_placeholder: "Tu nombre",
+          form_message_placeholder: "Fechas preferidas, número de jugadores, cualquier pregunta...",
+          form_email_placeholder: "tu@email.com",
+          form_phone_placeholder: "+34 u otro prefijo de país",
+          footer_tagline: 'El servicio de caddie dedicado de Mallorca',
+          footer_about: 'Sobre nosotros', footer_services: 'Servicios', footer_contact: 'Contacto',
+          footer_copyright: '© 2026 Mallorcaddies. Todos los derechos reservados.'
+        },
+        de: {
+          nav_about: 'Über uns', nav_services: 'Leistungen', nav_contact: 'Kontakt', nav_cta: 'Verfügbarkeit prüfen',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: 'Der Caddie-Service, den Mallorca nicht hatte.',
+          hero_sub: 'Für internationale Spieler, die das Beste aus einer Runde in Alcanada und darüber hinaus herausholen wollen.',
+          hero_btn_primary: 'Verfügbarkeit prüfen', hero_btn_secondary: 'Mehr erfahren',
+          hero_note: 'Jede Anfrage wird noch am selben Tag beantwortet — in der Regel innerhalb von zwei bis drei Stunden.',
+          trust_1: 'Einziger spezialisierter Caddie-Service auf Mallorca',
+          trust_2: 'Offizieller Caddie-Partner · Club de Golf Alcanada',
+          trust_3: 'Internationale Gäste aus den USA · Asien · Europa',
+          trust_4: 'Verfügbar bei Arabella Golf Mallorca',
+          about_label: 'Über uns',
+          about_heading: 'Rund um die Plätze. Rund um den Gast.',
+          about_p1: 'Mallorcaddies wurde gegründet, um eine Lücke zu schließen. Mallorca bietet einige der schönsten Golfplätze im Mittelmeerraum — und bislang keinen spezialisierten Caddie-Service, der diesem Niveau gerecht wird.',
+          about_p2: 'Wir sind offizieller Caddie-Partner des Club de Golf Alcanada und für Buchungen auf den Arabella-Golf-Plätzen verfügbar — Son Muntaner, Son Vida und Son Quint.',
+          about_p3: 'Jede Buchung wird persönlich betreut. David verantwortet alle Abläufe auf dem Platz. Ich kümmere mich um alles andere. Zwischen uns fällt nichts durchs Raster.',
+          about_p4: 'David leitet jede Runde. Ich betreue jede Buchung. Sie wissen immer genau, mit wem Sie es zu tun haben und wie Sie uns erreichen.',
+          about_signoff: '— Martin, Mitgründer',
+          stat_1_num: '3 bis 10+', stat_1_label: 'Caddies — und wachsend',
+          stat_2_num: '9 oder 18', stat_2_label: 'Löcher. Ihre Wahl.',
+          stat_3_num: 'Gleicher Tag', stat_3_label: 'Persönliche Antwortzeit',
+          services_label: 'Leistungen',
+          services_heading: 'Drei Optionen. Ein Qualitätsstandard.',
+          services_sub: 'Verfügbar für 9 oder 18 Löcher. Kontaktieren Sie uns für die Verfügbarkeit.',
+          card1_name: 'Einzelbag', card1_players: '1 Spieler',
+          card1_desc: 'Volle Aufmerksamkeit für einen Spieler. Schlägerwahl, Grünlesen und Schlägerpflege die gesamte Runde.',
+          card1_nine_hl: '9 Löcher', card1_nine_price: 'Ab €130', card1_nine_note: 'pro Caddie',
+          card1_18_hl: '18 Löcher', card1_18_price: 'Ab €185', card1_18_note: 'pro Caddie',
+          card2_name: 'Doppelbag', card2_players: '2 Spieler',
+          card2_desc: 'Ein Caddie, zwei Spieler. Gleichwertige Betreuung beider Spieler die gesamte Runde.',
+          card2_nine_hl: '9 Löcher', card2_nine_price: 'Ab €90', card2_nine_note: 'pro Spieler',
+          card2_18_hl: '18 Löcher', card2_18_price: 'Ab €125', card2_18_note: 'pro Spieler',
+          card3_name: 'Forecaddie', card3_players: '3 bis 4 Spieler',
+          card3_desc: 'Liest den Platz vor der Gruppe. Linie, Entfernung und Grünbedingungen für jeden Spieler.',
+          card3_nine_hl: '9 Löcher', card3_nine_price: 'Ab €65', card3_nine_note: 'pro Spieler',
+          card3_18_hl: '18 Löcher', card3_18_price: 'Ab €80', card3_18_note: 'pro Spieler',
+          services_deposit: 'Eine Anzahlung von €50 pro Caddie bestätigt Ihre Buchung. Der Restbetrag ist am Tag der Runde in bar, per Karte oder nach vorheriger Absprache zahlbar.',
+          why_label: 'Warum Mallorcaddies',
+          why_heading: 'Was Ihr Caddie zu einer Runde in Alcanada beiträgt.',
+          why1_title: 'Lokales Wissen', why1_body: 'Platzkenntnis aus täglicher Erfahrung in Alcanada — einem der anspruchsvollsten und am stärksten windexponierten Plätze Mallorcas.',
+          why2_title: 'Wind und Küstenbedingungen', why2_body: 'Praktische Orientierung bei der Meeresbrise, die von Loch zu Loch wechselt. Dieser Platz belohnt alle, die ihn verstehen.',
+          why3_title: 'Grünlesen', why3_body: 'Klare, sichere Einschätzungen zu Tempo, Linie und Abweichung. Ruhig vermittelt, ohne Ihre Entscheidung zu überlasten.',
+          why4_title: 'Schlägerwahl', why4_body: 'Abgewogene Empfehlungen basierend auf den Bedingungen und Ihrem natürlichen Spiel. Keine Vorschriften.',
+          why5_title: 'Tempo und Etikette', why5_body: 'Wir halten das Spiel in Fluss, ohne Druck zu erzeugen. Die Runde bleibt entspannt.',
+          why6_title: 'Gruppen- und Concierge-Koordination', why6_body: 'Direkte Kommunikation mit demjenigen, der Ihren Aufenthalt organisiert hat. Nichts bleibt unbeachtet.',
+          partners_label: 'Für Reiseprofis',
+          partners_heading: 'Zusammenarbeit mit Concierge- und Reisepartnern.',
+          partners_p1: 'Wir arbeiten direkt mit Concierge-Unternehmen, Reisebüros und Hotel-Gästeteams zusammen, die Golf auf Mallorca organisieren. Wenn Sie ein Reiseprogramm erstellen oder eine Golfreservierung für einen Kunden auf der Insel verwalten, nehmen Sie Kontakt auf. Wir sind es gewohnt, diskret zu arbeiten, schnell zu reagieren und Details zu übernehmen, damit Sie es nicht müssen.',
+          partners_p2: 'Wir sind offizieller Caddie-Partner des Club de Golf Alcanada und für Buchungen auf den Arabella-Golf-Plätzen verfügbar — Son Muntaner, Son Vida und Son Quint.',
+          partners_cta: 'Kontakt aufnehmen',
+          contact_label: 'Kontakt', contact_heading: 'Erzählen Sie uns von Ihrer Runde.',
+          contact_body: 'Wir führen Sie persönlich durch die Optionen und prüfen die Verfügbarkeit. In der Hauptreisesaison sind Caddie-Slots schnell ausgebucht — je früher Sie sich melden, desto besser.',
+          contact_signoff: 'Mit freundlichen Grüßen, Martin',
+          form_name: 'Name', form_service: 'Leistung', form_service_default: 'Bitte wählen',
+          form_forecaddie: 'Forecaddie', form_single: 'Einzelbag Gehcaddie', form_double: 'Doppelbag Gehcaddie',
+          form_round: 'Rundentyp', form_9: '9 Löcher', form_18: '18 Löcher',
+          form_message: 'Nachricht / Anfrage', form_email: 'E-Mail', form_phone: 'Telefon / WhatsApp',
+          form_hint: 'Bitte geben Sie entweder Ihre E-Mail-Adresse oder eine Telefonnummer mit Ländervorwahl an.',
+          form_submit: 'Anfrage senden', form_note: 'Wir antworten in der Regel noch am selben Tag.',
+          form_name_placeholder: "Ihr Name",
+          form_message_placeholder: "Bevorzugte Daten, Spieleranzahl, Ihre Fragen...",
+          form_email_placeholder: "ihre@email.com",
+          form_phone_placeholder: "+49 oder Ihre Landesvorwahl",
+          footer_tagline: 'Mallorcas spezialisierter Caddie-Service',
+          footer_about: 'Über uns', footer_services: 'Leistungen', footer_contact: 'Kontakt',
+          footer_copyright: '© 2026 Mallorcaddies. Alle Rechte vorbehalten.'
+        },
+        fr: {
+          nav_about: 'À propos', nav_services: 'Services', nav_contact: 'Contact', nav_cta: 'Vérifier les disponibilités',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: "Le service de caddie que Majorque n'avait pas.",
+          hero_sub: 'Conçu pour les joueurs internationaux qui souhaitent tirer le meilleur d\'une partie à Alcanada et au-delà.',
+          hero_btn_primary: 'Vérifier les disponibilités', hero_btn_secondary: 'En savoir plus',
+          hero_note: 'Toutes les demandes reçoivent une réponse le jour même — généralement en deux à trois heures.',
+          trust_1: 'Le seul service de caddie dédié à Majorque',
+          trust_2: 'Partenaire officiel · Club de Golf Alcanada',
+          trust_3: 'Clients internationaux des États-Unis · Asie · Europe',
+          trust_4: 'Disponible à Arabella Golf Majorque',
+          about_label: 'À propos',
+          about_heading: 'Conçu autour des parcours. Conçu autour du joueur.',
+          about_p1: "Mallorcaddies a été créé pour combler un manque. Majorque possède certains des plus beaux parcours de golf de Méditerranée, et jusqu'à présent aucun service de caddie dédié à la hauteur.",
+          about_p2: 'Nous sommes le partenaire officiel de caddies du Club de Golf Alcanada et disponibles pour des réservations sur les parcours Arabella Golf — Son Muntaner, Son Vida et Son Quint.',
+          about_p3: "Chaque réservation est gérée personnellement. David s'occupe de toutes les opérations sur le terrain. Je m'occupe du reste. Entre nous deux, rien ne passe entre les mailles.",
+          about_p4: 'David dirige chaque partie. Je gère chaque réservation. Vous saurez toujours exactement à qui vous avez affaire et comment nous joindre.',
+          about_signoff: '— Martin, co-fondateur',
+          stat_1_num: '3 à 10+', stat_1_label: 'Caddies et en pleine croissance',
+          stat_2_num: '9 ou 18', stat_2_label: 'Trous. À vous de choisir.',
+          stat_3_num: 'Même jour', stat_3_label: 'Délai de réponse personnel',
+          services_label: 'Services',
+          services_heading: "Trois façons de jouer. Un seul niveau d'excellence.",
+          services_sub: 'Disponible pour 9 ou 18 trous. Contactez-nous pour vérifier les disponibilités.',
+          card1_name: 'Sac unique', card1_players: '1 joueur',
+          card1_desc: "Toute l'attention portée sur un seul joueur. Sélection des clubs, lecture du green et soin du matériel tout au long de la partie.",
+          card1_nine_hl: '9 trous', card1_nine_price: 'À partir de €130', card1_nine_note: 'par caddie',
+          card1_18_hl: '18 trous', card1_18_price: 'À partir de €185', card1_18_note: 'par caddie',
+          card2_name: 'Double sac', card2_players: '2 joueurs',
+          card2_desc: 'Un caddie, deux joueurs. Une attention égale accordée aux deux tout au long de la partie.',
+          card2_nine_hl: '9 trous', card2_nine_price: 'À partir de €90', card2_nine_note: 'par joueur',
+          card2_18_hl: '18 trous', card2_18_price: 'À partir de €125', card2_18_note: 'par joueur',
+          card3_name: 'Forecaddie', card3_players: '3 à 4 joueurs',
+          card3_desc: 'Anticipe le parcours devant votre groupe. Ligne, distances et conditions du green pour chaque joueur.',
+          card3_nine_hl: '9 trous', card3_nine_price: 'À partir de €65', card3_nine_note: 'par joueur',
+          card3_18_hl: '18 trous', card3_18_price: 'À partir de €80', card3_18_note: 'par joueur',
+          services_deposit: 'Un acompte de €50 par caddie confirme votre réservation. Le solde est payable le jour même en espèces, par carte ou selon arrangement préalable.',
+          why_label: 'Pourquoi Mallorcaddies',
+          why_heading: 'Ce que votre caddie apporte à une partie à Alcanada.',
+          why1_title: 'Connaissance locale', why1_body: "Une expertise du parcours forgée par une expérience quotidienne à Alcanada, l'un des parcours les plus exposés et les plus exigeants de Majorque.",
+          why2_title: 'Vent et conditions côtières', why2_body: 'Des conseils pratiques face à la brise marine qui change d\'un trou à l\'autre. Ce parcours récompense ceux qui le comprennent.',
+          why3_title: 'Lecture du green', why3_body: 'Des lectures claires et précises sur le rythme, la ligne et la casse. Transmises sereinement, sans surcharger votre réflexion.',
+          why4_title: 'Sélection des clubs', why4_body: 'Des recommandations mesurées selon les conditions et votre jeu naturel. Sans rien imposer.',
+          why5_title: 'Rythme et étiquette', why5_body: 'Nous maintenons le rythme sans créer de pression. La partie reste détendue.',
+          why6_title: 'Coordination groupe et concierge', why6_body: 'Communication directe avec celui qui a organisé votre séjour. Rien ne passe entre les mailles.',
+          partners_label: 'Pour les professionnels du voyage',
+          partners_heading: 'Nous travaillons avec les partenaires concierge et agences de voyage.',
+          partners_p1: "Nous collaborons directement avec des sociétés de concierge, des agences de voyage et des équipes d'expérience client d'hôtels qui organisent du golf à Majorque. Si vous élaborez un itinéraire ou gérez une réservation de golf pour un client sur l'île, contactez-nous. Nous avons l'habitude de travailler discrètement, de répondre rapidement et de gérer les détails pour que vous n'ayez pas à le faire.",
+          partners_p2: 'Nous sommes le partenaire officiel de caddies du Club de Golf Alcanada et disponibles pour des réservations sur les parcours Arabella Golf — Son Muntaner, Son Vida et Son Quint.',
+          partners_cta: 'Prendre contact',
+          contact_label: 'Contact', contact_heading: 'Parlez-nous de votre partie.',
+          contact_body: 'Nous vous guiderons personnellement parmi les options et vérifierons les disponibilités. En période de pointe, les créneaux de caddie se remplissent vite — plus tôt vous nous contactez, mieux c\'est.',
+          contact_signoff: 'Bien cordialement, Martin',
+          form_name: 'Nom', form_service: 'Service', form_service_default: 'Sélectionnez un service',
+          form_forecaddie: 'Forecaddie', form_single: 'Caddie marcheur sac unique', form_double: 'Caddie marcheur double sac',
+          form_round: 'Type de parcours', form_9: '9 trous', form_18: '18 trous',
+          form_message: 'Message / Demande', form_email: 'E-mail', form_phone: 'Téléphone / WhatsApp',
+          form_hint: 'Veuillez indiquer votre e-mail ou un numéro de téléphone avec l\'indicatif pays.',
+          form_submit: 'Envoyer la demande', form_note: 'Nous répondons généralement le jour même.',
+          form_name_placeholder: "Votre nom",
+          form_message_placeholder: "Dates souhaitées, nombre de joueurs, vos questions...",
+          form_email_placeholder: "votre@email.com",
+          form_phone_placeholder: "+33 ou votre indicatif pays",
+          footer_tagline: 'Le service de caddie dédié de Majorque',
+          footer_about: 'À propos', footer_services: 'Services', footer_contact: 'Contact',
+          footer_copyright: '© 2026 Mallorcaddies. Tous droits réservés.'
+        },
+        sv: {
+          nav_about: 'Om oss', nav_services: 'Tjänster', nav_contact: 'Kontakt', nav_cta: 'Kontrollera tillgänglighet',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: 'Caddietjänsten Mallorca inte hade.',
+          hero_sub: 'Skapad för internationella spelare som vill få ut det mesta av en runda på Alcanada och bortom.',
+          hero_btn_primary: 'Kontrollera tillgänglighet', hero_btn_secondary: 'Läs mer',
+          hero_note: 'Varje förfrågan besvaras samma dag — vanligtvis inom två till tre timmar.',
+          trust_1: 'Enda dedikerade caddietjänsten på Mallorca',
+          trust_2: 'Officiell caddiepartner · Club de Golf Alcanada',
+          trust_3: 'Internationella kunder från USA · Asien · Europa',
+          trust_4: 'Tillgänglig på Arabella Golf Mallorca',
+          about_label: 'Om oss',
+          about_heading: 'Byggt kring banorna. Byggt kring gästen.',
+          about_p1: 'Mallorcaddies skapades för att fylla ett tomrum. Mallorca har några av Medelhavets finaste golfbanor, och tills nu ingen dedikerad caddietjänst i samma klass.',
+          about_p2: 'Vi är officiell caddiepartner på Club de Golf Alcanada och tillgängliga för bokningar på Arabella Golfs banor — Son Muntaner, Son Vida och Son Quint.',
+          about_p3: 'Varje bokning hanteras personligt. David sköter all verksamhet på banan. Jag tar hand om allt annat. Mellan oss faller ingenting igenom.',
+          about_p4: 'David leder varje runda. Jag hanterar varje bokning. Du vet alltid exakt vem du har att göra med och hur du når oss.',
+          about_signoff: '— Martin, medgrundare',
+          stat_1_num: '3 till 10+', stat_1_label: 'Caddies och växer',
+          stat_2_num: '9 eller 18', stat_2_label: 'Hål. Ditt val.',
+          stat_3_num: 'Samma dag', stat_3_label: 'Personlig svarstid',
+          services_label: 'Tjänster',
+          services_heading: 'Tre sätt att spela. En standard av omsorg.',
+          services_sub: 'Tillgängligt för 9 eller 18 hål. Kontakta oss för att kontrollera tillgänglighet.',
+          card1_name: 'Enkelbag', card1_players: '1 spelare',
+          card1_desc: 'Full uppmärksamhet på en spelare. Klubbval, läsning av green och klubbvård under hela rundan.',
+          card1_nine_hl: '9 hål', card1_nine_price: 'Från €130', card1_nine_note: 'per caddie',
+          card1_18_hl: '18 hål', card1_18_price: 'Från €185', card1_18_note: 'per caddie',
+          card2_name: 'Dubbelbag', card2_players: '2 spelare',
+          card2_desc: 'En caddie, två spelare. Lika uppmärksamhet för båda under hela rundan.',
+          card2_nine_hl: '9 hål', card2_nine_price: 'Från €90', card2_nine_note: 'per spelare',
+          card2_18_hl: '18 hål', card2_18_price: 'Från €125', card2_18_note: 'per spelare',
+          card3_name: 'Forecaddie', card3_players: '3 till 4 spelare',
+          card3_desc: 'Läser banan framför gruppen. Linje, avstånd och greenförhållanden för varje spelare.',
+          card3_nine_hl: '9 hål', card3_nine_price: 'Från €65', card3_nine_note: 'per spelare',
+          card3_18_hl: '18 hål', card3_18_price: 'Från €80', card3_18_note: 'per spelare',
+          services_deposit: 'En deposition på €50 per caddie bekräftar din bokning. Återstående belopp betalas på dagen kontant, med kort eller efter överenskommelse.',
+          why_label: 'Varför Mallorcaddies',
+          why_heading: 'Vad din caddie bidrar med under en runda på Alcanada.',
+          why1_title: 'Lokal kunskap', why1_body: 'Bankunskap byggd på daglig erfarenhet på Alcanada — en av Mallorcas mest utsatta och tekniskt krävande banor.',
+          why2_title: 'Vind och kustförhållanden', why2_body: 'Praktisk vägledning för havsbrisen som skiftar från hål till hål. Den här banan belönar den som förstår den.',
+          why3_title: 'Greenläsning', why3_body: 'Tydliga, säkra bedömningar av tempo, linje och brott. Lugnt förmedlade utan att överbelasta ditt beslut.',
+          why4_title: 'Klubbval', why4_body: 'Avvägda rekommendationer baserade på förhållandena och ditt naturliga spel. Inget påtvingat.',
+          why5_title: 'Tempo och etikett', why5_body: 'Vi håller spelet i rörelse utan att skapa press. Rundan förblir avslappnad.',
+          why6_title: 'Grupp- och conciergekoordinering', why6_body: 'Direkt kommunikation med den som ordnade ditt besök. Inget faller mellan stolarna.',
+          partners_label: 'För resebranschen',
+          partners_heading: 'Vi samarbetar med concierge- och resepartners.',
+          partners_p1: 'Vi arbetar direkt med conciergeföretag, resebyråer och hotells gästupplevelseteam som arrangerar golf på Mallorca. Om du bygger ett reseschema eller hanterar en golfbokning för en kund på ön — hör av dig. Vi är vana att arbeta diskret, svara snabbt och hantera detaljerna så att du inte behöver det.',
+          partners_p2: 'Vi är officiell caddiepartner på Club de Golf Alcanada och tillgängliga för bokningar på Arabella Golfs banor — Son Muntaner, Son Vida och Son Quint.',
+          partners_cta: 'Hör av dig',
+          contact_label: 'Kontakt', contact_heading: 'Berätta om din runda.',
+          contact_body: 'Vi guidar dig personligen genom alternativen och kontrollerar tillgängligheten. Under högsäsong fylls caddie-platserna snabbt — ju tidigare du hör av dig desto bättre.',
+          contact_signoff: 'Med vänliga hälsningar, Martin',
+          form_name: 'Namn', form_service: 'Tjänst', form_service_default: 'Välj en tjänst',
+          form_forecaddie: 'Forecaddie', form_single: 'Enkelbag gående caddie', form_double: 'Dubbelbag gående caddie',
+          form_round: 'Rundtyp', form_9: '9 hål', form_18: '18 hål',
+          form_message: 'Meddelande / Förfrågan', form_email: 'E-post', form_phone: 'Telefon / WhatsApp',
+          form_hint: 'Ange antingen din e-postadress eller ett telefonnummer med landskod.',
+          form_submit: 'Skicka förfrågan', form_note: 'Vi svarar vanligtvis samma dag.',
+          form_name_placeholder: "Ditt namn",
+          form_message_placeholder: "Önskade datum, antal spelare, dina frågor...",
+          form_email_placeholder: "din@email.com",
+          form_phone_placeholder: "+46 eller ditt landskod",
+          footer_tagline: 'Mallorcas dedikerade caddietjänst',
+          footer_about: 'Om oss', footer_services: 'Tjänster', footer_contact: 'Kontakt',
+          footer_copyright: '© 2026 Mallorcaddies. Alla rättigheter förbehållna.'
+        },
+        zh: {
+          nav_about: '关于我们', nav_services: '服务', nav_contact: '联系', nav_cta: '查询可用性',
+          hero_eyebrow: '马略卡 · Alcanada · 成立于2026',
+          hero_heading: '马略卡从未有过的球童服务。',
+          hero_sub: '专为希望在Alcanada及其他球场充分发挥水平的国际球员而设。',
+          hero_btn_primary: '查询可用性', hero_btn_secondary: '了解更多',
+          hero_note: '所有咨询当天回复 — 通常在两到三小时内。',
+          trust_1: '马略卡唯一的专业球童服务',
+          trust_2: '官方球童合作伙伴 · Club de Golf Alcanada',
+          trust_3: '来自美国 · 亚洲 · 欧洲的国际客户',
+          trust_4: '可在Arabella Golf马略卡预约',
+          about_label: '关于我们',
+          about_heading: '围绕球场而建。围绕客人而建。',
+          about_p1: 'Mallorcaddies的成立是为了填补一个空缺。马略卡拥有地中海最优质的部分高尔夫球场，而此前从未有过与之匹配的专业球童服务。',
+          about_p2: '我们是Club de Golf Alcanada的官方球童合作伙伴，同时可在Arabella Golf球场预约 — Son Muntaner、Son Vida和Son Quint。',
+          about_p3: '每一个预约都由我们亲自处理。David负责所有球场运营事务。我负责其他一切。两人之间，没有任何疏漏。',
+          about_p4: 'David主导每一轮比赛。我处理每一个预约。您始终清楚地知道您在和谁打交道，以及如何联系我们。',
+          about_signoff: '— Martin，联合创始人',
+          stat_1_num: '3至10+', stat_1_label: '球童，持续增长中',
+          stat_2_num: '9或18', stat_2_label: '洞。您来决定。',
+          stat_3_num: '当天', stat_3_label: '个人回复时间',
+          services_label: '服务',
+          services_heading: '三种出场方式。同一品质标准。',
+          services_sub: '可安排9洞或18洞。请联系我们查询可用性。',
+          card1_name: '单包', card1_players: '1位球员',
+          card1_desc: '全程专注于一位球员。球杆选择、果岭阅读及全程球具护理。',
+          card1_nine_hl: '9洞', card1_nine_price: '起价€130', card1_nine_note: '每位球童',
+          card1_18_hl: '18洞', card1_18_price: '起价€185', card1_18_note: '每位球童',
+          card2_name: '双包', card2_players: '2位球员',
+          card2_desc: '一名球童，两位球员。全程对两位球员给予同等关注。',
+          card2_nine_hl: '9洞', card2_nine_price: '起价€90', card2_nine_note: '每位球员',
+          card2_18_hl: '18洞', card2_18_price: '起价€125', card2_18_note: '每位球员',
+          card3_name: '领航球童', card3_players: '3至4位球员',
+          card3_desc: '在球队前方引导，提供路线、距离及果岭状况信息。',
+          card3_nine_hl: '9洞', card3_nine_price: '起价€65', card3_nine_note: '每位球员',
+          card3_18_hl: '18洞', card3_18_price: '起价€80', card3_18_note: '每位球员',
+          services_deposit: '每位球童€50的定金确认预约。余款可在当天以现金、刷卡或事先约定的方式支付。',
+          why_label: '为什么选择Mallorcaddies',
+          why_heading: '您的球童为Alcanada的一轮比赛带来什么。',
+          why1_title: '本地知识', why1_body: '基于在Alcanada每日丰富经验积累的球场洞察力 — 这是马略卡最具挑战性、风力最强劲的球场之一。',
+          why2_title: '风力与海岸条件', why2_body: '针对逐洞变化的海风提供实用指导。了解这个球场的人才能从中获益。',
+          why3_title: '果岭阅读', why3_body: '清晰、自信地解读速度、路线和坡度，平静传达，不给您增添决策负担。',
+          why4_title: '球杆选择', why4_body: '根据场地条件和您的自然打法给出合理建议，不作强硬主张。',
+          why5_title: '节奏与礼仪', why5_body: '我们保持比赛节奏而不制造压力，让整轮比赛保持轻松愉快。',
+          why6_title: '礼宾与团队协调', why6_body: '与安排您行程的相关方直接沟通，确保万无一失。',
+          partners_label: '致旅行业合作伙伴',
+          partners_heading: '与礼宾和旅行合作伙伴携手合作。',
+          partners_p1: '我们与在马略卡安排高尔夫活动的礼宾公司、旅行社及酒店宾客体验团队直接合作。如果您正在为客户制定行程或管理高尔夫预约，欢迎联系我们。我们擅长低调工作、快速响应，为您处理细节，让您无后顾之忧。',
+          partners_p2: '我们是Club de Golf Alcanada的官方球童合作伙伴，同时可在Arabella Golf球场预约 — Son Muntaner、Son Vida和Son Quint。',
+          partners_cta: '联系我们',
+          contact_label: '联系我们', contact_heading: '告诉我们您的球局。',
+          contact_body: '我们将亲自为您介绍各种选择并确认可用性。在旅游旺季，球童名额会很快填满 — 越早联系越好。',
+          contact_signoff: '此致，Martin',
+          form_name: '姓名', form_service: '服务', form_service_default: '请选择服务',
+          form_forecaddie: '领航球童', form_single: '单包步行球童', form_double: '双包步行球童',
+          form_round: '轮次类型', form_9: '9洞', form_18: '18洞',
+          form_message: '留言 / 咨询', form_email: '电子邮件', form_phone: '电话 / WhatsApp',
+          form_hint: '请提供您的电子邮件或带国家区号的电话号码，两者之一即可。',
+          form_submit: '发送咨询', form_note: '我们通常当天回复。',
+          form_name_placeholder: "您的姓名",
+          form_message_placeholder: "preferred dates, number of players, or any questions in English is fine",
+          form_email_placeholder: "您的邮箱",
+          form_phone_placeholder: "+86 或您所在国家的区号",
+          footer_tagline: '马略卡专属球童服务',
+          footer_about: '关于我们', footer_services: '服务', footer_contact: '联系',
+          footer_copyright: '© 2026 Mallorcaddies。保留所有权利。'
+        },
+        nl: {
+          nav_about: 'Over ons', nav_services: 'Diensten', nav_contact: 'Contact', nav_cta: 'Beschikbaarheid controleren',
+          hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
+          hero_heading: 'De caddieservice die Mallorca niet had.',
+          hero_sub: 'Gebouwd voor internationale spelers die het meeste willen halen uit een ronde op Alcanada en daarbuiten.',
+          hero_btn_primary: 'Beschikbaarheid controleren', hero_btn_secondary: 'Meer weten',
+          hero_note: 'Elke aanvraag wordt dezelfde dag beantwoord — doorgaans binnen twee à drie uur.',
+          trust_1: 'Enige toegewijde caddieservice op Mallorca',
+          trust_2: 'Officiële caddiepartner · Club de Golf Alcanada',
+          trust_3: 'Internationale gasten uit de VS · Azië · Europa',
+          trust_4: 'Beschikbaar bij Arabella Golf Mallorca',
+          about_label: 'Over ons',
+          about_heading: 'Gebouwd rond de banen. Gebouwd rond de gast.',
+          about_p1: 'Mallorcaddies is opgericht om een leemte te vullen. Mallorca heeft een aantal van de mooiste golfbanen van de Middellandse Zee, maar tot nu toe geen toegewijde caddieservice die daarbij past.',
+          about_p2: 'Wij zijn de officiële caddiepartner van Club de Golf Alcanada en beschikbaar voor boekingen op de Arabella Golf-banen — Son Muntaner, Son Vida en Son Quint.',
+          about_p3: 'Elke boeking wordt persoonlijk afgehandeld. David beheert alle operationele zaken op de baan. Ik regel alles daarbuiten. Tussen ons tweeën glipt er niets doorheen.',
+          about_p4: 'David leidt elke ronde. Ik behandel elke boeking. U weet altijd precies met wie u te maken heeft en hoe u ons kunt bereiken.',
+          about_signoff: '— Martin, medeoprichter',
+          stat_1_num: '3 tot 10+', stat_1_label: 'Caddies en groeiende',
+          stat_2_num: '9 of 18', stat_2_label: 'Holes. Uw keuze.',
+          stat_3_num: 'Zelfde dag', stat_3_label: 'Persoonlijke responstijd',
+          services_label: 'Diensten',
+          services_heading: 'Drie manieren om te spelen. Één standaard van zorg.',
+          services_sub: 'Beschikbaar voor 9 of 18 holes. Neem contact op om de beschikbaarheid te controleren.',
+          card1_name: 'Enkele bag', card1_players: '1 speler',
+          card1_desc: 'Volledige aandacht voor één speler. Clubkeuze, lezen van de green en clubverzorging gedurende de hele ronde.',
+          card1_nine_hl: '9 holes', card1_nine_price: 'Vanaf €130', card1_nine_note: 'per caddie',
+          card1_18_hl: '18 holes', card1_18_price: 'Vanaf €185', card1_18_note: 'per caddie',
+          card2_name: 'Dubbele bag', card2_players: '2 spelers',
+          card2_desc: 'Één caddie, twee spelers. Gelijke aandacht voor beiden gedurende de hele ronde.',
+          card2_nine_hl: '9 holes', card2_nine_price: 'Vanaf €90', card2_nine_note: 'per speler',
+          card2_18_hl: '18 holes', card2_18_price: 'Vanaf €125', card2_18_note: 'per speler',
+          card3_name: 'Forecaddie', card3_players: '3 tot 4 spelers',
+          card3_desc: 'Leest de baan voor uw groep. Lijn, afstand en greencondities voor elke speler.',
+          card3_nine_hl: '9 holes', card3_nine_price: 'Vanaf €65', card3_nine_note: 'per speler',
+          card3_18_hl: '18 holes', card3_18_price: 'Vanaf €80', card3_18_note: 'per speler',
+          services_deposit: 'Een aanbetaling van €50 per caddie bevestigt uw boeking. Het resterende bedrag is op de dag zelf betaalbaar in contanten, met kaart of na voorafgaande afspraak.',
+          why_label: 'Waarom Mallorcaddies',
+          why_heading: 'Wat uw caddie bijdraagt aan een ronde op Alcanada.',
+          why1_title: 'Lokale kennis', why1_body: "Baankennis opgebouwd uit dagelijkse ervaring op Alcanada — een van Mallorca's meest blootgestelde en technisch veeleisende banen.",
+          why2_title: 'Wind en kustomstandigheden', why2_body: 'Praktisch advies over de zeebries die van hole tot hole verandert. Deze baan beloont iedereen die hem begrijpt.',
+          why3_title: 'Green lezen', why3_body: 'Heldere, zelfverzekerde inschattingen van tempo, lijn en breuk. Rustig overgebracht zonder uw beslissing te overladen.',
+          why4_title: 'Clubkeuze', why4_body: 'Doordachte aanbevelingen gebaseerd op de omstandigheden en uw natuurlijke spel. Niets opgelegd.',
+          why5_title: 'Tempo en etiquette', why5_body: 'We houden de boel in beweging zonder druk te creëren. De ronde blijft ontspannen.',
+          why6_title: 'Groeps- en conciergecoördinatie', why6_body: 'Directe communicatie met degene die uw bezoek heeft geregeld. Niets valt tussen de wal en het schip.',
+          partners_label: 'Voor reisprofessionals',
+          partners_heading: 'Samenwerken met concierge- en reispartners.',
+          partners_p1: 'Wij werken rechtstreeks samen met conciergemaatschappijen, reisbureaus en hotelgastteams die golf op Mallorca organiseren. Als u een reisschema opstelt of een golfreservering beheert voor een klant op het eiland, neem dan contact op. Wij zijn gewend discreet te werken, snel te reageren en de details af te handelen zodat u dat niet hoeft te doen.',
+          partners_p2: 'Wij zijn de officiële caddiepartner van Club de Golf Alcanada en beschikbaar voor boekingen op de Arabella Golf-banen — Son Muntaner, Son Vida en Son Quint.',
+          partners_cta: 'Neem contact op',
+          contact_label: 'Contact', contact_heading: 'Vertel ons over uw ronde.',
+          contact_body: 'Wij begeleiden u persoonlijk door de opties en controleren de beschikbaarheid. In drukke reisperiodes raken caddie-plekken snel vol — hoe eerder u contact opneemt, hoe beter.',
+          contact_signoff: 'Met vriendelijke groet, Martin',
+          form_name: 'Naam', form_service: 'Dienst', form_service_default: 'Selecteer een dienst',
+          form_forecaddie: 'Forecaddie', form_single: 'Enkele bag lopende caddie', form_double: 'Dubbele bag lopende caddie',
+          form_round: 'Type ronde', form_9: '9 holes', form_18: '18 holes',
+          form_message: 'Bericht / Aanvraag', form_email: 'E-mail', form_phone: 'Telefoon / WhatsApp',
+          form_hint: 'Geef uw e-mailadres of een telefoonnummer met landcode op. U hoeft niet beide in te vullen.',
+          form_submit: 'Aanvraag versturen', form_note: 'Wij streven ernaar dezelfde dag te reageren.',
+          form_name_placeholder: "Uw naam",
+          form_message_placeholder: "Gewenste data, aantal spelers, uw vragen...",
+          form_email_placeholder: "uw@email.com",
+          form_phone_placeholder: "+31 of uw landcode",
+          footer_tagline: "Mallorca's toegewijde caddieservice",
+          footer_about: 'Over ons', footer_services: 'Diensten', footer_contact: 'Contact',
+          footer_copyright: '© 2026 Mallorcaddies. Alle rechten voorbehouden.'
+        },
+        ru: {
+          nav_about: "О нас",
+          nav_services: "Услуги",
+          nav_contact: "Связаться",
+          nav_cta: "Проверить доступность",
+          hero_eyebrow: "Мальорка · Алканада · Основано в 2026 году",
+          hero_heading: "Служба кэдди, которой не было на Мальорке.",
+          hero_sub: "Создана для международных игроков, которые хотят получить максимум от игры в Алканаде и на лучших полях острова.",
+          hero_btn_primary: "Проверить доступность",
+          hero_btn_secondary: "Узнать больше",
+          hero_note: "Отвечаем на все запросы в день обращения — как правило, в течение двух-трёх часов.",
+          trust_1: "Единственная профессиональная служба кэдди на Мальорке",
+          trust_2: "Официальный партнёр · Club de Golf Alcanada",
+          trust_3: "Международная клиентура из США, Азии и Европы",
+          trust_4: "Также доступны на полях Arabella Golf Mallorca",
+          about_label: "О нас",
+          about_heading: "Создано для полей. Создано для игрока.",
+          about_p1: "Mallorcaddies появился, чтобы закрыть реальный пробел. Мальорка располагает одними из лучших гольф-полей Средиземноморья — и до недавнего времени не имела профессиональной службы кэдди, соответствующей этому уровню.",
+          about_p2: "Мы являемся официальным партнёром по кэдди-услугам в Club de Golf Alcanada и работаем также на полях Arabella Golf — Son Muntaner, Son Vida и Son Quint.",
+          about_p3: "Каждый заказ мы ведём лично. Дэвид отвечает за всё, что происходит на поле. Я занимаюсь всем остальным. Между нами двумя не теряется ни одна деталь.",
+          about_p4: "Дэвид ведёт каждый раунд. Я сопровождаю каждый заказ. Вы всегда будете знать, с кем именно работаете, и как с нами связаться.",
+          about_signoff: "— Мартин, сооснователь",
+          stat_1_num: "От 3 до 10+",
+          stat_1_label: "Кэдди — команда растёт",
+          stat_2_num: "9 или 18",
+          stat_2_label: "Лунок — вы выбираете",
+          stat_3_num: "В день обращения",
+          stat_3_label: "Гарантированное время ответа",
+          services_label: "Услуги",
+          services_heading: "Три формата игры. Один стандарт качества.",
+          services_sub: "Доступно для 9 или 18 лунок. Свяжитесь с нами, чтобы уточнить наличие мест.",
+          card1_name: "Один мешок",
+          card1_players: "1 игрок",
+          card1_desc: "Полное внимание одному игроку — выбор клюшек, чтение грина и уход за инвентарём на протяжении всего раунда.",
+          card1_nine_hl: "9 лунок",
+          card1_nine_price: "От €130",
+          card1_nine_note: "за кэдди",
+          card1_18_hl: "18 лунок",
+          card1_18_price: "От €185",
+          card1_18_note: "за кэдди",
+          card2_name: "Два мешка",
+          card2_players: "2 игрока",
+          card2_desc: "Один кэдди — двое игроков, с одинаковым вниманием к каждому на протяжении всей игры.",
+          card2_nine_hl: "9 лунок",
+          card2_nine_price: "От €90",
+          card2_nine_note: "с игрока",
+          card2_18_hl: "18 лунок",
+          card2_18_price: "От €125",
+          card2_18_note: "с игрока",
+          card3_name: "Форкэдди",
+          card3_players: "3–4 игрока",
+          card3_desc: "Идёт впереди группы и читает поле — линия, расстояние и состояние грина для каждого игрока.",
+          card3_nine_hl: "9 лунок",
+          card3_nine_price: "От €65",
+          card3_nine_note: "с игрока",
+          card3_18_hl: "18 лунок",
+          card3_18_price: "От €80",
+          card3_18_note: "с игрока",
+          services_deposit: "Для подтверждения бронирования требуется предоплата €50 за кэдди. Оставшаяся сумма оплачивается в день игры — наличными, картой или по предварительной договорённости.",
+          why_label: "Почему Mallorcaddies",
+          why_heading: "Что хороший кэдди привносит в игру на Алканаде.",
+          why1_title: "Знание поля",
+          why1_body: "Глубокое понимание Алканады, основанное на ежедневном опыте — одного из самых технически сложных и открытых ветрам полей Мальорки.",
+          why2_title: "Ветер и прибрежные условия",
+          why2_body: "Морской бриз меняется от лунки к лунке. Умение его читать нередко определяет результат игры.",
+          why3_title: "Чтение гринов",
+          why3_body: "Чёткие, уверенные оценки темпа, линии и рельефа — спокойно и без лишней нагрузки на ваше решение.",
+          why4_title: "Выбор клюшек",
+          why4_body: "Обоснованные рекомендации с учётом условий дня и особенностей вашей игры. Никакого давления.",
+          why5_title: "Темп и этикет",
+          why5_body: "Мы поддерживаем ритм игры, не создавая напряжения. Раунд проходит спокойно и с удовольствием.",
+          why6_title: "Координация с консьержем и группой",
+          why6_body: "Прямое взаимодействие с тем, кто организовал ваш визит. Ни одна деталь не остаётся без внимания.",
+          partners_label: "Для профессионалов туристической отрасли",
+          partners_heading: "Работаем с консьерж-службами и туристическими партнёрами.",
+          partners_p1: "Мы напрямую сотрудничаем с консьерж-компаниями, туристическими агентствами и командами по работе с гостями отелей, которые организуют гольф на Мальорке. Если вы формируете программу пребывания или занимаетесь бронированием гольфа для клиента на острове — свяжитесь с нами. Мы умеем работать деликатно, реагировать быстро и брать на себя детали — чтобы вам не приходилось этого делать.",
+          partners_p2: "Мы являемся официальным партнёром по кэдди-услугам в Club de Golf Alcanada и работаем также на полях Arabella Golf — Son Muntaner, Son Vida и Son Quint.",
+          partners_cta: "Написать нам",
+          contact_label: "Связаться с нами",
+          contact_heading: "Расскажите нам о своей игре.",
+          contact_body: "Мы лично проконсультируем вас по всем вариантам и проверим доступность. В пиковый туристический сезон места занимают быстро — чем раньше вы напишете, тем лучше.",
+          contact_signoff: "С уважением, Мартин",
+          form_name: "Имя",
+          form_service: "Услуга",
+          form_service_default: "Выберите услугу",
+          form_forecaddie: "Форкэдди",
+          form_single: "Кэдди с одним мешком",
+          form_double: "Кэдди с двумя мешками",
+          form_round: "Формат раунда",
+          form_9: "9 лунок",
+          form_18: "18 лунок",
+          form_message: "Сообщение или запрос",
+          form_email: "Адрес электронной почты",
+          form_phone: "Телефон или WhatsApp",
+          form_hint: "Укажите адрес электронной почты или номер телефона с кодом страны — достаточно одного из двух.",
+          form_submit: "Отправить запрос",
+          form_note: "Мы отвечаем, как правило, в день обращения.",
+          form_name_placeholder: "Ваше имя",
+          form_message_placeholder: "Предпочтительные даты, количество игроков, ваши вопросы...",
+          form_email_placeholder: "ваш@email.com",
+          form_phone_placeholder: "+7 или код вашей страны",
+          footer_tagline: "Профессиональная служба кэдди на Мальорке",
+          footer_about: "О нас",
+          footer_services: "Услуги",
+          footer_contact: "Связаться",
+          footer_copyright: "© 2026 Mallorcaddies. Все права защищены."
+        }
+      };
+
+      var langLabels = { en:'EN', es:'ES', de:'DE', fr:'FR', sv:'SV', zh:'中文', nl:'NL', ru:'RU' };
+
+      var currentLang = 'en';
+      try { currentLang = localStorage.getItem('mallorcaddies-lang') || 'en'; } catch (e) {}
+      if (!i18n[currentLang]) currentLang = 'en';
+
+      function applyLang(lang) {
+        var t = i18n[lang];
+        if (!t) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var key = el.getAttribute('data-i18n');
+          var val = t[key];
+          if (val === undefined) return;
+          if (el.hasAttribute('data-desc')) {
+            el.setAttribute('data-desc', val);
+          } else {
+            el.textContent = val;
+          }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+          var key = el.getAttribute('data-i18n-placeholder');
+          if (t[key] !== undefined) {
+            el.placeholder = t[key];
+          }
+        });
+
+        // Update mobile nine-hl CSS variable used in ::before pseudo-element
+        var nineHl = t['card1_nine_hl'] || '9 Holes';
+        document.documentElement.style.setProperty('--mobile-nine-hl', '"' + nineHl + '"');
+
+        // Switcher active states
+        document.querySelectorAll('.lang-option, .lang-mobile-opt').forEach(function (btn) {
+          btn.classList.toggle('lang-active', btn.dataset.lang === lang);
+        });
+
+        // Current code display
+        var codeEl = document.querySelector('.lang-current-code');
+        if (codeEl) codeEl.textContent = langLabels[lang] || lang.toUpperCase();
+
+        document.documentElement.lang = lang;
+        try { localStorage.setItem('mallorcaddies-lang', lang); } catch (e) {}
+        currentLang = lang;
+      }
+
+      // Dropdown toggle
+      var langBtn = document.getElementById('lang-btn');
+      var langDropdown = document.getElementById('lang-dropdown');
+
+      if (langBtn && langDropdown) {
+        langBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = langDropdown.classList.toggle('open');
+          langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+
+        document.addEventListener('click', function () {
+          langDropdown.classList.remove('open');
+          if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
+        });
+
+        langDropdown.querySelectorAll('.lang-option').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            applyLang(btn.dataset.lang);
+            langDropdown.classList.remove('open');
+            langBtn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+      // Mobile options
+      document.querySelectorAll('.lang-mobile-opt').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          applyLang(btn.dataset.lang);
+        });
+      });
+
+      // Apply on load
+      applyLang(currentLang);
+    }());
+
+    // ── EFFECT 3 — Stat number counters ──────────────────────────
+    (function () {
+      var statEls = document.querySelectorAll('.stat-number');
+      if (!statEls.length) return;
+
+      function easeOutQuart(t) {
+        return 1 - Math.pow(1 - t, 4);
+      }
+
+      function animateCounter(el, target, suffix, duration) {
+        var start = null;
+        function step(timestamp) {
+          if (!start) start = timestamp;
+          var progress = Math.min((timestamp - start) / duration, 1);
+          var eased = easeOutQuart(progress);
+          var current = Math.floor(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = current + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      var counterObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            var text = el.textContent.trim();
+
+            if (text.indexOf('3') === 0) {
+              animateCounter(el, 3, ' to 10+', 1800);
+            }
+
+            counterObserver.unobserve(el);
+          });
+        },
+        { threshold: 0.6 }
+      );
+
+      statEls.forEach(function (el) {
+        counterObserver.observe(el);
+      });
+    }());
+
+    // ── EFFECT 5 — Parallax for photo interlude + ocean strip ────
+    (function () {
+      var parallaxSections = [
+        {
+          section: document.getElementById('photo-interlude')
+            || document.querySelector('#course'),
+          img: document.querySelector(
+            '#photo-interlude .interlude-img, #course img'
+          ),
+          rate: 0.25
+        },
+        {
+          section: document.querySelector('.ocean-strip'),
+          img: document.querySelector('.ocean-strip img'),
+          rate: 0.2
+        }
+      ];
+
+      var ticking = false;
+
+      function updateParallax() {
+        parallaxSections.forEach(function (item) {
+          if (!item.section || !item.img) return;
+          var rect = item.section.getBoundingClientRect();
+          var inView = rect.bottom > 0 && rect.top < window.innerHeight;
+          if (!inView) return;
+          var offset = (window.scrollY - (
+            item.section.offsetTop - window.innerHeight
+          )) * item.rate;
+          item.img.style.transform = 'translateY(' + offset + 'px)';
+        });
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateParallax();
+    }());
+
+    // ── EFFECT 9 — Hero cursor radial glow ───────────────────────
+    (function () {
+      var hero = document.getElementById('hero');
+      var glow = hero ? hero.querySelector('.hero-glow') : null;
+      if (!hero || !glow) return;
+
+      var currentX = 50;
+      var currentY = 50;
+      var targetX = 50;
+      var targetY = 50;
+      var rafId = null;
+      var lerp = 0.12;
+
+      function update() {
+        var dx = targetX - currentX;
+        var dy = targetY - currentY;
+
+        if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) {
+          rafId = null;
+          return;
+        }
+
+        currentX += dx * lerp;
+        currentY += dy * lerp;
+
+        var rect = hero.getBoundingClientRect();
+        var px = (currentX / 100) * rect.width;
+        var py = (currentY / 100) * rect.height;
+
+        glow.style.transform =
+          'translate(calc(-50% + ' + (px - rect.width / 2)
+          + 'px), calc(-50% + ' + (py - rect.height / 2)
+          + 'px))';
+
+        rafId = requestAnimationFrame(update);
+      }
+
+      hero.addEventListener('mousemove', function (e) {
+        var rect = hero.getBoundingClientRect();
+        targetX = ((e.clientX - rect.left) / rect.width) * 100;
+        targetY = ((e.clientY - rect.top) / rect.height) * 100;
+        if (!rafId) {
+          rafId = requestAnimationFrame(update);
+        }
+      }, { passive: true });
+
+      hero.addEventListener('mouseleave', function () {
+        targetX = 50;
+        targetY = 50;
+        if (!rafId) {
+          rafId = requestAnimationFrame(update);
+        }
+      });
     }());
   </script>
 
