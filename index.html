@@ -81,7 +81,7 @@
     .reveal-target {
       opacity: 0;
       transform: translateY(24px);
-      transition: opacity 500ms ease-out, transform 500ms ease-out;
+      transition: opacity 380ms ease-out, transform 380ms ease-out;
     }
 
     .reveal-target.revealed {
@@ -252,14 +252,6 @@
       padding: 100px 32px 80px;
     }
 
-    .hero-bg-circle {
-      position: absolute;
-      bottom: -120px;
-      right: -120px;
-      width: 600px;
-      height: 600px;
-      pointer-events: none;
-    }
 
     .hero-eyebrow {
       color: var(--mint);
@@ -544,31 +536,6 @@
       transform: translateY(-4px);
     }
 
-    .service-icon {
-      margin-bottom: 24px;
-    }
-
-    .service-title {
-      font-family: Georgia, serif;
-      font-size: 1.4rem;
-      color: var(--text-light);
-      font-weight: normal;
-      margin-bottom: 6px;
-    }
-
-    .service-detail {
-      font-size: 0.85rem;
-      color: rgba(216, 237, 225, 0.55);
-      margin-bottom: 16px;
-      font-weight: 500;
-      display: block;
-    }
-
-    .service-body {
-      font-size: 0.95rem;
-      color: rgba(216, 237, 225, 0.8);
-      line-height: 1.7;
-    }
 
     .services-deposit {
       max-width: 500px;
@@ -657,25 +624,6 @@
       z-index: 0;
     }
 
-    .photo-text {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 0 32px;
-    }
-
-    .photo-heading {
-      font-family: Georgia, serif;
-      font-size: 2rem;
-      color: var(--text-light);
-      font-weight: normal;
-      margin-bottom: 10px;
-    }
-
-    .photo-sub {
-      font-size: 0.95rem;
-      color: rgba(216, 237, 225, 0.7);
-    }
 
     /* ============================================================
        CONTACT
@@ -1018,10 +966,6 @@
         height: 220px;
       }
 
-      .photo-heading {
-        font-size: 1.4rem;
-      }
-
       /* Contact */
       .contact-inner {
         grid-template-columns: 1fr;
@@ -1238,18 +1182,6 @@
       height: 320px;
     }
 
-    /* ============================================================
-       HERO ENTRANCE ANIMATION
-    ============================================================ */
-    @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-animate {
-      opacity: 0;
-      animation: heroFadeUp 600ms ease-out forwards;
-    }
 
     /* ============================================================
        SERVICE CARD OUTER + DESCRIPTION
@@ -1819,8 +1751,8 @@
       opacity: 0;
       transform: translateY(40px) rotateX(4deg);
       transform-origin: top center;
-      transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .card-reveal.revealed {
@@ -1979,9 +1911,639 @@
       .hero-glow { display: none; }
     }
 
+    /* ============================================================
+       EFFECT 1 — CUSTOM CURSOR
+    ============================================================ */
+    @media (pointer: fine) {
+      * { cursor: none !important; }
+
+      .cursor-dot {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: #D8EDE1;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+        transition: width 200ms ease, height 200ms ease,
+                    background 200ms ease, opacity 200ms ease;
+        will-change: transform;
+        mix-blend-mode: difference;
+      }
+
+      .cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid rgba(216,237,225,0.55);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+        transition: width 300ms ease, height 300ms ease,
+                    border-color 300ms ease, opacity 300ms ease;
+        will-change: transform;
+      }
+
+      .cursor-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: system-ui, -apple-system, Arial, sans-serif;
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #1A5C44;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 200ms ease;
+        pointer-events: none;
+      }
+
+      /* Cursor state: image hover */
+      .cursor-ring.cursor-image {
+        width: 72px;
+        height: 72px;
+        border-color: rgba(216,237,225,0.8);
+      }
+      .cursor-ring.cursor-image .cursor-label {
+        opacity: 1;
+      }
+      .cursor-dot.cursor-image {
+        opacity: 0;
+      }
+
+      /* Cursor state: link/button hover */
+      .cursor-dot.cursor-link {
+        width: 16px;
+        height: 16px;
+        background: #D8EDE1;
+      }
+      .cursor-ring.cursor-link {
+        width: 20px;
+        height: 20px;
+        border-color: transparent;
+      }
+
+      /* Cursor state: service card hover */
+      .cursor-ring.cursor-card {
+        width: 52px;
+        height: 52px;
+      }
+      .cursor-dot.cursor-card {
+        background: rgba(216,237,225,0.9);
+      }
+    }
+
+    /* Touch/mouse devices that aren't fine pointers: hide cursor elements */
+    @media not (pointer: fine) {
+      .cursor-dot,
+      .cursor-ring {
+        display: none !important;
+      }
+    }
+
+    /* ============================================================
+       EFFECT 3 — IMAGE CLIP REVEAL
+    ============================================================ */
+    .clip-reveal {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 900ms cubic-bezier(0.77, 0, 0.18, 1);
+      backface-visibility: hidden;
+    }
+
+    .clip-reveal.revealed {
+      clip-path: inset(0 0% 0 0);
+    }
+
+    /* Gallery image stagger */
+    .gallery-item:nth-child(1) .clip-reveal { transition-delay: 0ms; }
+    .gallery-item:nth-child(2) .clip-reveal { transition-delay: 120ms; }
+    .gallery-item:nth-child(3) .clip-reveal { transition-delay: 240ms; }
+
+    /* ============================================================
+       EFFECT 6 — MORNING / EVENING PALETTE
+    ============================================================ */
+    html.evening {
+      --green-dark: #0F3D2C;
+      --green-mid: #1A5C44;
+      --mint: #B8D9C8;
+      --text-light: #E8F2EC;
+    }
+
+    html.transitioning #hero,
+    html.transitioning #trust,
+    html.transitioning #about,
+    html.transitioning #services,
+    html.transitioning #why,
+    html.transitioning #quote-section,
+    html.transitioning #partners,
+    html.transitioning #contact,
+    html.transitioning footer,
+    html.transitioning .nav-cta,
+    html.transitioning .btn-primary,
+    html.transitioning .btn-secondary {
+      transition: background-color 3000ms ease,
+                  color 3000ms ease,
+                  border-color 3000ms ease !important;
+    }
+
+    /* ============================================================
+       EFFECT 7 — QUOTE SECTION
+    ============================================================ */
+    #quote-section {
+      background: var(--green-dark);
+      padding: 140px 0;
+      overflow: hidden;
+    }
+
+    .quote-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 48px;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-family: Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text-light);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.28em;
+      margin-bottom: 40px;
+    }
+
+    .quote-word {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 500ms ease, transform 500ms ease;
+      display: inline-block;
+    }
+
+    .quote-word.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quote-attribution {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: rgba(216,237,225,0.45);
+      letter-spacing: 0.06em;
+      opacity: 0;
+      transition: opacity 800ms ease 400ms;
+    }
+
+    .quote-attribution.visible {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      #quote-section { padding: 96px 0; }
+      .quote-inner { padding: 0 28px; }
+    }
+
+    /* ============================================================
+       EFFECT 10 — TIME INDICATOR
+    ============================================================ */
+    .footer-bottom .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .time-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: rgba(216,237,225,0.25);
+      letter-spacing: 0.06em;
+    }
+
+    .time-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(216,237,225,0.4);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       EFFECT 8 — WHATSAPP FLOATING BUTTON
+    ============================================================ */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green-dark);
+      color: var(--mint);
+      border-radius: 50px;
+      padding: 12px 20px 12px 14px;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      transition: background 150ms ease,
+                  transform 150ms ease,
+                  padding 300ms ease;
+      overflow: visible;
+    }
+
+    .wa-float:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+    }
+
+    .wa-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .wa-label {
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      color: var(--mint);
+    }
+
+    .wa-pulse {
+      position: absolute;
+      inset: -1px;
+      border-radius: 50px;
+      border: 2px solid var(--green-mid);
+      opacity: 0;
+      animation: waPulse 4s ease-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes waPulse {
+      0%   { transform: scale(1);    opacity: 0.6; }
+      70%  { transform: scale(1.18); opacity: 0;   }
+      100% { transform: scale(1.18); opacity: 0;   }
+    }
+
+    @media (max-width: 768px) {
+      .wa-float {
+        bottom: 20px;
+        right: 16px;
+        padding: 12px 16px 12px 12px;
+      }
+      .wa-label {
+        font-size: 0.78rem;
+      }
+    }
+
+    /* ============================================================
+       EFFECT 9 — HERO IBEX (fill-based SVG — filter fallback)
+       ibexhero.svg uses fill:#d8ede1; stroke:none paths.
+       Stroke draw animation omitted per fill-based fallback rule.
+    ============================================================ */
+    .hero-ibex {
+      position: absolute;
+      bottom: -80px;
+      right: -60px;
+      width: 520px;
+      max-width: 55vw;
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+      transform-origin: center center;
+      will-change: transform;
+      animation:
+        ibexFadeIn 1200ms ease 1800ms forwards,
+        ibexRotate 120s linear 3000ms infinite;
+    }
+
+    @keyframes ibexFadeIn {
+      to { opacity: 0.07; }
+    }
+
+    @keyframes ibexRotate {
+      from { transform: translateY(var(--ibex-scroll-y, 0px)) rotate(0deg); }
+      to   { transform: translateY(var(--ibex-scroll-y, 0px)) rotate(360deg); }
+    }
+
+
+    .ibex-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ============================================================
+       REDUCED MOTION — additions
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .quote-word,
+      .quote-attribution,
+      .clip-reveal,
+      .cursor-dot,
+      .cursor-ring,
+      .wa-pulse,
+      .hero-ibex {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        clip-path: none !important;
+      }
+
+      .quote-word {
+        transform: none;
+      }
+
+      .hero-ibex {
+        opacity: 0.06 !important;
+      }
+    }
+
+  /* ============================================================
+     HOLE NAV — FIXED LEFT SIDEBAR
+  ============================================================ */
+  .hole-nav {
+    position: fixed;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+
+  @media (max-width: 1100px) {
+    .hole-nav { display: none; }
+  }
+
+  .hole-nav-svg {
+    width: 80px;
+    height: 480px;
+    pointer-events: all;
+    overflow: visible;
+  }
+
+  .hole-rough {
+    fill: rgba(46,125,82,0.07);
+    stroke: rgba(216,237,225,0.12);
+    stroke-width: 0.5;
+  }
+
+  .hole-fairway {
+    fill: rgba(46,125,82,0.13);
+  }
+
+  .hole-bunker {
+    display: none;
+  }
+
+  .hole-green {
+    fill: rgba(46,125,82,0.28);
+    stroke: rgba(216,237,225,0.25);
+    stroke-width: 0.5;
+  }
+
+  .hole-nav-line {
+    fill: none;
+    stroke: rgba(216,237,225,0.2);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+    stroke-linecap: round;
+  }
+
+  .hole-tee-box {
+    fill: rgba(26,92,68,0.35);
+    stroke: rgba(216,237,225,0.3);
+    stroke-width: 0.5;
+  }
+
+  .hole-dot--upcoming {
+    fill: transparent;
+    stroke: rgba(216,237,225,0.3);
+    stroke-width: 1.5;
+    transition: fill 300ms ease, stroke 300ms ease;
+    pointer-events: all;
+    cursor: pointer;
+  }
+
+  .hole-dot--visited {
+    fill: rgba(26,92,68,0.7);
+    stroke: rgba(216,237,225,0.5);
+    stroke-width: 1.5;
+  }
+
+  .hole-dot--active {
+    fill: #1A5C44;
+    stroke: #D8EDE1;
+    stroke-width: 2;
+  }
+
+  .hole-dot-inner {
+    fill: #D8EDE1;
+    pointer-events: none;
+  }
+
+  .hole-flagstick {
+    stroke: rgba(216,237,225,0.6);
+    stroke-width: 1;
+    stroke-linecap: round;
+  }
+
+  .hole-flag {
+    fill: #1A5C44;
+    opacity: 0.75;
+  }
+
+  .hole-hole {
+    fill: rgba(216,237,225,0.2);
+    pointer-events: none;
+  }
+
+  .hole-labels {
+    position: absolute;
+    left: 84px;
+    top: 0;
+    height: 480px;
+    pointer-events: all;
+  }
+
+  .hole-label {
+    font-family: system-ui, -apple-system, Arial, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(216,237,225,0.35);
+    text-decoration: none;
+    transition: color 200ms ease;
+    white-space: nowrap;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .hole-label:hover {
+    color: rgba(216,237,225,0.8);
+  }
+
+  .hole-label--active {
+    color: rgba(216,237,225,0.9) !important;
+  }
+
   </style>
 </head>
 <body>
+
+  <nav class="hole-nav" aria-label="Page sections">
+    <div style="position:relative; width:80px; height:480px;">
+      <svg class="hole-nav-svg" viewBox="0 0 80 480"
+           xmlns="http://www.w3.org/2000/svg"
+           style="position:absolute;top:0;left:0;"
+           aria-hidden="true">
+
+        <!-- Rough boundary -->
+        <path class="hole-rough"
+          d="M36 468
+             C28 460,22 445,22 428
+             C22 410,26 394,28 376
+             C30 356,28 336,26 316
+             C22 292,18 268,20 244
+             C22 222,28 202,28 182
+             C28 160,24 140,22 120
+             C20 98,22 76,30 58
+             C38 40,50 32,58 36
+             C66 40,70 54,68 72
+             C66 90,60 108,58 128
+             C56 148,58 168,60 188
+             C62 210,64 232,60 252
+             C56 272,50 288,50 308
+             C50 330,54 350,54 372
+             C54 394,50 416,44 436
+             C40 452,38 468,36 468Z"/>
+
+        <!-- Fairway -->
+        <path class="hole-fairway"
+          d="M38 455
+             C34 436,32 416,32 396
+             C32 376,34 356,36 338
+             C38 318,40 298,38 278
+             C36 258,32 240,32 220
+             C32 200,36 180,38 160
+             C40 140,40 120,42 100
+             C44 82,48 66,52 58
+             C56 52,62 52,64 60
+             C66 70,62 88,60 108
+             C58 126,54 146,54 166
+             C54 186,56 206,56 226
+             C58 248,58 270,54 290
+             C50 310,46 328,46 348
+             C46 370,48 392,46 412
+             C44 430,40 448,38 455Z"/>
+
+        <!-- Bunker 1 -->
+        <ellipse class="hole-bunker" cx="34" cy="295" rx="7" ry="5"/>
+        <!-- Bunker 2 -->
+        <ellipse class="hole-bunker" cx="36" cy="265" rx="5" ry="4"/>
+
+        <!-- Green -->
+        <path class="hole-green"
+          d="M44 68 C38 60,30 62,30 70
+             C30 80,38 88,46 86
+             C54 84,60 76,58 68
+             C56 60,50 62,44 68Z"/>
+
+        <!-- Navigation dashed line -->
+        <path class="hole-nav-line"
+          d="M40 445 C40 420,40 395,40 368
+             C40 342,40 316,40 290
+             C40 264,40 238,40 212
+             C40 186,41 160,42 134
+             C43 108,44 84,46 72"/>
+
+        <!-- STOP 1 — TEE (active by default) -->
+        <g class="hole-stop hole-stop--active"
+           data-section="hero">
+          <rect x="30" y="446" width="20" height="10" rx="2"
+                class="hole-tee-box"/>
+          <circle cx="40" cy="451" r="7"
+                  class="hole-dot hole-dot--active"/>
+          <circle cx="40" cy="451" r="3"
+                  class="hole-dot-inner"/>
+        </g>
+
+        <!-- STOP 2 — About -->
+        <circle cx="40" cy="368" r="5"
+                class="hole-dot hole-dot--upcoming"
+                data-section="about"/>
+
+        <!-- STOP 3 — Services -->
+        <circle cx="40" cy="290" r="5"
+                class="hole-dot hole-dot--upcoming"
+                data-section="services"/>
+
+        <!-- STOP 4 — Why -->
+        <circle cx="40" cy="212" r="5"
+                class="hole-dot hole-dot--upcoming"
+                data-section="why"/>
+
+        <!-- STOP 5 — Partners -->
+        <circle cx="40" cy="134" r="5"
+                class="hole-dot hole-dot--upcoming"
+                data-section="partners"/>
+
+        <!-- STOP 6 — FLAG (Contact) -->
+        <g class="hole-stop" data-section="contact">
+          <line x1="46" y1="48" x2="46" y2="76"
+                class="hole-flagstick"/>
+          <polygon points="46,48 62,55 46,62"
+                   class="hole-flag"/>
+          <circle cx="46" cy="76" r="6"
+                  class="hole-dot hole-dot--upcoming"/>
+          <circle cx="46" cy="76" r="2.5"
+                  class="hole-hole"/>
+        </g>
+      </svg>
+
+      <div class="hole-labels">
+        <a href="#contact"  class="hole-label" data-section="contact"
+           style="position:absolute;top:72px;transform:translateY(-50%);">Contact</a>
+        <a href="#partners" class="hole-label" data-section="partners"
+           style="position:absolute;top:134px;transform:translateY(-50%);">Partners</a>
+        <a href="#why"      class="hole-label" data-section="why"
+           style="position:absolute;top:212px;transform:translateY(-50%);">Why</a>
+        <a href="#services" class="hole-label" data-section="services"
+           style="position:absolute;top:290px;transform:translateY(-50%);">Services</a>
+        <a href="#about"    class="hole-label" data-section="about"
+           style="position:absolute;top:368px;transform:translateY(-50%);">About</a>
+        <a href="#hero"     class="hole-label" data-section="hero"
+           style="position:absolute;top:451px;transform:translateY(-50%);">Tee</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Custom cursor (desktop / pointer: fine only) -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true">
+    <span class="cursor-label" aria-hidden="true">Alcanada</span>
+  </div>
 
   <!-- ============================================================
        NAVIGATION
@@ -1997,6 +2559,7 @@
         <ul class="nav-links" role="list">
           <li><a href="#about" data-i18n="nav_about">About</a></li>
           <li><a href="#services" data-i18n="nav_services">Services</a></li>
+          <li><a href="#partners" data-i18n="nav_partners">Partners</a></li>
           <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
           <li>
             <div class="lang-switcher" role="navigation" aria-label="Language selection">
@@ -2031,6 +2594,7 @@
       <div class="nav-mobile-menu" id="mobile-menu" role="menu">
         <a href="#about" role="menuitem" data-i18n="nav_about">About</a>
         <a href="#services" role="menuitem" data-i18n="nav_services">Services</a>
+        <a href="#partners" role="menuitem" data-i18n="nav_partners">Partners</a>
         <a href="#contact" role="menuitem" data-i18n="nav_contact">Contact</a>
         <div class="lang-mobile">
           <button class="lang-mobile-opt lang-active" data-lang="en">EN</button>
@@ -2060,25 +2624,115 @@
       <div class="hero-overlay-gradient" aria-hidden="true"></div>
       <div class="hero-overlay-tint" aria-hidden="true"></div>
 
-      <p class="hero-eyebrow hero-animate hero-entrance" data-i18n="hero_eyebrow">Mallorca &middot; Alcanada &middot; Est. 2026</p>
+      <p class="hero-eyebrow hero-entrance" data-i18n="hero_eyebrow">Mallorca &middot; Alcanada &middot; Est. 2026</p>
 
-      <h1 class="hero-heading hero-animate hero-entrance" id="hero-heading" data-i18n="hero_heading">
+      <h1 class="hero-heading hero-entrance" id="hero-heading" data-i18n="hero_heading">
         The caddie service<br>Mallorca didn't have.
       </h1>
 
-      <p class="hero-sub hero-animate hero-entrance" data-i18n="hero_sub">
+      <p class="hero-sub hero-entrance" data-i18n="hero_sub">
         Built for international players who want to get the most out of a round at Alcanada and beyond.
       </p>
 
-      <div class="hero-buttons hero-animate hero-entrance">
+      <div class="hero-buttons hero-entrance">
         <a href="#contact" class="btn-primary" data-i18n="hero_btn_primary">Check Availability</a>
         <a href="#about" class="btn-secondary" data-i18n="hero_btn_secondary">Learn More</a>
       </div>
 
-      <p class="hero-note hero-animate hero-entrance" data-i18n="hero_note">Every inquiry answered the same day — usually within two to three hours.</p>
+      <p class="hero-note hero-entrance" data-i18n="hero_note">Every inquiry answered the same day — usually within two to three hours.</p>
+
+      <!-- Ibex SVG — decorative background, fill-based, filter fallback -->
+      <div class="hero-ibex" aria-hidden="true"><svg
+   viewBox="0 0 820 312"
+   version="1.1"
+   id="svg26"
+   class="ibex-svg"
+   preserveAspectRatio="xMidYMid meet"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs26"><filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter27"
+       x="-0.011712765"
+       y="-0.012129867"
+       width="1.0234255"
+       height="1.0242597"><feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.47411229"
+         id="feGaussianBlur27" /></filter><filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter1"
+       x="-0.0050904769"
+       y="-0.0051411128"
+       width="1.010181"
+       height="1.0102822"><feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.50105279"
+         id="feGaussianBlur1" /></filter></defs><rect
+     width="820"
+     height="312"
+     fill="#1A5C44"
+     id="rect1" /><circle
+     cx="680"
+     cy="156"
+     r="280"
+     fill="#155038"
+     opacity="0.6"
+     id="circle1" /><circle
+     cx="780"
+     cy="280"
+     r="160"
+     fill="#124430"
+     opacity="0.5"
+     id="circle2" /><circle
+     cx="100"
+     cy="280"
+     r="200"
+     fill="#155038"
+     opacity="0.4"
+     id="circle3" /><line
+     x1="0" y1="40" x2="820" y2="40" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line3" /><line
+     x1="0" y1="80" x2="820" y2="80" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line4" /><line
+     x1="0" y1="120" x2="820" y2="120" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line5" /><line
+     x1="0" y1="160" x2="820" y2="160" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line6" /><line
+     x1="0" y1="200" x2="820" y2="200" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line7" /><line
+     x1="0" y1="240" x2="820" y2="240" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line8" /><line
+     x1="0" y1="280" x2="820" y2="280" stroke="#D8EDE1" stroke-width="0.4" opacity="0.15" id="line9" /><line
+     x1="40" y1="0" x2="40" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line10" /><line
+     x1="120" y1="0" x2="120" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line11" /><line
+     x1="200" y1="0" x2="200" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line12" /><line
+     x1="280" y1="0" x2="280" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line13" /><line
+     x1="360" y1="0" x2="360" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line14" /><line
+     x1="440" y1="0" x2="440" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line15" /><line
+     x1="520" y1="0" x2="520" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line16" /><line
+     x1="600" y1="0" x2="600" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line17" /><line
+     x1="680" y1="0" x2="680" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line18" /><line
+     x1="760" y1="0" x2="760" y2="312" stroke="#D8EDE1" stroke-width="0.4" opacity="0.08" id="line19" /><circle
+     cx="60"
+     cy="240"
+     r="3"
+     fill="#D8EDE1"
+     opacity="0.15"
+     id="circle25" /><g
+     id="g13"
+     style="display:inline;fill:#d8ede1;fill-opacity:1"
+     transform="matrix(1.3216626,0,0,1.3216626,3731.1475,437.72808)"><path
+       style="opacity:0.27147766;mix-blend-mode:normal;fill:#d8ede1;fill-opacity:1;stroke:none;stroke-opacity:1;filter:url(#filter1)"
+       d="m -2396.9787,-318.4366 c 1.0276,-0.0811 1.6954,-0.6665 2.6458,-0.97013 3.0758,-0.98253 6.2952,-2.15546 9.525,-2.46946 5.9331,-0.5768 13.28,0.32182 17.4625,5.02709 2.6433,2.97365 3.2868,6.88682 4.057,10.58333 0.4507,2.16376 0.9701,4.39224 0.9701,6.61458 -1.4813,-0.11695 -2.8051,-1.15571 -3.9688,-2.02846 -2.5754,-1.93157 -4.9716,-4.07536 -7.4083,-6.17362 -0.9916,-0.85392 -3.4937,-2.94785 -4.9389,-1.98438 -1.6409,1.09396 -0.6628,3.74273 -0.3087,5.15938 0.9719,3.88752 2.7931,7.50219 4.498,11.1125 0.3721,0.78816 1.8984,2.56286 1.6316,3.43958 -0.3185,1.04639 -2.1973,1.79095 -2.9987,2.42534 -1.9717,1.56095 -3.5439,3.41975 -4.9388,5.51216 -4.1717,6.25753 -5.3676,13.98997 -9.7014,20.10834 -1.4665,2.07036 -3.4439,3.94993 -5.4681,5.46806 -0.6919,0.51889 -1.5754,0.8206 -2.1167,1.4111 1.3321,0.56087 2.7818,0.52917 4.2334,0.52917 0.6326,0 1.5808,-0.18303 2.0725,0.30868 0.8482,0.84819 -0.3367,3.47977 -0.6614,4.45382 -0.9098,2.72945 -1.978,5.41872 -3.3073,7.9375 -0.7369,1.39628 -2.0336,2.52935 -2.6017,3.96875 1.1681,0.39962 2.3206,-0.23934 3.4395,-0.70556 3.2808,-1.36696 5.6346,-5.09063 6.9233,-8.29028 2.8573,-7.09393 3.9959,-14.68892 6.2177,-21.96041 0.9594,-3.13993 1.5573,-6.28951 3.0427,-9.26042 2.0572,-4.11438 5.6475,-8.40255 10.5393,-6.08541 v 0.26458 c -1.0959,0.5479 -2.5595,0.97194 -3.4396,1.85208 -1.0635,1.06347 -1.5501,2.82874 -1.9403,4.23334 -0.7792,2.80502 -1.1857,5.64442 -1.8521,8.46666 -1.7203,7.28593 -3.823,14.985 -7.6729,21.43125 -1.7608,2.94835 -3.8173,5.52692 -6.2618,7.9375 -0.7886,0.77767 -3.1555,1.79614 -3.3955,2.91042 -0.1398,0.64891 0.4774,1.27581 0.6615,1.85208 0.3588,1.1233 0.5037,2.53586 0.6173,3.70417 0.1699,1.74747 -0.2197,3.60774 -0.6173,5.29166 -0.2708,1.14664 -0.9384,1.9677 -0.9702,3.175 l 4.4979,-2.73402 2.6459,-1.76389 -1.0584,5.82083 c 2.3872,-0.62821 5.3091,-3.08712 6.791,-5.02708 0.8132,-1.0645 1.3414,-2.46592 2.4695,-3.175 l -2.8664,6.35 -5.6444,11.1125 -2.3372,4.49791 7.1438,-2.11666 c 0,4.6383 0.2375,8.85073 1.9403,13.22916 1.7832,4.58535 4.6455,8.61934 6.4382,13.22917 0.9036,2.32368 1.9621,5.1762 2.2048,7.67292 0.2519,2.59016 0.012,5.10955 0.6174,7.67291 0.654,2.77005 1.7802,5.84204 1.4993,8.73125 -0.1014,1.04319 -0.7334,1.90786 -0.9701,2.91042 -0.2209,0.93523 0.3582,2.7315 -0.6174,3.30729 -0.8747,0.51622 -2.0586,-0.10757 -2.9104,-0.30868 -1.8566,-0.43837 -3.6839,-0.96111 -5.5563,-1.45521 -1.7886,-0.472 -3.9575,-1.88561 -5.8208,-1.80798 -1.0995,0.0458 -1.9649,0.64682 -3.175,0.52916 -2.7421,-0.2666 -5.515,-1.11587 -8.2021,-1.67569 -1.1906,-0.24804 -2.5553,-0.45866 -3.7042,-0.79375 -1.0518,-0.30679 -1.8415,-0.8629 -2.9104,-0.44097 2.177,5.90892 5.0541,11.94681 8.5549,17.19791 1.1391,1.70862 2.3973,4.34882 4.4097,5.15938 1.239,0.49903 2.9203,0.005 4.2333,0.13229 1.0672,0.10376 2.1618,0.63239 3.175,0.97014 4.9775,1.65914 9.8708,3.55484 14.8167,5.20346 2.9608,0.98693 5.7575,2.53653 8.7313,3.52779 2.8448,0.94828 5.5068,2.21091 8.202,3.48369 1.674,0.79045 3.7634,1.27407 4.7625,2.9545 l -7.9375,-2.73404 -22.7541,-6.0854 -6.8792,-1.85208 -3.7042,-0.70556 c 1.3953,2.40991 4.393,4.03995 6.6146,5.64444 5.9369,4.2877 12.6715,7.75161 19.5792,10.05418 4.8416,1.61387 9.5873,2.88468 14.5521,4.05692 2.822,0.66634 5.8572,0.60255 8.7312,0.88196 0.9776,0.0951 1.9328,0.43411 2.9104,0.52917 5.4635,0.53116 11.2778,-0.005 16.6688,-0.52917 8.6142,-0.83748 16.9112,-2.37389 25.1354,-5.11529 4.93,-1.64331 9.4744,-4.08166 14.0229,-6.48229 4.0941,-2.16074 7.7797,-4.78955 11.6417,-7.36423 2.5159,-1.67727 4.9612,-3.73387 6.791,-6.17361 1.4094,-1.87931 0.6112,-3.73354 0.1764,-5.82083 -0.5241,-2.51572 -1.1618,-5.10809 -1.4112,-7.67292 -0.3585,-3.68747 0.1764,-7.483 0.5292,-11.1125 0.203,-2.08771 0.5739,-4.27727 -0.088,-6.35 -0.8802,-2.7555 -3.6556,-3.63225 -5.468,-5.55625 -2.4537,-2.6046 -3.5051,-6.03085 -4.8507,-9.26041 -0.6997,-1.67915 -1.5841,-3.44236 -1.7639,-5.29167 -0.6051,-6.22359 3.8834,-10.9686 5.9972,-16.40417 2.3082,-5.93539 3.3962,-13.33662 0.5733,-19.31458 -1.2331,-2.61126 -3.0564,-4.54002 -4.7184,-6.87917 1.5696,-0.12392 3.2395,1.50736 4.4979,2.38125 2.9108,2.02142 6.1962,4.02247 8.3784,6.87917 0.8101,1.06045 1.0967,2.28152 1.6757,3.43958 2.5161,-0.72833 3.6482,-4.83552 3.9688,-7.14375 0.5871,-4.22743 -0.3411,-9.04694 -3.9688,-11.81806 -1.5628,-1.19379 -3.6558,-1.93255 -5.5562,-2.38125 -2.0609,-0.48659 -4.8842,-0.0804 -6.8792,0.52917 -0.7054,0.21554 -1.6192,0.82375 -2.3812,0.74966 -1.3013,-0.12651 -2.8432,-1.71184 -3.9688,-2.33716 -2.7921,-1.5512 -6.0793,-2.68934 -9.2604,-2.99861 -6.6954,-0.65094 -13.4326,1.04393 -19.8437,2.55765 -3.0545,0.72118 -6.3957,0.84228 -9.525,1.14652 -1.7939,0.17441 -3.5341,-0.35828 -5.2917,-0.52917 -5.104,-0.49623 -9.9713,-2.53003 -14.8167,-4.14514 -3.2898,-1.09659 -6.8846,-1.54596 -10.0541,-3.04271 -3.4771,-1.64195 -6.5426,-5.36702 -6.0855,-9.4809 0.1288,-1.15889 1.518,-2.80175 0.9261,-3.96874 -0.7223,-1.42388 -3.3072,-1.62788 -4.6302,-2.16076 -4.4936,-1.8099 -9.525,-4.98254 -9.525,-10.27466 0,-1.76165 0.1181,-4.69752 2.1166,-5.29167 0.025,0.93438 0.3525,1.73727 0.5292,2.64584 1.6637,8.55606 10.7955,8.57496 17.1979,11.50937 3.2918,1.50873 4.5534,5.4076 7.6729,6.96736 4.3744,2.18717 9.7229,-0.56245 11.0243,-5.24757 0.3764,-1.35486 -1.2477,-2.36268 -0.8378,-3.70416 0.3699,-1.21069 1.598,-1.77713 1.6757,-3.175 0.1331,-2.39579 -1.8482,-4.27352 -3.3955,-5.82084 -2.5036,-2.50362 -5.7223,-5.42983 -7.1437,-8.73125 -0.5905,-1.37146 -0.054,-2.79989 -0.3528,-4.23333 -0.47,-2.25568 -2.5685,-4.06635 -2.8222,-6.35 -0.1287,-1.15804 0.4215,-2.06819 0.5291,-3.175 0.1199,-1.23255 0.1452,-2.47617 0.2646,-3.70417 0.6735,-6.92803 -1.1329,-14.81324 -5.3799,-20.37291 -3.8577,-5.05015 -10.212,-8.20209 -16.5805,-8.20209 -1.4204,0 -5.3353,-0.44248 -5.8208,1.05834 2.9953,0.63061 5.3209,2.25051 7.6729,4.14512 5.4183,4.36479 8.852,10.89281 9.525,17.81529 0.2171,2.23343 0.2171,4.91026 0,7.14375 -0.073,0.7528 -1.1011,2.20022 -0.6615,2.86633 0.2905,0.44016 1.0113,0.30867 1.4552,0.30867 1.0772,0 3.3304,-0.29352 4.1452,0.57326 0.6977,0.74226 0.3409,2.02555 0.7496,2.86633 0.6698,1.37779 1.711,2.42672 2.1608,3.96875 0.675,2.31445 0.5761,4.89714 1.5434,7.14375 1.0227,2.37524 2.8495,4.4223 4.1892,6.61458 0.3572,0.58446 0.9603,1.18168 1.1465,1.85208 0.3752,1.3506 -1.8788,1.75306 -2.0284,3.175 2.2366,1.11828 7.6153,4.83537 3.4396,6.92325 -0.4458,0.22289 -0.8127,0.4284 -1.323,0.48509 -5.762,0.64023 -9.5196,-5.18987 -12.744,-8.99584 -0.8354,-0.98598 -1.8113,-1.87463 -2.69,-2.82221 -4.4528,-4.80197 -11.1005,-6.83198 -15.5222,-11.72987 -2.4986,-2.76766 -5.0319,-6.01643 -6.8792,-9.26042 -1.7329,-3.04313 -2.9645,-6.72585 -5.0271,-9.525 l 0.2646,-0.26458 11.1125,10.14237 3.9688,2.77813 7.1437,0.57325 5.5563,2.11667 c -0.1838,-2.3279 -3.7063,-3.53164 -3.4837,-5.82084 0.047,-0.48782 0.5136,-0.89109 0.7056,-1.32291 0.4401,-0.99035 0.5574,-2.36989 0.6614,-3.43959 0.7929,-8.15551 -2.3351,-17.21868 -8.4667,-22.75416 -8.7316,-7.88276 -23.6359,-9.28019 -33.0729,-1.94029 -2.2194,1.72622 -4.8066,3.85428 -5.5562,6.70279 m 155.5749,33.33749 c 0.1692,1.60749 1.4881,3.11809 2.293,4.49791 1.2433,2.13136 2.383,4.4132 3.4837,6.61459 3.7679,7.53574 6.8232,15.31024 9.4809,23.28333 1.3202,3.96074 1.6622,8.19368 2.8222,12.17083 1.4582,4.99942 1.7897,10.43296 2.2931,15.61042 0.5159,5.30663 1.052,11.02621 0.5292,16.40416 -0.2746,2.82414 -0.7849,5.6535 -1.0584,8.46667 -0.261,2.68527 -0.6136,5.30725 -1.2347,7.9375 -0.1443,0.61124 -5e-4,1.24912 -0.1764,1.85208 -1.65,5.65697 -3.1557,11.31935 -5.0271,16.93334 -3.8036,11.41077 -10.5769,22.36267 -18.4326,31.48541 -9.1087,10.57776 -19.9317,19.63291 -32.2792,26.14967 -6.5698,3.46739 -13.5399,5.90107 -20.6375,8.06979 -3.4518,1.05471 -6.993,1.89412 -10.5833,2.29304 -0.6591,0.0732 -1.1929,0.45592 -1.8521,0.52917 -3.0882,0.34313 -6.165,0.4928 -9.2604,0.79375 -1.064,0.10345 -2.111,0.42572 -3.175,0.52916 -5.2054,0.50608 -10.7383,-0.0298 -15.875,-0.52916 -19.7601,-1.92111 -39.4776,-8.66201 -55.5625,-20.72571 -15.914,-11.93546 -28.7993,-27.76353 -37.2622,-45.68471 -8.4669,-17.93004 -12.0163,-38.21507 -10.0982,-57.94375 0.1019,-1.04843 -0.102,-2.12656 0,-3.175 0.079,-0.81296 0.4501,-1.56829 0.5291,-2.38125 0.6173,-6.34853 1.7441,-12.65912 3.616,-18.78541 0.5299,-1.7343 0.8341,-3.54756 1.367,-5.29167 3.1169,-10.20054 7.983,-20.24263 13.8907,-29.10416 5.3442,-8.01638 11.6211,-14.88437 18.4326,-21.69584 1.5571,-1.55707 3.3132,-3.02914 5.0271,-4.40971 1.3069,-1.05281 3.09,-2.12988 3.9687,-3.52779 -1.545,-0.32527 -4.4563,1.93154 -5.8208,2.82221 -5.0937,3.32503 -10.1184,7.17017 -14.3757,11.50938 -2.4149,2.46135 -5.1344,4.883 -7.2319,7.62883 -6.3763,8.34713 -11.9739,16.98314 -16.4483,26.45833 -2.7841,5.89573 -4.3341,12.09183 -6.2177,18.25625 -1.4696,4.80958 -2.5995,10.06912 -3.0868,15.08125 -0.2836,2.91714 -0.775,5.81665 -1.0584,8.73125 -0.1868,1.92212 0.1869,3.89871 0,5.82083 -0.2946,3.0302 -0.2946,5.96568 0,8.99584 0.1614,1.66001 -0.1613,3.36707 0,5.02708 0.087,0.89155 0.4425,1.7543 0.5292,2.64583 0.3522,3.62202 0.5721,7.29452 1.4111,10.84792 6.6821,28.30065 22.2311,56.06631 47.0077,72.58404 3.8443,2.56287 7.5417,5.37674 11.6416,7.54062 10.4786,5.53038 21.28,9.40472 32.8084,12.126721 6.1888,1.46126 12.4846,1.59231 18.7854,2.20487 7.1845,0.69849 14.802,0.43137 21.9604,-0.26459 1.9588,-0.19042 3.8829,-0.86992 5.8208,-1.05833 14.4616,-1.40599 28.8903,-7.067461 41.275,-14.463881 6.3379,-3.7851 12.2582,-8.11554 17.7271,-13.05278 1.2924,-1.16675 2.7966,-2.14117 3.9688,-3.43959 4.7672,-5.28065 9.2346,-10.62902 13.4055,-16.40416 8.598,-11.90495 13.5193,-26.13068 16.8452,-40.21667 5.0674,-21.46185 3.0375,-44.33311 -3.8806,-65.0875 -1.4643,-4.39279 -3.5936,-8.48239 -5.4681,-12.7 -2.6747,-6.0182 -6.36,-11.57419 -10.2305,-16.93333 -1.1272,-1.56076 -2.6867,-4.47728 -4.5861,-5.02708 m -117.4749,-2.91042 c 0.2646,1.257 0.9959,1.77634 1.8521,2.64583 1.1978,1.21659 2.0361,2.39404 3.7041,3.04271 1.1311,0.43983 2.9139,0.14476 3.5719,-0.97013 0.5361,-0.90834 -0.451,-2.14864 -0.926,-2.86633 -1.4626,-2.20942 -5.8655,-2.83594 -8.2021,-1.85208 m 5.2916,31.74999 c -0.082,3.09931 -0.3561,6.07866 1.1025,8.99583 0.8087,1.61734 2.7388,2.86089 3.3073,4.49792 0.3156,0.90907 0.1809,2.48551 0.088,3.43958 -0.2466,2.53635 -1.8128,5.01055 -3.0868,7.14375 -4.2014,7.03494 -11.0732,11.72429 -16.4924,17.72708 -1.3721,1.51982 -2.7038,3.47973 -3.6601,5.29167 -0.3958,0.74995 -0.5708,1.80388 -1.367,2.11667 0,-8.94101 6.9242,-15.36339 10.5392,-23.01875 1.9678,-4.16692 3.1157,-8.58515 4.4539,-12.96459 1.3559,-4.43773 2.0716,-9.24798 4.5861,-13.22916 h 0.5291 m 72.2313,78.31666 c -2.0669,-1.03344 -3.7095,-2.84696 -5.2917,-4.49791 -3.1455,-3.28228 -6.5723,-9.06492 -5.2034,-13.75834 1.1897,-4.07899 4.8713,-6.5194 7.5847,-9.525 5.9046,-6.54049 11.0686,-17.49155 4.9389,-25.66458 -1.1598,-1.54634 -3.4797,-4.45806 -5.7327,-4.14514 -3.3162,0.4606 -6.464,3.00203 -9.525,4.27743 -8.5939,3.58082 -20.3223,7.86516 -28.575,1.67569 -1.8248,-1.36865 -3.248,-2.75009 -4.7625,-4.45381 -0.7565,-0.85111 -1.4643,-1.4754 -1.5875,-2.64584 4.2349,0.89155 8.3726,1.16678 12.7,1.5875 1.4938,0.14523 2.9692,0.41322 4.4979,0.26459 1.1506,-0.11187 2.2891,-0.41731 3.4396,-0.52917 1.3662,-0.13282 2.8966,-0.0372 4.2334,-0.35277 3.1653,-0.74737 6.3379,-1.45238 9.525,-2.20487 0.6111,-0.14431 1.2491,-5.4e-4 1.852,-0.17638 5.8917,-1.7184 12.9962,-0.99836 17.4185,3.79235 1.7231,1.86677 2.1103,4.06056 2.7781,6.35 1.795,6.15444 0.4079,13.69636 -3.0868,19.05 -2.5277,3.87215 -5.5577,7.4995 -7.6288,11.64167 -0.5979,1.1957 -1.3893,2.38201 -1.7198,3.70417 -0.9973,3.98911 0.088,7.72125 1.7638,11.37708 0.6681,1.45755 2.0541,2.67925 2.3813,4.23333 m 25.1354,-50.27083 -4.4979,-2.60173 -9.2604,-4.54202 c 0.8858,-0.64426 3.1236,-0.30397 4.2333,-0.0882 3.8299,0.74469 8.7176,2.84883 9.525,7.23194 m -69.0562,19.84375 -1.8521,-2.11667 -4.2334,-6.08541 c 0.7226,1.71596 1.0749,3.75382 1.6757,5.55625 0.939,2.81696 2.39,5.54493 2.9986,8.46666 0.645,3.09599 -0.044,6.78969 -0.7937,9.78959 -0.9125,3.64979 -2.7029,7.54831 -4.8948,10.58333 -0.6408,0.88732 -2.8057,3.36039 -2.293,4.49792 0.864,1.91716 4.4409,2.28983 6.2177,2.73402 4.6778,1.16947 9.9541,1.70749 14.8166,1.23473 1.5422,-0.14995 4.0287,-1.29359 5.5122,-0.74965 0.6496,0.23818 0.8256,1.02809 1.1906,1.5434 0.8052,1.13675 1.8387,2.19146 2.8222,3.175 2.1076,2.10759 5.4855,4.17994 6.8351,6.87916 2.0371,4.07408 -0.9913,9.04677 -2.5135,12.7 -0.5478,1.3147 -0.2466,3.64497 -1.2348,4.67431 -0.5801,0.60431 -1.6085,0.75939 -2.293,1.23471 -1.0306,0.71572 -1.617,1.6349 -2.9104,1.94029 -2.2396,0.52878 -4.3244,-0.62338 -6.35,-1.41112 -2.6155,-1.01712 -5.4565,-1.97967 -8.2021,-2.51354 -0.8838,-0.17184 -2.0043,-0.74322 -2.9104,-0.61736 -1.1381,0.15807 -2.3698,0.77459 -3.4396,1.19063 -0.9669,0.37599 -2.0553,0.55029 -2.3813,1.5875 l 12.4354,3.61598 27.5167,8.73125 9.525,3.74825 2.9104,1.6316 c -1.2857,0 -2.4522,-0.46211 -3.7041,-0.70556 -2.1149,-0.41123 -4.2999,-0.63675 -6.35,-1.23471 -2.3933,-0.69802 -4.7152,-1.59772 -7.1438,-2.20487 -9.878,-2.46951 -19.5304,-5.73812 -29.3687,-8.33438 -3.7838,-0.9985 -7.7055,-2.02552 -11.3771,-3.35137 -0.9364,-0.33813 -2.8637,-0.40213 -3.1309,-1.63161 -0.1543,-0.70974 0.4741,-1.70702 0.6614,-2.38125 0.3086,-1.11077 0.4657,-2.27896 0.3528,-3.43958 -0.2665,-2.74192 -1.8477,-5.17095 -2.1167,-7.9375 -0.2917,-3.00113 -0.2624,-6.6454 0.6174,-9.525 0.5626,-1.84112 1.7573,-3.39635 2.2049,-5.29167 0.4551,-1.92782 -0.1367,-4.19506 0.4409,-6.08541 0.6186,-2.02448 2.1407,-3.91057 3.0428,-5.82084 1.757,-3.72078 2.7715,-7.5937 1.9843,-11.64166 -0.2934,-1.50878 -0.307,-2.50545 -1.4111,-3.70417 0,2.64834 -0.01,5.36085 -0.6174,7.9375 -1.0982,4.65117 -3.7535,8.77434 -6.7027,12.43542 -1.4056,1.7449 -3.3137,4.40617 -5.3799,5.29166 0.1995,-2.52683 1.4477,-4.94856 2.0285,-7.40833 0.689,-2.91836 0.3772,-6.55226 0.088,-9.525 -0.538,-5.53424 -2.867,-10.85945 -3.175,-16.40417 -0.03,-0.54925 0.2121,-1.04846 0.2646,-1.5875 0.3689,-3.79447 0.7548,-7.51247 2.2048,-11.1125 0.6449,-1.6009 1.5806,-3.06226 2.5577,-4.49791 0.6657,-0.9783 1.5017,-1.85184 2.3812,-2.64584 1.2847,-1.15978 3.1755,-2.56118 5.0271,-2.07256 1.7074,0.45057 3.456,3.03744 4.3215,4.45381 3.198,5.23295 4.1452,10.31015 4.1452,16.40417 m 29.1041,-10.05417 c -0.2517,1.19575 -1.0301,2.08815 -1.5434,3.175 -0.9722,2.05886 -1.9393,4.86624 -2.1607,7.14375 -0.6668,6.8586 0.6787,13.41322 2.8222,19.84375 1.516,4.54803 3.2548,9.28413 6.4823,12.96459 2.0208,2.30444 4.3992,4.08218 6.835,5.90902 1.3817,1.03627 2.7075,2.21619 4.2334,3.04271 2.4228,1.31235 6.6026,2.77195 7.5847,5.60035 0.8356,2.40647 0.9039,4.91223 1.1465,7.40833 0.4449,4.57642 1.308,9.96748 0.3528,14.55209 -0.4225,2.02823 -1.476,3.00981 -2.4254,4.7625 -0.3102,0.57275 -0.5752,1.89327 -1.1465,2.24895 -0.5232,0.32582 -1.3198,-0.16292 -1.808,-0.35277 -1.097,-0.4266 -2.2979,-0.69711 -3.4395,-1.01425 -3.4614,-0.96147 -6.8387,-2.20831 -10.3188,-3.175 -1.518,-0.42166 -3.4262,-0.8669 -4.7625,-1.67568 v -0.26459 c 1.0689,-0.64697 2.3454,-0.99666 3.0868,-2.11666 0.7954,-1.20161 0.2762,-3.16121 0.2205,-4.49792 -0.084,-2.01175 0.3629,-4.20964 1.0142,-6.08542 1.0165,-2.92735 3.2462,-5.48426 4.7184,-8.20208 0.6506,-1.20098 1.808,-2.8076 1.808,-4.23333 0,-1.92387 -2.4114,-3.38152 -3.6159,-4.58611 -2.9967,-2.99668 -5.831,-5.88018 -8.2021,-9.43681 -0.7305,-1.09575 -1.3399,-2.26154 -1.8962,-3.43958 -0.2122,-0.44946 -0.3266,-1.2684 -0.8379,-1.49931 -0.6221,-0.28098 -1.7874,0.91021 -2.3812,1.19062 -2.2784,1.07589 -4.7974,1.78704 -7.1438,2.60175 -1.175,0.40802 -2.4862,0.45181 -3.7041,0.70554 -5.4883,1.14339 -10.8502,0.85174 -16.4042,0.70556 0.5895,-0.61629 1.2796,-0.45459 2.1167,-0.61735 2.3305,-0.45314 4.7781,-0.74015 7.1437,-0.97015 2.6967,-0.26217 5.3396,-1.30685 7.9375,-2.02847 2.128,-0.5911 4.4211,-1.16003 6.35,-2.20486 1.4205,-0.76946 3.117,-1.11846 4.2334,-2.38125 0.9577,-1.0833 0.2068,-2.02546 -0.1764,-3.175 -0.5475,-1.64234 -1.0363,-3.35138 -1.4552,-5.02708 -1.7711,-7.08449 -2.3345,-13.87978 1.5434,-20.37292 0.9025,-1.5112 2.0196,-3.98475 3.7923,-4.49792 m -55.0333,13.22917 c -0.065,2.47963 -0.7751,4.8784 -0.5292,7.40833 0.5702,5.86479 3.3962,11.30799 3.9688,17.19792 0.1964,2.02016 -0.1294,4.13352 -0.6174,6.08542 -0.2582,1.03277 -0.9529,2.07689 -0.6173,3.175 0.5139,1.68179 1.7882,2.99826 2.2048,4.7625 0.5464,2.31387 0.3528,4.77346 0.3528,7.14375 0,2.63748 0.176,5.34193 -0.2205,7.9375 -0.1532,1.00257 -0.2667,2.16618 -0.3087,3.175 -0.027,0.656 0.1486,1.53924 -0.3528,2.07256 -0.619,0.65855 -1.6013,0.0598 -2.293,-0.13229 -2.1065,-0.58512 -4.3121,-1.32413 -6.35,-2.11667 -1.0562,-0.41073 -2.3675,-0.45315 -3.1309,-1.4111 -0.8755,-1.09873 -0.3616,-3.14836 -0.6615,-4.49792 -0.3163,-1.42359 -1.0031,-2.75884 -1.1465,-4.23333 -0.093,-0.95854 0.3486,-1.95988 0.441,-2.91042 0.273,-2.80844 0.5052,-5.48437 1.4111,-8.20208 0.8039,-2.41189 2.0285,-4.53295 2.0285,-7.14375 0,-0.6368 0.1608,-1.53037 -0.1323,-2.11667 -0.9627,-1.92529 -4.2501,-2.65698 -5.9532,-3.79236 -3.9045,-2.60302 -9.2604,-7.19452 -9.2604,-12.34722 l 1.9403,2.38125 4.4097,4.54202 11.9063,7.05554 3.4396,1.36702 c 0.7784,-2.68923 -0.127,-5.14337 -0.9702,-7.67292 -1.1842,-3.55264 -2.0372,-7.65873 -1.6757,-11.37708 0.1833,-1.88499 0.4033,-5.27303 2.1167,-6.35 m -14.2875,71.96667 15.0812,5.02708 v 0.26458 c -2.2838,-0.42071 -4.41,-1.35486 -6.6145,-2.02848 -1.6565,-0.50613 -3.3918,-0.86333 -5.0271,-1.49929 -0.8352,-0.32477 -3.9288,-0.90783 -3.4396,-1.76389 m 66.9396,9.26041 c -1.541,0 -3.0509,-0.54809 -4.4979,-0.97013 -2.02,-0.58917 -4.2768,-0.83341 -6.35,-1.32293 -7.5755,-1.78865 -15.4358,-3.79235 -23.2834,-3.79235 v -0.52917 c 3.0303,-0.23923 5.8963,-1.35969 8.9959,-1.05833 5.6036,0.54481 11.309,2.77202 16.6687,4.40972 2.0576,0.62871 4.0576,1.32439 6.0854,2.02848 0.8937,0.31032 2.0415,0.30806 2.3813,1.23471"
+       id="path7"
+       transform="matrix(1.3938935,0,0,1.3938935,1024.2664,135.22871)" /><path
+       style="opacity:0.28865979;mix-blend-mode:normal;fill:#d8ede1;fill-opacity:1;stroke:none;stroke-width:2.39015;stroke-opacity:1;filter:url(#filter27)"
+       d="m -2744.315,-305.72336 c -69.1487,9.88047 -52.5819,95.23172 3.5108,93.7049 58.9541,0.13833 68.8448,-89.19888 0.9368,-93.78702 m 14.9002,76.50194 c 12.7329,-28.5097 -7.6495,16.34629 -15.5081,-4.27964 -27.9556,2.96189 0.8361,-13.45221 -23.8064,-14.83586 -40.4142,-50.09259 61.6431,-75.77341 59.595,-16.85361 -0.5993,13.93677 -7.4112,29.51571 -20.2803,35.96911 m -20.2801,-67.52097 c -0.4748,4.40766 5.1379,-1.12068 0,0 z m -3.8024,12.62074 c 4.5113,3.65434 3.9207,-5.95334 0,0 z m -30.4205,12.62073 c 18.8562,39.0917 -1.1412,40.70061 -1.4405,3.4429 m 80.0268,-0.28771 c 3.6083,15.21534 -3.7333,11.85938 0,0 z m -55.7707,3.78622 c 10.8514,4.66942 2.5379,-7.06989 0,0 z m -9.5064,2.52414 c 2.2645,5.6904 4.9329,-3.84687 0,0 z m 53.2356,4.41728 c 10.1711,7.19416 1.9018,-9.48335 0,0 z m -46.2645,2.52414 c -0.4114,10.55832 8.0922,-0.8028 0,0 z m 18.379,3.15519 c -0.9456,-6.81355 -7.519,1.4344 0,0 z m 20.914,1.26206 c 2.0836,6.62776 10.2914,-1.15848 0,0 z m 17.1114,1.89311 c 2.2624,7.65611 -7.1527,3.89543 0,0 z m -29.1526,7.57245 c 11.6971,-7.52723 -13.4217,-3.69369 0,0 z m -32.3216,1.89311 c -6.2521,2.48979 -4.045,-6.91323 0,0 z m 18.379,-0.63103 c 4.8974,8.80431 8.8009,-1.02208 0,0 z m -17.7455,2.52414 c -1.1234,2.81468 -3.6689,-4.99293 0,0 z m 55.7708,0 c -2.7549,5.34688 -7.4551,-2.4825 0,0 z m -60.2067,5.88971 -0.2099,0.21036 z m 8.2385,3.57584 c -7.7112,-1.30451 -1.6327,-6.07505 0,0 z m 6.3378,-2.52414 0.3353,2.24111 z m 6.0393,2.24111 c 15.5172,-7.14202 4.8523,13.61655 0,-2e-5 m 15.21,6.94141 c 0.4749,4.40783 -5.138,-1.12091 0,0 z m -13.2817,0.76691 -0.6335,0.63103 z"
+       id="path7-4"
+       transform="matrix(1.0595205,0,0,1.0595205,150.48662,114.55289)" /></g></svg></div>
 
       <!-- Scroll indicator -->
-      <div class="scroll-indicator hero-animate hero-entrance" aria-hidden="true">
+      <div class="scroll-indicator hero-entrance" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 9l6 6 6-6" stroke="#D8EDE1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
         </svg>
@@ -2311,13 +2965,13 @@
       <div class="gallery-vignette gallery-vignette--right"></div>
       <div class="gallery-inner">
         <div class="gallery-item">
-          <img src="about_david_walking.jpg" alt="">
+          <img class="clip-reveal" src="about_david_walking.jpg" alt="">
         </div>
         <div class="gallery-item">
-          <img src="interlude_fairway.jpg" alt="">
+          <img class="clip-reveal" src="interlude_fairway.jpg" alt="">
         </div>
         <div class="gallery-item">
-          <img src="service_green_read.jpg" alt="">
+          <img class="clip-reveal" src="service_green_read.jpg" alt="">
         </div>
       </div>
       <div class="gallery-dots" aria-hidden="true">
@@ -2378,6 +3032,35 @@
     </section>
 
     <!-- ============================================================
+         QUOTE INTERLUDE
+    ============================================================ -->
+    <section id="quote-section" aria-label="Quote">
+      <div class="quote-inner">
+        <div class="quote-text" aria-label="Fuzzy Zoeller quote">
+          <span class="quote-word">I</span>
+          <span class="quote-word">never</span>
+          <span class="quote-word">had</span>
+          <span class="quote-word">one</span>
+          <span class="quote-word">thought</span>
+          <span class="quote-word">the</span>
+          <span class="quote-word">whole</span>
+          <span class="quote-word">week.</span>
+          <span class="quote-word">My</span>
+          <span class="quote-word">caddie</span>
+          <span class="quote-word">knew</span>
+          <span class="quote-word">the</span>
+          <span class="quote-word">course.</span>
+          <span class="quote-word">I</span>
+          <span class="quote-word">just</span>
+          <span class="quote-word">played.</span>
+        </div>
+        <p class="quote-attribution">
+          — Fuzzy Zoeller, 1979 Masters Champion
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
          SECTION 6: PARTNERS
     ============================================================ -->
     <section id="partners" aria-labelledby="partners-heading">
@@ -2400,7 +3083,7 @@
 
     <!-- Ocean accent strip -->
     <div class="ocean-strip">
-      <img src="Broll_ocean.png" alt="">
+      <img class="clip-reveal" src="Broll_ocean.png" alt="">
     </div>
 
     <!-- ============================================================
@@ -2559,6 +3242,10 @@
     <div class="footer-bottom">
       <div class="container">
         <p class="footer-copyright" data-i18n="footer_copyright">&copy; 2026 Mallorcaddies. All rights reserved.</p>
+        <span class="time-indicator" aria-hidden="true">
+          <span class="time-dot"></span>
+          <span class="time-text">Morning light</span>
+        </span>
       </div>
     </div>
   </footer>
@@ -2639,7 +3326,7 @@
 
       // Stagger transition delays for #why grid items
       document.querySelectorAll('#why .reveal-target').forEach(function (el, i) {
-        el.style.transitionDelay = (i * 80) + 'ms';
+        el.style.transitionDelay = (i * 55) + 'ms';
       });
 
       // Staggered card reveals
@@ -2765,7 +3452,7 @@
     (function () {
       var i18n = {
         en: {
-          nav_about: 'About', nav_services: 'Services', nav_contact: 'Contact', nav_cta: 'Check Availability',
+          nav_about: 'About', nav_services: 'Services', nav_contact: 'Contact', nav_partners: 'Partners', nav_cta: 'Check Availability',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: "The caddie service Mallorca didn't have.",
           hero_sub: 'Built for international players who want to get the most out of a round at Alcanada and beyond.',
@@ -2832,7 +3519,7 @@
           footer_copyright: '© 2026 Mallorcaddies. All rights reserved.'
         },
         es: {
-          nav_about: 'Sobre nosotros', nav_services: 'Servicios', nav_contact: 'Contacto', nav_cta: 'Consultar disponibilidad',
+          nav_about: 'Sobre nosotros', nav_services: 'Servicios', nav_contact: 'Contacto', nav_partners: 'Socios', nav_cta: 'Consultar disponibilidad',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: 'El servicio de caddie que Mallorca no tenía.',
           hero_sub: 'Creado para jugadores internacionales que quieren aprovechar al máximo una ronda en Alcanada y más allá.',
@@ -2899,7 +3586,7 @@
           footer_copyright: '© 2026 Mallorcaddies. Todos los derechos reservados.'
         },
         de: {
-          nav_about: 'Über uns', nav_services: 'Leistungen', nav_contact: 'Kontakt', nav_cta: 'Verfügbarkeit prüfen',
+          nav_about: 'Über uns', nav_services: 'Leistungen', nav_contact: 'Kontakt', nav_partners: 'Partner', nav_cta: 'Verfügbarkeit prüfen',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: 'Der Caddie-Service, den Mallorca nicht hatte.',
           hero_sub: 'Für internationale Spieler, die das Beste aus einer Runde in Alcanada und darüber hinaus herausholen wollen.',
@@ -2966,7 +3653,7 @@
           footer_copyright: '© 2026 Mallorcaddies. Alle Rechte vorbehalten.'
         },
         fr: {
-          nav_about: 'À propos', nav_services: 'Services', nav_contact: 'Contact', nav_cta: 'Vérifier les disponibilités',
+          nav_about: 'À propos', nav_services: 'Services', nav_contact: 'Contact', nav_partners: 'Partenaires', nav_cta: 'Vérifier les disponibilités',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: "Le service de caddie que Majorque n'avait pas.",
           hero_sub: 'Conçu pour les joueurs internationaux qui souhaitent tirer le meilleur d\'une partie à Alcanada et au-delà.',
@@ -3033,7 +3720,7 @@
           footer_copyright: '© 2026 Mallorcaddies. Tous droits réservés.'
         },
         sv: {
-          nav_about: 'Om oss', nav_services: 'Tjänster', nav_contact: 'Kontakt', nav_cta: 'Kontrollera tillgänglighet',
+          nav_about: 'Om oss', nav_services: 'Tjänster', nav_contact: 'Kontakt', nav_partners: 'Partners', nav_cta: 'Kontrollera tillgänglighet',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: 'Caddietjänsten Mallorca inte hade.',
           hero_sub: 'Skapad för internationella spelare som vill få ut det mesta av en runda på Alcanada och bortom.',
@@ -3100,7 +3787,7 @@
           footer_copyright: '© 2026 Mallorcaddies. Alla rättigheter förbehållna.'
         },
         zh: {
-          nav_about: '关于我们', nav_services: '服务', nav_contact: '联系', nav_cta: '查询可用性',
+          nav_about: '关于我们', nav_services: '服务', nav_contact: '联系', nav_partners: '合作伙伴', nav_cta: '查询可用性',
           hero_eyebrow: '马略卡 · Alcanada · 成立于2026',
           hero_heading: '马略卡从未有过的球童服务。',
           hero_sub: '专为希望在Alcanada及其他球场充分发挥水平的国际球员而设。',
@@ -3167,7 +3854,7 @@
           footer_copyright: '© 2026 Mallorcaddies。保留所有权利。'
         },
         nl: {
-          nav_about: 'Over ons', nav_services: 'Diensten', nav_contact: 'Contact', nav_cta: 'Beschikbaarheid controleren',
+          nav_about: 'Over ons', nav_services: 'Diensten', nav_contact: 'Contact', nav_partners: 'Partners', nav_cta: 'Beschikbaarheid controleren',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
           hero_heading: 'De caddieservice die Mallorca niet had.',
           hero_sub: 'Gebouwd voor internationale spelers die het meeste willen halen uit een ronde op Alcanada en daarbuiten.',
@@ -3237,6 +3924,7 @@
           nav_about: "О нас",
           nav_services: "Услуги",
           nav_contact: "Связаться",
+          nav_partners: "Партнёры",
           nav_cta: "Проверить доступность",
           hero_eyebrow: "Мальорка · Алканада · Основано в 2026 году",
           hero_heading: "Служба кэдди, которой не было на Мальорке.",
@@ -3572,6 +4260,24 @@
       });
     }());
 
+    (function () {
+      var ibex = document.querySelector('.hero-ibex');
+      if (!ibex) return;
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () {
+            ibex.style.setProperty(
+              '--ibex-scroll-y',
+              (-window.scrollY * 0.08) + 'px'
+            );
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }());
+
     // ── Mobile gallery carousel ───────────────────────────────────
     (function () {
       if (window.innerWidth > 768) return;
@@ -3637,7 +4343,536 @@
 
       startAuto();
     }());
+
+    // ── EFFECT 1 — Custom cursor ─────────────────────────────────
+    (function () {
+      if (!matchMedia('(pointer: fine)').matches) return;
+
+      var dot   = document.querySelector('.cursor-dot');
+      var ring  = document.querySelector('.cursor-ring');
+      if (!dot || !ring) return;
+
+      var ringX = 0, ringY = 0;
+      var mouseX = 0, mouseY = 0;
+      var rafId = null;
+
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      }, { passive: true });
+
+      function tick() {
+        var dx = mouseX - ringX;
+        var dy = mouseY - ringY;
+        ringX += dx * 0.12;
+        ringY += dy * 0.12;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+          rafId = null;
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function addState(els, state) {
+        els.forEach(function (el) {
+          el.addEventListener('mouseenter', function () {
+            ring.classList.add(state);
+            dot.classList.add(state);
+          });
+          el.addEventListener('mouseleave', function () {
+            ring.classList.remove(state);
+            dot.classList.remove(state);
+          });
+        });
+      }
+
+      addState(
+        Array.from(document.querySelectorAll('img, .gallery-item')),
+        'cursor-image'
+      );
+      addState(
+        Array.from(document.querySelectorAll(
+          'a, button, .btn-primary, .btn-secondary, .nav-cta, .partners-cta'
+        )),
+        'cursor-link'
+      );
+      addState(
+        Array.from(document.querySelectorAll('.service-card')),
+        'cursor-card'
+      );
+
+      document.addEventListener('mouseleave', function () {
+        dot.style.opacity  = '0';
+        ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', function () {
+        dot.style.opacity  = '1';
+        ring.style.opacity = '1';
+      });
+    }());
+
+    // ── EFFECT 2 — Magnetic buttons ──────────────────────────────
+    (function () {
+      if (!matchMedia('(pointer: fine)').matches) return;
+
+      var magnets = document.querySelectorAll(
+        '.btn-primary, .btn-secondary, .nav-cta, .partners-cta, .btn-submit'
+      );
+
+      magnets.forEach(function (el) {
+        el.addEventListener('mousemove', function (e) {
+          var rect = el.getBoundingClientRect();
+          var cx = rect.left + rect.width  / 2;
+          var cy = rect.top  + rect.height / 2;
+          var dx = (e.clientX - cx) / (rect.width  / 2);
+          var dy = (e.clientY - cy) / (rect.height / 2);
+          var strength = 8;
+          el.style.transform = 'translate(' + (dx * strength) + 'px, ' +
+                                              (dy * strength) + 'px)';
+          el.style.transition = 'transform 100ms ease';
+        });
+
+        el.addEventListener('mouseleave', function () {
+          el.style.transform  = 'translate(0, 0)';
+          el.style.transition = 'transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+        });
+      });
+    }());
+
+    // ── EFFECT 3 — Image clip reveal on scroll ───────────────────
+    (function () {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.clip-reveal').forEach(function (el) {
+          el.classList.add('revealed');
+        });
+        return;
+      }
+
+      var clipObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('revealed');
+          clipObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.clip-reveal').forEach(function (el) {
+        clipObserver.observe(el);
+      });
+    }());
+
+    // ── EFFECT 6 — Morning / evening palette ─────────────────────
+    (function () {
+      var timeDot  = document.querySelector('.time-dot');
+      var timeText = document.querySelector('.time-text');
+
+      function applyTimeOfDay(animate) {
+        var hour = new Date().getHours();
+        var isEvening = hour >= 18 || hour < 6;
+        var html = document.documentElement;
+
+        if (animate) {
+          html.classList.add('transitioning');
+          setTimeout(function () {
+            html.classList.remove('transitioning');
+          }, 3200);
+        }
+
+        if (isEvening) {
+          html.classList.add('evening');
+        } else {
+          html.classList.remove('evening');
+        }
+
+        if (timeText) {
+          timeText.textContent = isEvening ? 'Evening light' : 'Morning light';
+        }
+        if (timeDot) {
+          timeDot.style.background = isEvening
+            ? 'rgba(184, 217, 200, 0.5)'
+            : 'rgba(216, 237, 225, 0.4)';
+        }
+      }
+
+      applyTimeOfDay(false);
+
+      var now = new Date();
+      var hour = now.getHours();
+
+      var msUntilSwitch;
+      if (hour < 6) {
+        // evening now — switch to morning at 06:00 today
+        msUntilSwitch = new Date(
+          now.getFullYear(), now.getMonth(), now.getDate(),
+          6, 0, 0, 0
+        ) - now;
+      } else if (hour < 18) {
+        // morning now — switch to evening at 18:00 today
+        msUntilSwitch = new Date(
+          now.getFullYear(), now.getMonth(), now.getDate(),
+          18, 0, 0, 0
+        ) - now;
+      } else {
+        // evening now — switch to morning at 06:00 tomorrow
+        msUntilSwitch = new Date(
+          now.getFullYear(), now.getMonth(), now.getDate() + 1,
+          6, 0, 0, 0
+        ) - now;
+      }
+
+      if (msUntilSwitch > 0) {
+        setTimeout(function () {
+          applyTimeOfDay(true);
+          setInterval(function () {
+            applyTimeOfDay(true);
+          }, 12 * 60 * 60 * 1000);
+        }, msUntilSwitch);
+      }
+    }());
+
+    // ── EFFECT 7 — Scroll-triggered quote reveal ──────────────────
+    (function () { return; /* replaced by spotlight reveal */
+      var section = document.getElementById('quote-section');
+      if (!section) return;
+
+      var words       = section.querySelectorAll('.quote-word');
+      var attribution = section.querySelector('.quote-attribution');
+      var triggered   = false;
+
+      function revealWords() {
+        if (triggered) return;
+        var rect    = section.getBoundingClientRect();
+        var windowH = window.innerHeight;
+
+        if (rect.top < windowH * 0.75) {
+          triggered = true;
+          words.forEach(function (word, i) {
+            setTimeout(function () {
+              word.classList.add('visible');
+            }, i * 80);
+          });
+          setTimeout(function () {
+            if (attribution) attribution.classList.add('visible');
+          }, words.length * 80 + 200);
+          window.removeEventListener('scroll', revealWords);
+        }
+      }
+
+      window.addEventListener('scroll', revealWords, { passive: true });
+      revealWords();
+    }());
+
+    // ── EFFECT 4 — Heading decode on scroll ──────────────────────
+    (function () {
+      function decodeText(el) {
+        var original = el.textContent.trim();
+        var rect = el.getBoundingClientRect();
+        el.style.minHeight = rect.height + 'px';
+        el.style.maxHeight = rect.height + 'px';
+        el.style.overflow  = 'hidden';
+
+        var span = document.createElement('span');
+        span.style.display    = 'inline-block';
+        span.style.width      = '100%';
+        span.style.whiteSpace = 'pre-wrap';
+        span.style.wordBreak  = 'break-word';
+        span.textContent      = original;
+        el.textContent = '';
+        el.appendChild(span);
+
+        var iterations = 0;
+        var totalChars = original.length;
+        var chars = 'CEIJLMNORSTUV';
+
+        var interval = setInterval(function () {
+          var floor = Math.floor(iterations);
+          var result = '';
+          for (var i = 0; i < totalChars; i++) {
+            if (original[i] === ' ') {
+              result += ' ';
+            } else if (i < floor) {
+              result += original[i];
+            } else {
+              result += chars[Math.floor(
+                Math.random() * chars.length
+              )];
+            }
+          }
+          span.textContent = result;
+          iterations += 0.45;
+          if (floor >= totalChars) {
+            clearInterval(interval);
+            span.textContent   = original;
+            el.style.minHeight = '';
+            el.style.maxHeight    = '';
+            el.style.overflow     = '';
+          }
+        }, 28);
+      }
+
+      if (!('IntersectionObserver' in window)) return;
+
+      var decodeObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            el.style.opacity   = '0';
+            el.style.transform = 'none';
+            setTimeout(function () {
+              el.style.opacity = '1';
+              decodeText(el);
+            }, 100);
+            decodeObserver.unobserve(el);
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      document.querySelectorAll(
+        '.hero-heading, .services-heading, .about-heading, ' +
+        '.why-heading, .partners-heading, .contact-heading'
+      ).forEach(function (el) {
+        decodeObserver.observe(el);
+      });
+    }());
+
+    // ── EFFECT 8 — Quote spotlight reveal ────────────────────────
+    (function () {
+      var section = document.getElementById('quote-section');
+      if (!section) return;
+
+      var words       = section.querySelectorAll('.quote-word');
+      var attribution = section.querySelector('.quote-attribution');
+      var ring        = document.querySelector('.cursor-ring');
+      var dot         = document.querySelector('.cursor-dot');
+      if (!ring) return;
+
+      var revealed  = [];
+      var allDone   = false;
+      var inSection = false;
+      var mouseX    = 0;
+      var mouseY    = 0;
+      var rafId     = null;
+
+      /* Words start fully invisible */
+      words.forEach(function (w, i) {
+        w.style.opacity    = '0';
+        w.style.transform  = 'none';
+        w.style.transition = 'opacity 200ms ease';
+        revealed[i]        = false;
+      });
+      if (attribution) {
+        attribution.style.opacity    = '0';
+        attribution.style.transition = 'opacity 800ms ease';
+      }
+
+      /* When cursor enters section — expand ring, fill white,
+         difference blend creates the inversion spotlight */
+      section.addEventListener('mouseenter', function () {
+        inSection = true;
+
+        ring.style.width        = '140px';
+        ring.style.height       = '140px';
+        ring.style.background   = '#FFFFFF';
+        ring.style.mixBlendMode = 'difference';
+        ring.style.borderColor  = 'transparent';
+        ring.style.transition   =
+          'width 200ms cubic-bezier(0.22,1,0.36,1),' +
+          'height 200ms cubic-bezier(0.22,1,0.36,1),' +
+          'background 200ms ease,' +
+          'border-color 200ms ease';
+
+        if (dot) {
+          dot.style.opacity    = '0';
+          dot.style.transition = 'opacity 200ms ease';
+        }
+
+        if (!rafId && !allDone) rafId = requestAnimationFrame(check);
+      });
+
+      /* Restore cursor when leaving */
+      section.addEventListener('mouseleave', function () {
+        inSection = false;
+
+        ring.style.width        = '36px';
+        ring.style.height       = '36px';
+        ring.style.background   = 'transparent';
+        ring.style.mixBlendMode = '';
+        ring.style.borderColor  = 'rgba(216,237,225,0.55)';
+        ring.style.transition   =
+          'width 200ms cubic-bezier(0.22,1,0.36,1),' +
+          'height 200ms cubic-bezier(0.22,1,0.36,1),' +
+          'background 200ms ease,' +
+          'border-color 200ms ease';
+
+        if (dot) {
+          dot.style.opacity    = '1';
+          dot.style.transition = 'opacity 200ms ease';
+        }
+
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+        /* If not all revealed yet, finish them after delay */
+        if (!allDone) {
+          setTimeout(function () {
+            if (!allDone) revealAll();
+          }, 2000);
+        }
+      });
+
+      section.addEventListener('mousemove', function (e) {
+        var rect = section.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      }, { passive: true });
+
+      function check() {
+        words.forEach(function (w, i) {
+          if (revealed[i]) return;
+          var rect    = w.getBoundingClientRect();
+          var secRect = section.getBoundingClientRect();
+          var wx      = rect.left + rect.width  / 2 - secRect.left;
+          var wy      = rect.top  + rect.height / 2 - secRect.top;
+          var dist    = Math.sqrt(
+            Math.pow(mouseX - wx, 2) +
+            Math.pow(mouseY - wy, 2)
+          );
+          if (dist < 80) {
+            revealed[i]     = true;
+            w.style.opacity = '1';
+          }
+        });
+
+        /* Check if all words revealed */
+        if (revealed.every(function (r) { return r; })) {
+          revealAll();
+          return;
+        }
+
+        if (inSection && !allDone) {
+          rafId = requestAnimationFrame(check);
+        } else {
+          rafId = null;
+        }
+      }
+
+      function revealAll() {
+        if (allDone) return;
+        allDone = true;
+        words.forEach(function (w) {
+          w.style.opacity = '1';
+        });
+        if (attribution) attribution.style.opacity = '1';
+      }
+
+      /* Mobile fallback — reveal on scroll into view */
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting && !allDone) {
+            setTimeout(revealAll, 400);
+          }
+        }, { threshold: 0.5 }).observe(section);
+      }
+    }());
+
+    // ── Hole nav — scroll tracking & click navigation ─────────
+    (function () {
+      var sections = [
+        'hero', 'about', 'services', 'why', 'partners', 'contact'
+      ];
+
+      var dots   = {};
+      var labels = {};
+
+      sections.forEach(function (id) {
+        dots[id]   = document.querySelector(
+          '.hole-nav-svg [data-section="' + id + '"] .hole-dot,' +
+          '.hole-nav-svg .hole-dot[data-section="' + id + '"]'
+        );
+        labels[id] = document.querySelector(
+          '.hole-label[data-section="' + id + '"]'
+        );
+      });
+
+      /* Click to scroll */
+      document.querySelectorAll('.hole-label, .hole-stop, .hole-dot')
+        .forEach(function (el) {
+          el.addEventListener('click', function () {
+            var id = el.dataset.section ||
+                     el.closest('[data-section]').dataset.section;
+            var target = document.getElementById(id);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          });
+        });
+
+      var current = '';
+
+      function update() {
+        var winHeight = window.innerHeight;
+        var active    = 'hero';
+
+        sections.forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (rect.top < winHeight * 0.5) active = id;
+        });
+
+        if (active === current) return;
+        current = active;
+
+        var passed = false;
+        sections.forEach(function (id) {
+          var dot   = dots[id];
+          var label = labels[id];
+
+          if (id === active) {
+            passed = true;
+            if (dot) {
+              dot.classList.remove('hole-dot--upcoming', 'hole-dot--visited');
+              dot.classList.add('hole-dot--active');
+            }
+            if (label) label.classList.add('hole-label--active');
+          } else if (!passed) {
+            if (dot) {
+              dot.classList.remove('hole-dot--upcoming', 'hole-dot--active');
+              dot.classList.add('hole-dot--visited');
+            }
+            if (label) label.classList.remove('hole-label--active');
+          } else {
+            if (dot) {
+              dot.classList.remove('hole-dot--visited', 'hole-dot--active');
+              dot.classList.add('hole-dot--upcoming');
+            }
+            if (label) label.classList.remove('hole-label--active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }());
   </script>
+
+  <!-- WhatsApp floating button -->
+  <a href="https://wa.me/34694273755"
+     class="wa-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Chat with us on WhatsApp">
+    <svg class="wa-icon" viewBox="0 0 24 24"
+         fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span class="wa-label">Chat with us</span>
+    <span class="wa-pulse" aria-hidden="true"></span>
+  </a>
 
 </body>
 </html>
