@@ -388,22 +388,6 @@
       margin: 0 auto;
     }
 
-    .trust-item {
-      flex: 1;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--green-dark);
-      padding: 0 32px;
-    }
-
-    .trust-divider {
-      width: 1px;
-      height: 36px;
-      background: rgba(46, 125, 82, 0.3);
-      flex-shrink: 0;
-    }
-
     /* ============================================================
        ABOUT
     ============================================================ */
@@ -591,39 +575,6 @@
       color: rgba(15, 26, 21, 0.6);
       line-height: 1.65;
     }
-
-    /* ============================================================
-       PHOTO INTERLUDE
-    ============================================================ */
-    #photo-interlude {
-      background-color: var(--green-dark);
-      height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .interlude-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 40%;
-      filter: brightness(0.85) saturate(1.08);
-      z-index: 0;
-    }
-
-    .interlude-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10,25,18,0.60) 0%, rgba(10,25,18,0.15) 60%);
-      z-index: 0;
-    }
-
 
     /* ============================================================
        CONTACT
@@ -830,14 +781,6 @@
       padding-bottom: 48px;
     }
 
-    .footer-brand-name {
-      font-family: Georgia, serif;
-      font-size: 1.2rem;
-      color: var(--mint);
-      display: block;
-      margin-bottom: 8px;
-    }
-
     .footer-brand-tagline {
       font-size: 0.85rem;
       color: rgba(216, 237, 225, 0.5);
@@ -920,14 +863,6 @@
         gap: 20px;
       }
 
-      .trust-divider {
-        display: none;
-      }
-
-      .trust-item {
-        padding: 0;
-      }
-
       /* About */
       .about-inner {
         grid-template-columns: 1fr;
@@ -959,11 +894,6 @@
       .why-grid {
         grid-template-columns: 1fr;
         gap: 32px;
-      }
-
-      /* Photo */
-      #photo-interlude {
-        height: 220px;
       }
 
       /* Contact */
@@ -1174,14 +1104,6 @@
       object-position: center center;
       display: block;
     }
-
-    /* ============================================================
-       PHOTO INTERLUDE — UPDATED HEIGHT / NO TEXT
-    ============================================================ */
-    #photo-interlude {
-      height: 320px;
-    }
-
 
     /* ============================================================
        SERVICE CARD OUTER + DESCRIPTION
@@ -2292,7 +2214,17 @@
   }
 
   @media (max-width: 1100px) {
-    .hole-nav { display: none; }
+    .hole-nav {
+      display: none;
+      pointer-events: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hole-nav {
+      display: none !important;
+      pointer-events: none !important;
+    }
   }
 
   .hole-nav-svg {
@@ -4535,38 +4467,6 @@
       }
     }());
 
-    // ── EFFECT 7 — Scroll-triggered quote reveal ──────────────────
-    (function () { return; /* replaced by spotlight reveal */
-      var section = document.getElementById('quote-section');
-      if (!section) return;
-
-      var words       = section.querySelectorAll('.quote-word');
-      var attribution = section.querySelector('.quote-attribution');
-      var triggered   = false;
-
-      function revealWords() {
-        if (triggered) return;
-        var rect    = section.getBoundingClientRect();
-        var windowH = window.innerHeight;
-
-        if (rect.top < windowH * 0.75) {
-          triggered = true;
-          words.forEach(function (word, i) {
-            setTimeout(function () {
-              word.classList.add('visible');
-            }, i * 80);
-          });
-          setTimeout(function () {
-            if (attribution) attribution.classList.add('visible');
-          }, words.length * 80 + 200);
-          window.removeEventListener('scroll', revealWords);
-        }
-      }
-
-      window.addEventListener('scroll', revealWords, { passive: true });
-      revealWords();
-    }());
-
     // ── EFFECT 4 — Heading decode on scroll ──────────────────────
     (function () {
       function decodeText(el) {
@@ -4587,7 +4487,7 @@
 
         var iterations = 0;
         var totalChars = original.length;
-        var chars = 'CEIJLMNORSTUV';
+        var chars = 'CEILMNORSTU';
 
         var interval = setInterval(function () {
           var floor = Math.floor(iterations);
@@ -4604,7 +4504,7 @@
             }
           }
           span.textContent = result;
-          iterations += 0.45;
+          iterations += 1.8;
           if (floor >= totalChars) {
             clearInterval(interval);
             span.textContent   = original;
