@@ -89,6 +89,15 @@
       transform: translateY(0);
     }
 
+    .hero-heading,
+    .services-heading,
+    .about-heading,
+    .why-heading,
+    .partners-heading,
+    .contact-heading {
+      opacity: 1 !important;
+    }
+
     .card-reveal {
       opacity: 0;
       transform: translateY(40px);
@@ -4467,80 +4476,6 @@
       }
     }());
 
-    // ── EFFECT 4 — Heading decode on scroll ──────────────────────
-    (function () {
-      function decodeText(el) {
-        var original = el.textContent.trim();
-        var rect = el.getBoundingClientRect();
-        el.style.minHeight = rect.height + 'px';
-        el.style.maxHeight = rect.height + 'px';
-        el.style.overflow  = 'hidden';
-
-        var span = document.createElement('span');
-        span.style.display    = 'inline-block';
-        span.style.width      = '100%';
-        span.style.whiteSpace = 'pre-wrap';
-        span.style.wordBreak  = 'break-word';
-        span.textContent      = original;
-        el.textContent = '';
-        el.appendChild(span);
-
-        var iterations = 0;
-        var totalChars = original.length;
-        var chars = 'CEILMNORSTU';
-
-        var interval = setInterval(function () {
-          var floor = Math.floor(iterations);
-          var result = '';
-          for (var i = 0; i < totalChars; i++) {
-            if (original[i] === ' ') {
-              result += ' ';
-            } else if (i < floor) {
-              result += original[i];
-            } else {
-              result += chars[Math.floor(
-                Math.random() * chars.length
-              )];
-            }
-          }
-          span.textContent = result;
-          iterations += 1.8;
-          if (floor >= totalChars) {
-            clearInterval(interval);
-            span.textContent   = original;
-            el.style.minHeight = '';
-            el.style.maxHeight    = '';
-            el.style.overflow     = '';
-          }
-        }, 28);
-      }
-
-      if (!('IntersectionObserver' in window)) return;
-
-      var decodeObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var el = entry.target;
-            el.style.opacity   = '0';
-            el.style.transform = 'none';
-            setTimeout(function () {
-              el.style.opacity = '1';
-              decodeText(el);
-            }, 100);
-            decodeObserver.unobserve(el);
-          });
-        },
-        { threshold: 0.3 }
-      );
-
-      document.querySelectorAll(
-        '.hero-heading, .services-heading, .about-heading, ' +
-        '.why-heading, .partners-heading, .contact-heading'
-      ).forEach(function (el) {
-        decodeObserver.observe(el);
-      });
-    }());
 
     // ── EFFECT 8 — Quote spotlight reveal ────────────────────────
     (function () {
