@@ -1858,9 +1858,8 @@
         z-index: 9999;
         left: 0;
         top: 0;
-        transform: translate(-50%, -50%);
-        transition: width 200ms ease, height 200ms ease,
-                    background 200ms ease, opacity 200ms ease;
+        transition: width 120ms ease, height 120ms ease,
+                    background 120ms ease, opacity 120ms ease;
         will-change: transform;
         mix-blend-mode: difference;
       }
@@ -1875,9 +1874,8 @@
         z-index: 9998;
         left: 0;
         top: 0;
-        transform: translate(-50%, -50%);
-        transition: width 300ms ease, height 300ms ease,
-                    border-color 300ms ease, opacity 300ms ease;
+        transition: width 180ms ease, height 180ms ease,
+                    border-color 180ms ease, opacity 180ms ease;
         will-change: transform;
       }
 
@@ -2079,7 +2077,7 @@
     .wa-float {
       position: fixed;
       bottom: 28px;
-      right: 28px;
+      left: 28px;
       z-index: 900;
       display: flex;
       align-items: center;
@@ -2135,10 +2133,48 @@
     @media (max-width: 768px) {
       .wa-float {
         bottom: 20px;
-        right: 16px;
+        left: 16px;
         padding: 12px 16px 12px 12px;
       }
       .wa-label {
+        font-size: 0.78rem;
+      }
+    }
+
+    .book-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--mint);
+      color: var(--green-dark);
+      border-radius: 50px;
+      padding: 12px 22px 12px 18px;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      cursor: pointer;
+      border: none;
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      transition: background 150ms ease, transform 150ms ease;
+    }
+
+    .book-float:hover {
+      background: var(--white);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .book-float {
+        bottom: 20px;
+        right: 16px;
+        padding: 12px 18px 12px 14px;
         font-size: 0.78rem;
       }
     }
@@ -2350,6 +2386,7 @@
   }
 
   </style>
+  <script async src="https://tally.so/widgets/embed.js"></script>
 </head>
 <body>
 
@@ -2522,7 +2559,7 @@
               </div>
             </div>
           </li>
-          <li><a href="#contact" class="nav-cta" data-i18n="nav_cta">Check Availability</a></li>
+          <li><a href="#tally-open=7RpOWa&tally-width=500&tally-emoji-text=⛳️&tally-emoji-animation=bounce&tally-auto-close=5000" class="nav-cta" data-i18n="nav_cta" data-tally-open="7RpOWa" data-tally-width="500" data-tally-emoji-text="⛳️" data-tally-emoji-animation="bounce" data-tally-auto-close="5000">Check Availability</a></li>
         </ul>
 
         <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -2547,7 +2584,7 @@
           <button class="lang-mobile-opt" data-lang="nl">NL</button>
           <button class="lang-mobile-opt" data-lang="ru">RU</button>
         </div>
-        <a href="#contact" class="nav-cta" role="menuitem" data-i18n="nav_cta">Check Availability</a>
+        <a href="#tally-open=7RpOWa&tally-width=500&tally-emoji-text=⛳️&tally-emoji-animation=bounce&tally-auto-close=5000" class="nav-cta" role="menuitem" data-i18n="nav_cta" data-tally-open="7RpOWa" data-tally-width="500" data-tally-emoji-text="⛳️" data-tally-emoji-animation="bounce" data-tally-auto-close="5000">Check Availability</a>
       </div>
     </nav>
   </header>
@@ -2576,7 +2613,7 @@
       </p>
 
       <div class="hero-buttons hero-entrance">
-        <a href="#contact" class="btn-primary" data-i18n="hero_btn_primary">Check Availability</a>
+        <a href="#tally-open=7RpOWa&tally-width=500&tally-emoji-text=⛳️&tally-emoji-animation=bounce&tally-auto-close=5000" class="btn-primary" data-i18n="hero_btn_primary" data-tally-open="7RpOWa" data-tally-width="500" data-tally-emoji-text="⛳️" data-tally-emoji-animation="bounce" data-tally-auto-close="5000">Check Availability</a>
         <a href="#about" class="btn-secondary" data-i18n="hero_btn_secondary">Learn More</a>
       </div>
 
@@ -3038,10 +3075,10 @@
           <div>
             <span class="label contact-label" data-i18n="contact_label">Get in touch</span>
             <h2 class="contact-heading reveal-target" id="contact-heading" data-i18n="contact_heading">
-              Tell us about your round.
+              Get in touch.
             </h2>
             <p class="contact-body reveal-target" data-i18n="contact_body">
-              We will guide you through the options and check availability personally. During peak travel periods, caddie slots fill quickly. The earlier you reach out the better.
+              Drop us your details and we'll get back to you the same day.
             </p>
 
             <div class="contact-details reveal-target">
@@ -3075,42 +3112,6 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="field-service" data-i18n="form_service">Service</label>
-                <select class="form-select" id="field-service" name="service" required>
-                  <option value="" disabled selected data-i18n="form_service_default">Select a service</option>
-                  <option value="Forecaddie" data-i18n="form_forecaddie">Forecaddie</option>
-                  <option value="Single Bag Walking Caddie" data-i18n="form_single">Single Bag Walking Caddie</option>
-                  <option value="Double Bag Walking Caddie" data-i18n="form_double">Double Bag Walking Caddie</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <span class="form-label" id="round-label" data-i18n="form_round">Round type</span>
-                <div class="round-toggle" role="group" aria-labelledby="round-label">
-                  <label class="round-option selected" id="opt-9">
-                    <input type="radio" name="round" value="9 Holes" checked />
-                    <span data-i18n="form_9">9 Holes</span>
-                  </label>
-                  <label class="round-option" id="opt-18">
-                    <input type="radio" name="round" value="18 Holes" />
-                    <span data-i18n="form_18">18 Holes</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="field-message" data-i18n="form_message">Message / Inquiry</label>
-                <textarea
-                  class="form-textarea"
-                  id="field-message"
-                  name="message"
-                  rows="4"
-                  placeholder="Tell us your preferred date, group size, and anything else that would help."
-                  data-i18n-placeholder="form_message_placeholder"
-                ></textarea>
-              </div>
-
-              <div class="form-group">
                 <label class="form-label" for="field-email" data-i18n="form_email">Email</label>
                 <input
                   class="form-input"
@@ -3138,6 +3139,19 @@
 
               <p class="form-note" style="text-align:left; margin-top:0; margin-bottom:12px;" data-i18n="form_hint">Please provide either your email or a phone number with country prefix. You do not need to fill both.</p>
 
+              <div class="form-group">
+                <label class="form-label"
+                       for="field-message"
+                       data-i18n="form_message">Message</label>
+                <textarea
+                  class="form-textarea"
+                  id="field-message"
+                  name="message"
+                  rows="5"
+                  placeholder="Your message..."
+                  data-i18n-placeholder="form_message_placeholder"
+                ></textarea>
+              </div>
               <p class="form-error" data-contact-error aria-live="polite"></p>
 
               <button type="submit" class="btn-submit" data-i18n="form_submit">Send Inquiry</button>
@@ -3395,8 +3409,8 @@
         en: {
           nav_about: 'About', nav_services: 'Services', nav_contact: 'Contact', nav_partners: 'Partners', nav_cta: 'Check Availability',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: "The caddie service Mallorca didn't have.",
-          hero_sub: 'Built for international players who want to get the most out of a round at Alcanada and beyond.',
+          hero_heading: "Your caddie service on Mallorca",
+          hero_sub: 'We know the course, the winds, and how to help you play your best round on the island.',
           hero_btn_primary: 'Check Availability', hero_btn_secondary: 'Learn More',
           hero_note: 'Every inquiry answered the same day — usually within two to three hours.',
           trust_1: 'Only dedicated caddie service in Mallorca',
@@ -3442,14 +3456,15 @@
           partners_p1: 'We work directly with concierge companies, travel agencies, and hotel guest experience teams arranging golf in Mallorca. If you are building an itinerary or managing a golf booking for a client on the island, get in touch. We are used to working discreetly, responding quickly, and handling the details so you do not have to.',
           partners_p2: 'We are the official caddie partner at Club de Golf Alcanada. We are also available at other courses across the island — enquire for details.',
           partners_cta: 'Get in touch',
-          contact_label: 'Get in touch', contact_heading: 'Tell us about your round.',
-          contact_body: 'We will guide you through the options and check availability personally. During peak travel periods, caddie slots fill quickly. The earlier you reach out the better.',
+          contact_label: 'Any questions?', contact_heading: 'Just ask.',
+          contact_body: "Not sure if we operate at your course? Want to know more about how it works? Or just want to say hello — we are happy to hear from you.",
           contact_signoff: 'Warm regards, Martin',
           form_name: 'Name', form_service: 'Service', form_service_default: 'Select a service',
           form_forecaddie: 'Forecaddie', form_single: 'Single Bag Walking Caddie', form_double: 'Double Bag Walking Caddie',
           form_round: 'Round type', form_9: '9 Holes', form_18: '18 Holes',
           form_message: 'Message / Inquiry', form_email: 'Email', form_phone: 'Phone / WhatsApp',
           form_hint: 'Please provide either your email or a phone number with country prefix. You do not need to fill both.',
+          form_message: 'Message', form_message_placeholder: 'Your message...',
           form_submit: 'Send Inquiry', form_note: 'We aim to respond within a few hours.',
           form_name_placeholder: "Your name",
           form_message_placeholder: "Preferred dates, number of players, any questions...",
@@ -3462,8 +3477,8 @@
         es: {
           nav_about: 'Sobre nosotros', nav_services: 'Servicios', nav_contact: 'Contacto', nav_partners: 'Socios', nav_cta: 'Consultar disponibilidad',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: 'El servicio de caddie que Mallorca no tenía.',
-          hero_sub: 'Creado para jugadores internacionales que quieren aprovechar al máximo una ronda en Alcanada y más allá.',
+          hero_heading: 'Tu servicio de caddies en Mallorca',
+          hero_sub: 'Conocemos el campo, los vientos, y cómo ayudarte a jugar tu mejor ronda en la isla.',
           hero_btn_primary: 'Consultar disponibilidad', hero_btn_secondary: 'Saber más',
           hero_note: 'Respondemos a todas las consultas el mismo día, normalmente en dos o tres horas.',
           trust_1: 'El único servicio de caddie dedicado en Mallorca',
@@ -3509,14 +3524,15 @@
           partners_p1: 'Colaboramos directamente con empresas de concierge, agencias de viaje y equipos de experiencia de huéspedes de hoteles que organizan golf en Mallorca. Si estás creando un itinerario o gestionando una reserva de golf para un cliente en la isla, contáctanos. Estamos acostumbrados a trabajar con discreción, a responder con rapidez y a gestionar los detalles para que tú no tengas que hacerlo.',
           partners_p2: 'Somos el socio oficial de caddies del Club de Golf Alcanada. También estamos disponibles en otros campos de la isla — consúltanos para más detalles.',
           partners_cta: 'Contactar',
-          contact_label: 'Contacto', contact_heading: 'Cuéntanos tu ronda.',
-          contact_body: 'Te guiaremos personalmente por las opciones y comprobaremos disponibilidad. En temporada alta, los slots de caddie se llenan rápido. Cuanto antes nos contactes, mejor.',
+          contact_label: '¿Alguna pregunta?', contact_heading: 'Escríbenos.',
+          contact_body: '¿No estás seguro de si operamos en tu campo? ¿Quieres saber más sobre cómo funciona? O simplemente quieres saludar — estaremos encantados de leerte.',
           contact_signoff: 'Un saludo, Martin',
           form_name: 'Nombre', form_service: 'Servicio', form_service_default: 'Selecciona un servicio',
           form_forecaddie: 'Forecaddie', form_single: 'Caddie caminante bolsa individual', form_double: 'Caddie caminante bolsa doble',
           form_round: 'Tipo de ronda', form_9: '9 hoyos', form_18: '18 hoyos',
           form_message: 'Mensaje / Consulta', form_email: 'Correo electrónico', form_phone: 'Teléfono / WhatsApp',
           form_hint: 'Proporciona tu correo electrónico o un número de teléfono con prefijo de país. No es necesario rellenar los dos.',
+          form_message: 'Mensaje', form_message_placeholder: 'Tu mensaje...',
           form_submit: 'Enviar consulta', form_note: 'Respondemos en pocas horas.',
           form_name_placeholder: "Tu nombre",
           form_message_placeholder: "Fechas preferidas, número de jugadores, cualquier pregunta...",
@@ -3529,8 +3545,8 @@
         de: {
           nav_about: 'Über uns', nav_services: 'Leistungen', nav_contact: 'Kontakt', nav_partners: 'Partner', nav_cta: 'Verfügbarkeit prüfen',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: 'Der Caddie-Service, den Mallorca nicht hatte.',
-          hero_sub: 'Für internationale Spieler, die das Beste aus einer Runde in Alcanada und darüber hinaus herausholen wollen.',
+          hero_heading: 'Dein Caddie-Service auf Mallorca',
+          hero_sub: 'Wir kennen den Platz, den Wind, und helfen dir, deine beste Runde auf der Insel zu spielen.',
           hero_btn_primary: 'Verfügbarkeit prüfen', hero_btn_secondary: 'Mehr erfahren',
           hero_note: 'Jede Anfrage wird noch am selben Tag beantwortet — in der Regel innerhalb von zwei bis drei Stunden.',
           trust_1: 'Einziger spezialisierter Caddie-Service auf Mallorca',
@@ -3576,14 +3592,15 @@
           partners_p1: 'Wir arbeiten direkt mit Concierge-Unternehmen, Reisebüros und Hotel-Gästeteams zusammen, die Golf auf Mallorca organisieren. Wenn Sie ein Reiseprogramm erstellen oder eine Golfreservierung für einen Kunden auf der Insel verwalten, nehmen Sie Kontakt auf. Wir sind es gewohnt, diskret zu arbeiten, schnell zu reagieren und Details zu übernehmen, damit Sie es nicht müssen.',
           partners_p2: 'Wir sind offizieller Caddie-Partner des Club de Golf Alcanada. Wir sind auch auf anderen Plätzen der Insel verfügbar — fragen Sie uns für Details.',
           partners_cta: 'Kontakt aufnehmen',
-          contact_label: 'Kontakt', contact_heading: 'Erzählen Sie uns von Ihrer Runde.',
-          contact_body: 'Wir führen Sie persönlich durch die Optionen und prüfen die Verfügbarkeit. In der Hauptreisesaison sind Caddie-Slots schnell ausgebucht — je früher Sie sich melden, desto besser.',
+          contact_label: 'Fragen?', contact_heading: 'Einfach melden.',
+          contact_body: 'Nicht sicher, ob wir auf Ihrem Platz tätig sind? Möchten Sie mehr darüber erfahren, wie es funktioniert? Oder einfach Hallo sagen — wir freuen uns von Ihnen zu hören.',
           contact_signoff: 'Mit freundlichen Grüßen, Martin',
           form_name: 'Name', form_service: 'Leistung', form_service_default: 'Bitte wählen',
           form_forecaddie: 'Forecaddie', form_single: 'Einzelbag Gehcaddie', form_double: 'Doppelbag Gehcaddie',
           form_round: 'Rundentyp', form_9: '9 Löcher', form_18: '18 Löcher',
           form_message: 'Nachricht / Anfrage', form_email: 'E-Mail', form_phone: 'Telefon / WhatsApp',
           form_hint: 'Bitte geben Sie entweder Ihre E-Mail-Adresse oder eine Telefonnummer mit Ländervorwahl an.',
+          form_message: 'Nachricht', form_message_placeholder: 'Ihre Nachricht...',
           form_submit: 'Anfrage senden', form_note: 'Wir antworten in der Regel noch am selben Tag.',
           form_name_placeholder: "Ihr Name",
           form_message_placeholder: "Bevorzugte Daten, Spieleranzahl, Ihre Fragen...",
@@ -3596,8 +3613,8 @@
         fr: {
           nav_about: 'À propos', nav_services: 'Services', nav_contact: 'Contact', nav_partners: 'Partenaires', nav_cta: 'Vérifier les disponibilités',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: "Le service de caddie que Majorque n'avait pas.",
-          hero_sub: 'Conçu pour les joueurs internationaux qui souhaitent tirer le meilleur d\'une partie à Alcanada et au-delà.',
+          hero_heading: 'Votre service de caddie à Majorque',
+          hero_sub: "Nous connaissons le parcours, les vents, et comment vous aider à jouer votre meilleure partie sur l'île.",
           hero_btn_primary: 'Vérifier les disponibilités', hero_btn_secondary: 'En savoir plus',
           hero_note: 'Toutes les demandes reçoivent une réponse le jour même — généralement en deux à trois heures.',
           trust_1: 'Le seul service de caddie dédié à Majorque',
@@ -3643,14 +3660,15 @@
           partners_p1: "Nous collaborons directement avec des sociétés de concierge, des agences de voyage et des équipes d'expérience client d'hôtels qui organisent du golf à Majorque. Si vous élaborez un itinéraire ou gérez une réservation de golf pour un client sur l'île, contactez-nous. Nous avons l'habitude de travailler discrètement, de répondre rapidement et de gérer les détails pour que vous n'ayez pas à le faire.",
           partners_p2: "Nous sommes le partenaire officiel de caddies du Club de Golf Alcanada. Nous sommes également disponibles sur d'autres parcours de l'île — renseignez-vous pour plus de détails.",
           partners_cta: 'Prendre contact',
-          contact_label: 'Contact', contact_heading: 'Parlez-nous de votre partie.',
-          contact_body: 'Nous vous guiderons personnellement parmi les options et vérifierons les disponibilités. En période de pointe, les créneaux de caddie se remplissent vite — plus tôt vous nous contactez, mieux c\'est.',
+          contact_label: 'Des questions ?', contact_heading: 'Écrivez-nous.',
+          contact_body: 'Vous ne savez pas si nous intervenons sur votre parcours ? Vous voulez en savoir plus sur notre fonctionnement ? Ou simplement dire bonjour — nous serons ravis de vous lire.',
           contact_signoff: 'Bien cordialement, Martin',
           form_name: 'Nom', form_service: 'Service', form_service_default: 'Sélectionnez un service',
           form_forecaddie: 'Forecaddie', form_single: 'Caddie marcheur sac unique', form_double: 'Caddie marcheur double sac',
           form_round: 'Type de parcours', form_9: '9 trous', form_18: '18 trous',
           form_message: 'Message / Demande', form_email: 'E-mail', form_phone: 'Téléphone / WhatsApp',
           form_hint: 'Veuillez indiquer votre e-mail ou un numéro de téléphone avec l\'indicatif pays.',
+          form_message: 'Message', form_message_placeholder: 'Votre message...',
           form_submit: 'Envoyer la demande', form_note: 'Nous répondons généralement le jour même.',
           form_name_placeholder: "Votre nom",
           form_message_placeholder: "Dates souhaitées, nombre de joueurs, vos questions...",
@@ -3663,8 +3681,8 @@
         sv: {
           nav_about: 'Om oss', nav_services: 'Tjänster', nav_contact: 'Kontakt', nav_partners: 'Partners', nav_cta: 'Kontrollera tillgänglighet',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: 'Caddietjänsten Mallorca inte hade.',
-          hero_sub: 'Skapad för internationella spelare som vill få ut det mesta av en runda på Alcanada och bortom.',
+          hero_heading: 'Din caddietjänst på Mallorca',
+          hero_sub: 'Vi känner till banan, vindarna och hur vi hjälper dig att spela din bästa runda på ön.',
           hero_btn_primary: 'Kontrollera tillgänglighet', hero_btn_secondary: 'Läs mer',
           hero_note: 'Varje förfrågan besvaras samma dag — vanligtvis inom två till tre timmar.',
           trust_1: 'Enda dedikerade caddietjänsten på Mallorca',
@@ -3710,14 +3728,15 @@
           partners_p1: 'Vi arbetar direkt med conciergeföretag, resebyråer och hotells gästupplevelseteam som arrangerar golf på Mallorca. Om du bygger ett reseschema eller hanterar en golfbokning för en kund på ön — hör av dig. Vi är vana att arbeta diskret, svara snabbt och hantera detaljerna så att du inte behöver det.',
           partners_p2: 'Vi är officiell caddiepartner på Club de Golf Alcanada. Vi är även tillgängliga på andra banor på ön — fråga oss för mer information.',
           partners_cta: 'Hör av dig',
-          contact_label: 'Kontakt', contact_heading: 'Berätta om din runda.',
-          contact_body: 'Vi guidar dig personligen genom alternativen och kontrollerar tillgängligheten. Under högsäsong fylls caddie-platserna snabbt — ju tidigare du hör av dig desto bättre.',
+          contact_label: 'Frågor?', contact_heading: 'Hör av dig.',
+          contact_body: 'Vet du inte om vi finns på din bana? Vill du veta mer om hur det fungerar? Eller bara säga hej — vi hör gärna från dig.',
           contact_signoff: 'Med vänliga hälsningar, Martin',
           form_name: 'Namn', form_service: 'Tjänst', form_service_default: 'Välj en tjänst',
           form_forecaddie: 'Forecaddie', form_single: 'Enkelbag gående caddie', form_double: 'Dubbelbag gående caddie',
           form_round: 'Rundtyp', form_9: '9 hål', form_18: '18 hål',
           form_message: 'Meddelande / Förfrågan', form_email: 'E-post', form_phone: 'Telefon / WhatsApp',
           form_hint: 'Ange antingen din e-postadress eller ett telefonnummer med landskod.',
+          form_message: 'Meddelande', form_message_placeholder: 'Ditt meddelande...',
           form_submit: 'Skicka förfrågan', form_note: 'Vi svarar vanligtvis samma dag.',
           form_name_placeholder: "Ditt namn",
           form_message_placeholder: "Önskade datum, antal spelare, dina frågor...",
@@ -3730,8 +3749,8 @@
         zh: {
           nav_about: '关于我们', nav_services: '服务', nav_contact: '联系', nav_partners: '合作伙伴', nav_cta: '查询可用性',
           hero_eyebrow: '马略卡 · Alcanada · 成立于2026',
-          hero_heading: '马略卡从未有过的球童服务。',
-          hero_sub: '专为希望在Alcanada及其他球场充分发挥水平的国际球员而设。',
+          hero_heading: '您在马略卡的球童服务',
+          hero_sub: '我们了解球场、风向，以及如何帮助您在岛上打出最好的一轮。',
           hero_btn_primary: '查询可用性', hero_btn_secondary: '了解更多',
           hero_note: '所有咨询当天回复 — 通常在两到三小时内。',
           trust_1: '马略卡唯一的专业球童服务',
@@ -3777,14 +3796,15 @@
           partners_p1: '我们与在马略卡安排高尔夫活动的礼宾公司、旅行社及酒店宾客体验团队直接合作。如果您正在为客户制定行程或管理高尔夫预约，欢迎联系我们。我们擅长低调工作、快速响应，为您处理细节，让您无后顾之忧。',
           partners_p2: '我们是Club de Golf Alcanada的官方球童合作伙伴。我们也可在岛上其他球场提供服务 — 欢迎垂询详情。',
           partners_cta: '联系我们',
-          contact_label: '联系我们', contact_heading: '告诉我们您的球局。',
-          contact_body: '我们将亲自为您介绍各种选择并确认可用性。在旅游旺季，球童名额会很快填满 — 越早联系越好。',
+          contact_label: '有疑问？', contact_heading: '随时联系我们。',
+          contact_body: '不确定我们是否在您的球场提供服务？想了解更多关于我们的服务方式？或者只是想打个招呼 — 我们很乐意收到您的来信。',
           contact_signoff: '此致，Martin',
           form_name: '姓名', form_service: '服务', form_service_default: '请选择服务',
           form_forecaddie: '领航球童', form_single: '单包步行球童', form_double: '双包步行球童',
           form_round: '轮次类型', form_9: '9洞', form_18: '18洞',
           form_message: '留言 / 咨询', form_email: '电子邮件', form_phone: '电话 / WhatsApp',
           form_hint: '请提供您的电子邮件或带国家区号的电话号码，两者之一即可。',
+          form_message: '留言', form_message_placeholder: '您的留言...',
           form_submit: '发送咨询', form_note: '我们通常当天回复。',
           form_name_placeholder: "您的姓名",
           form_message_placeholder: "preferred dates, number of players, or any questions in English is fine",
@@ -3797,8 +3817,8 @@
         nl: {
           nav_about: 'Over ons', nav_services: 'Diensten', nav_contact: 'Contact', nav_partners: 'Partners', nav_cta: 'Beschikbaarheid controleren',
           hero_eyebrow: 'Mallorca · Alcanada · Est. 2026',
-          hero_heading: 'De caddieservice die Mallorca niet had.',
-          hero_sub: 'Gebouwd voor internationale spelers die het meeste willen halen uit een ronde op Alcanada en daarbuiten.',
+          hero_heading: 'Jouw caddieservice op Mallorca',
+          hero_sub: 'Wij kennen de baan, de wind, en hoe we u helpen uw beste ronde op het eiland te spelen.',
           hero_btn_primary: 'Beschikbaarheid controleren', hero_btn_secondary: 'Meer weten',
           hero_note: 'Elke aanvraag wordt dezelfde dag beantwoord — doorgaans binnen twee à drie uur.',
           trust_1: 'Enige toegewijde caddieservice op Mallorca',
@@ -3844,14 +3864,15 @@
           partners_p1: 'Wij werken rechtstreeks samen met conciergemaatschappijen, reisbureaus en hotelgastteams die golf op Mallorca organiseren. Als u een reisschema opstelt of een golfreservering beheert voor een klant op het eiland, neem dan contact op. Wij zijn gewend discreet te werken, snel te reageren en de details af te handelen zodat u dat niet hoeft te doen.',
           partners_p2: 'Wij zijn de officiële caddiepartner van Club de Golf Alcanada. We zijn ook beschikbaar op andere banen op het eiland — neem contact op voor meer informatie.',
           partners_cta: 'Neem contact op',
-          contact_label: 'Contact', contact_heading: 'Vertel ons over uw ronde.',
-          contact_body: 'Wij begeleiden u persoonlijk door de opties en controleren de beschikbaarheid. In drukke reisperiodes raken caddie-plekken snel vol — hoe eerder u contact opneemt, hoe beter.',
+          contact_label: 'Vragen?', contact_heading: 'Stel ze gerust.',
+          contact_body: 'Weet u niet zeker of we actief zijn op uw baan? Wilt u meer weten over hoe het werkt? Of gewoon even hallo zeggen — we horen graag van u.',
           contact_signoff: 'Met vriendelijke groet, Martin',
           form_name: 'Naam', form_service: 'Dienst', form_service_default: 'Selecteer een dienst',
           form_forecaddie: 'Forecaddie', form_single: 'Enkele bag lopende caddie', form_double: 'Dubbele bag lopende caddie',
           form_round: 'Type ronde', form_9: '9 holes', form_18: '18 holes',
           form_message: 'Bericht / Aanvraag', form_email: 'E-mail', form_phone: 'Telefoon / WhatsApp',
           form_hint: 'Geef uw e-mailadres of een telefoonnummer met landcode op. U hoeft niet beide in te vullen.',
+          form_message: 'Bericht', form_message_placeholder: 'Uw bericht...',
           form_submit: 'Aanvraag versturen', form_note: 'Wij streven ernaar dezelfde dag te reageren.',
           form_name_placeholder: "Uw naam",
           form_message_placeholder: "Gewenste data, aantal spelers, uw vragen...",
@@ -3868,8 +3889,8 @@
           nav_partners: "Партнёры",
           nav_cta: "Проверить доступность",
           hero_eyebrow: "Мальорка · Алканада · Основано в 2026 году",
-          hero_heading: "Служба кэдди, которой не было на Мальорке.",
-          hero_sub: "Создана для международных игроков, которые хотят получить максимум от игры в Алканаде и на лучших полях острова.",
+          hero_heading: "Ваша служба кэдди на Мальорке",
+          hero_sub: "Мы знаем поле, ветра и как помочь вам сыграть лучший раунд на острове.",
           hero_btn_primary: "Проверить доступность",
           hero_btn_secondary: "Узнать больше",
           hero_note: "Отвечаем на все запросы в день обращения — как правило, в течение двух-трёх часов.",
@@ -3940,9 +3961,9 @@
           partners_p1: "Мы напрямую сотрудничаем с консьерж-компаниями, туристическими агентствами и командами по работе с гостями отелей, которые организуют гольф на Мальорке. Если вы формируете программу пребывания или занимаетесь бронированием гольфа для клиента на острове — свяжитесь с нами. Мы умеем работать деликатно, реагировать быстро и брать на себя детали — чтобы вам не приходилось этого делать.",
           partners_p2: "Мы являемся официальным партнёром по кэдди-услугам в Club de Golf Alcanada. Мы также работаем на других полях острова — свяжитесь с нами для уточнения деталей.",
           partners_cta: "Написать нам",
-          contact_label: "Связаться с нами",
-          contact_heading: "Расскажите нам о своей игре.",
-          contact_body: "Мы лично проконсультируем вас по всем вариантам и проверим доступность. В пиковый туристический сезон места занимают быстро — чем раньше вы напишете, тем лучше.",
+          contact_label: "Есть вопросы?",
+          contact_heading: "Просто напишите.",
+          contact_body: "Не уверены, работаем ли мы на вашем поле? Хотите узнать больше о том, как это устроено? Или просто поздороваться — мы всегда рады весточке от вас.",
           contact_signoff: "С уважением, Мартин",
           form_name: "Имя",
           form_service: "Услуга",
@@ -3957,6 +3978,7 @@
           form_email: "Адрес электронной почты",
           form_phone: "Телефон или WhatsApp",
           form_hint: "Укажите адрес электронной почты или номер телефона с кодом страны — достаточно одного из двух.",
+          form_message: "Сообщение", form_message_placeholder: "Ваше сообщение...",
           form_submit: "Отправить запрос",
           form_note: "Мы отвечаем, как правило, в день обращения.",
           form_name_placeholder: "Ваше имя",
@@ -4289,30 +4311,32 @@
     (function () {
       if (!matchMedia('(pointer: fine)').matches) return;
 
-      var dot   = document.querySelector('.cursor-dot');
-      var ring  = document.querySelector('.cursor-ring');
+      var dot  = document.querySelector('.cursor-dot');
+      var ring = document.querySelector('.cursor-ring');
       if (!dot || !ring) return;
 
-      var ringX = 0, ringY = 0;
-      var mouseX = 0, mouseY = 0;
+      var ringX = window.innerWidth / 2;
+      var ringY = window.innerHeight / 2;
+      var mouseX = ringX;
+      var mouseY = ringY;
       var rafId = null;
 
       document.addEventListener('mousemove', function (e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        dot.style.left = mouseX + 'px';
-        dot.style.top  = mouseY + 'px';
+        dot.style.transform =
+          'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
         if (!rafId) rafId = requestAnimationFrame(tick);
       }, { passive: true });
 
       function tick() {
+        ringX += (mouseX - ringX) * 0.28;
+        ringY += (mouseY - ringY) * 0.28;
+        ring.style.transform =
+          'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
         var dx = mouseX - ringX;
         var dy = mouseY - ringY;
-        ringX += dx * 0.12;
-        ringY += dy * 0.12;
-        ring.style.left = ringX + 'px';
-        ring.style.top  = ringY + 'px';
-        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        if (Math.abs(dx) < 0.15 && Math.abs(dy) < 0.15) {
           rafId = null;
           return;
         }
@@ -4707,6 +4731,29 @@
     </svg>
     <span class="wa-label">Chat with us</span>
     <span class="wa-pulse" aria-hidden="true"></span>
+  </a>
+
+  <a class="book-float"
+     href="#tally-open=7RpOWa&tally-width=500&tally-emoji-text=⛳️&tally-emoji-animation=bounce&tally-auto-close=5000"
+     data-tally-open="7RpOWa"
+     data-tally-width="500"
+     data-tally-emoji-text="⛳️"
+     data-tally-emoji-animation="bounce"
+     data-tally-auto-close="5000"
+     aria-label="Book a caddie">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round"/>
+      <path d="M16 2v4M8 2v4M3 10h18"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round"/>
+      <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round"/>
+    </svg>
+    Book a Caddie
   </a>
 
 </body>
